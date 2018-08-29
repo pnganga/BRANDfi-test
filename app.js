@@ -67,7 +67,7 @@ var mongoose = require('mongoose');
 
 // var config = require('./config/config.js')
 var port = 8181;
-var http = require('http');
+var https = require('https');
 var app = require('express')();
 // var options = {
 //    key  : config.key,
@@ -401,7 +401,7 @@ app.get('/terms', function (req, res) {
 app.use(express.static('./public'));
 
 // start web services
-http.createServer(app).listen(port, 'localhost', function () {
+app.listen(port, 'localhost', function () {
    console.log('Started!');
 });
 console.log("Server listening on port " + port);
