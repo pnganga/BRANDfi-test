@@ -401,11 +401,8 @@ app.get('/terms', function (req, res) {
 app.use(express.static('./public'));
 
 // start web services
-<<<<<<< HEAD
-https.createServer(app).listen(port, 'localhost', function () {
-=======
+
 app.listen(port, 'localhost', function () {
->>>>>>> e335b7597110f04e7c9b9cb3170520149ff6d4fd
    console.log('Started!');
 });
 console.log("Server listening on port " + port);
