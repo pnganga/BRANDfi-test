@@ -402,7 +402,7 @@ app.use(express.static('./public'));
 
 // start web services
 
-app.listen(port, 'localhost', function () {
+app.listen(port, '0.0.0.0', function () {
    console.log('Started!');
 });
 console.log("Server listening on port " + port);
