@@ -6,8 +6,5 @@
 var fs = require('fs');
 
 module.exports = {
-  port: 8181,
-  key  : fs.readFileSync('yourkey.key'),
-  cert : fs.readFileSync('yourcert-gd-signed.crt'),
-  ca: [fs.readFileSync('yourca.crt')]
+  port: 8181
 };
