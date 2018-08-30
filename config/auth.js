@@ -5,9 +5,9 @@
 module.exports = {
 
     'facebookAuth' : {
-        'clientID'        : 'xxxxxxxxxxxxxxxxxx', // your App ID
-        'clientSecret'    : 'xxxxxxxxxxxxxxxxxx', // your App Secret
-        'callbackURL'     : 'https://localhost:3000/auth/facebook/callback'
+        'clientID'        : '142194479692082', // your App ID
+        'clientSecret'    : '05ca64e63c0d7036cf0045f3f8eade41', // your App Secret
+        'callbackURL'     : 'https://demo.brandfi.co.ke/auth/facebook/callback'
     },
 
     'twitterAuth' : {
