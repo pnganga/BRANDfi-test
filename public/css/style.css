@@ -76,7 +76,7 @@ p{
 }
 
 #continue {
-  padding: 2em;
+  /*padding: 2em;*/
 }
 
 #blocked {
@@ -136,7 +136,7 @@ p{
 }
 
 .formarea h3 {
-  line-height: 0;
+  line-height: 1;
 }
 
 .formarea input {

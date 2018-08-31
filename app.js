@@ -204,14 +204,14 @@ app.get('/click', function (req, res) {
 // success for click through page
 // #############
 app.get('/successClick', function (req, res) {
-  // // extract parameters (queries) from URL
-  // req.session.host = req.headers.host;
-  // req.session.success_time = new Date();
+  // extract parameters (queries) from URL
+  req.session.host = req.headers.host;
+  req.session.success_time = new Date();
     
   // console.log("Session data at success page = " + util.inspect(req.session, false, null));
 
   // render sucess page using handlebars template and send in session data
-  console.log('Reached');
+  res.render()
 });
 
 
@@ -302,6 +302,32 @@ app.get('/auth/google/callback',
     failureRedirect : '/auth/google'
   })
 );
+
+// ====================================================
+// Sms Auth ---------------------------------
+// ====================================================
+
+// authenticate wireless session with Cisco Meraki
+app.post('/auth/sms', function(req, res){
+  // generate confirmation code
+  var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
+  // Prepare sms data
+  var url  = 'http://pay.brandfi.co.ke:8301/sms/send';
+  var clientId = '2';
+  var message = "Your confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
+  var mobileNumber = req.body.mobileNumber;
+  // set header content type to application/json
+  res.set('Content-Type': 'application/json');
+console.log(req.body);
+  // debug - monitor : display all session data on console
+  console.log("Session data at login page = " + util.inspect(req.session, false, null));
+  
+    // *** redirect user to Meraki to process authentication, then send client to success_url
+
+  res.end();
+});
+
+
 
 // ====================================================
 // WiFi Auth ---------------------------------
