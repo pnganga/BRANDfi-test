@@ -50,7 +50,7 @@ I <3 open source
 
 // used for debugging purposes to easily print out object data
 var util = require('util');
-  //Example: console.log(util.inspect(myObject, false, null));
+//Example: console.log(util.inspect(myObject, false, null));
 
 // display all web requests on console
 var morgan = require('morgan');
@@ -69,6 +69,7 @@ var mongoose = require('mongoose');
 var port = 8181;
 var https = require('https');
 var app = require('express')();
+var request = require('request');
 // var options = {
 //    key  : config.key,
 //    cert : config.cert,
@@ -93,9 +94,9 @@ mongoose.connect(configDB.url);
 
 // social extra utils
 var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
+var bodyParser = require('body-parser');
 var passport = require('passport');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 
 app.use(morgan('dev')); // log every request to the console
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -118,17 +119,17 @@ var store = new MongoDBStore({
 });
 // Catch errors
 store.on('error', function(error) {
-    console.log("error connecting to MongoDBStore: "+error);
+    console.log("error connecting to MongoDBStore: " + error);
 });
 
 app.use(session({
-  secret: 'supersecret',  // this secret is used to encrypt cookie and session state. Client will not see this.
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
-  },
-  store: store,
-  resave: true,
-  saveUninitialized: true
+    secret: 'supersecret', // this secret is used to encrypt cookie and session state. Client will not see this.
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    },
+    store: store,
+    resave: true,
+    saveUninitialized: true
 }));
 
 
@@ -137,7 +138,7 @@ app.use(session({
 
 // instruct the app to use the `bodyParser()` middleware for all routes
 app.use(bodyParser.urlencoded({
-extended: true
+    extended: true
 }));
 app.use(bodyParser.json());
 
@@ -147,7 +148,7 @@ app.use(bodyParser.json());
 // =================================
 
 var exphbs = require('express3-handlebars');
-app.engine('.hbs', exphbs({defaultLayout: 'single', extname: '.hbs'}));
+app.engine('.hbs', exphbs({ defaultLayout: 'single', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
 
@@ -162,7 +163,7 @@ app.set('view engine', '.hbs');
 // provide MongoDB REST API for JSON session data
 // SECURITY WARNING -- ALL USER and SESSION DATA IS AVAILABLE BY ACCESSING THIS ROUTE ! ! ! !
 // need to implement tokens / auth solution
-  // example to pull JSON data http://yourserver:8181/api/v1/users
+// example to pull JSON data http://yourserver:8181/api/v1/users
 var expressMongoRest = require('express-mongo-rest');
 app.use('/api/v1', expressMongoRest('mongodb://localhost:27017/excap'));
 
@@ -174,44 +175,44 @@ app.use('/api/v1', expressMongoRest('mongodb://localhost:27017/excap'));
 
 
 // serving the static click-through HTML splash page
-app.get('/click', function (req, res) {
+app.get('/click', function(req, res) {
 
-  // extract parameters (queries) from URL
-  req.session.protocol = req.protocol;
-  req.session.host = req.headers.host;
-  req.session.base_grant_url = req.query.base_grant_url;
-  req.session.user_continue_url = req.query.user_continue_url;
-  req.session.node_mac = req.query.node_mac;
-  req.session.client_ip = req.query.client_ip;
-  req.session.client_mac = req.query.client_mac;
-  req.session.splashclick_time = new Date().toString();
-  req.session.logout_url_continue = false; // no support for logout url with click through method
+    // extract parameters (queries) from URL
+    req.session.protocol = req.protocol;
+    req.session.host = req.headers.host;
+    req.session.base_grant_url = req.query.base_grant_url;
+    req.session.user_continue_url = req.query.user_continue_url;
+    req.session.node_mac = req.query.node_mac;
+    req.session.client_ip = req.query.client_ip;
+    req.session.client_mac = req.query.client_mac;
+    req.session.splashclick_time = new Date().toString();
+    req.session.logout_url_continue = false; // no support for logout url with click through method
 
-  // success page options instead of continuing on to intended url
-  req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
-  req.session.continue_url = req.query.user_continue_url;
+    // success page options instead of continuing on to intended url
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    req.session.continue_url = req.query.user_continue_url;
 
-  
-  // display session data for debugging purposes
-  console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
-  // render login page using handlebars template and send in session data
-  res.render('click-through', req.session);
+    // display session data for debugging purposes
+    console.log("Session data at click page = " + util.inspect(req.session, false, null));
+
+    // render login page using handlebars template and send in session data
+    res.render('click-through', req.session);
 
 });
 
 // #############
 // success for click through page
 // #############
-app.get('/successClick', function (req, res) {
-  // extract parameters (queries) from URL
-  req.session.host = req.headers.host;
-  req.session.success_time = new Date();
-    
-  // console.log("Session data at success page = " + util.inspect(req.session, false, null));
+app.get('/successClick', function(req, res) {
+    // extract parameters (queries) from URL
+    req.session.host = req.headers.host;
+    req.session.success_time = new Date();
 
-  // render sucess page using handlebars template and send in session data
-  res.render()
+    // console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+    // render sucess page using handlebars template and send in session data
+    res.render()
 });
 
 
@@ -231,10 +232,10 @@ app.get('/auth/login', function(req, res) {
 // process the login form
 app.post('/auth/login',
     passport.authenticate('local-login', {
-        successRedirect : '/auth/wifi', // redirect to the secure profile section
-        failureRedirect : '/auth/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-}));
+        successRedirect: '/auth/wifi', // redirect to the secure profile section
+        failureRedirect: '/auth/login', // redirect back to the signup page if there is an error
+        failureFlash: true // allow flash messages
+    }));
 
 // Signup =================================
 // show the signup form
@@ -245,9 +246,9 @@ app.get('/auth/signup', function(req, res) {
 // process the signup form
 app.post('/auth/signup',
     passport.authenticate('local-signup', {
-        successRedirect : '/auth/wifi', // redirect to the secure profile section
-        failureRedirect : '/auth/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+        successRedirect: '/auth/wifi', // redirect to the secure profile section
+        failureRedirect: '/auth/signup', // redirect back to the signup page if there is an error
+        failureFlash: true // allow flash messages
     })
 );
 
@@ -255,13 +256,13 @@ app.post('/auth/signup',
 
 // send to facebook to do the authentication
 app.get('/auth/facebook',
-   passport.authenticate('facebook'));
+    passport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', {
-    successRedirect : '/auth/wifi',
-    failureRedirect : '/auth/facebook'
-  })
+    passport.authenticate('facebook', {
+        successRedirect: '/auth/wifi',
+        failureRedirect: '/auth/facebook'
+    })
 );
 
 // TWITTER -------------------------------
@@ -271,23 +272,23 @@ app.get('/auth/twitter',
     passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', {
-    successRedirect : '/auth/wifi',
-    failureRedirect : '/auth/twitter'
-  })
+    passport.authenticate('twitter', {
+        successRedirect: '/auth/wifi',
+        failureRedirect: '/auth/twitter'
+    })
 );
 
 
 // LINKEDIN --------------------------------
 
 app.get('/auth/linkedin',
-  passport.authenticate('linkedin'));
+    passport.authenticate('linkedin'));
 
 app.get('/auth/linkedin/callback',
-  passport.authenticate('linkedin', {
-    successRedirect : '/auth/wifi',
-    failureRedirect : '/auth/linkedin'
-  }) 
+    passport.authenticate('linkedin', {
+        successRedirect: '/auth/wifi',
+        failureRedirect: '/auth/linkedin'
+    })
 );
 
 // GOOGLE ---------------------------------
@@ -295,12 +296,12 @@ app.get('/auth/linkedin/callback',
 // send to google to do the authentication
 app.get('/auth/google', passport.authenticate('google'));
 
-	// the callback after google has authenticated the user
+// the callback after google has authenticated the user
 app.get('/auth/google/callback',
-  passport.authenticate('google', {
-    successRedirect : '/auth/wifi',
-    failureRedirect : '/auth/google'
-  })
+    passport.authenticate('google', {
+        successRedirect: '/auth/wifi',
+        failureRedirect: '/auth/google'
+    })
 );
 
 // ====================================================
@@ -308,25 +309,45 @@ app.get('/auth/google/callback',
 // ====================================================
 
 // authenticate wireless session with Cisco Meraki
-app.post('/auth/sms', function(req, res){
-  // generate confirmation code
-  var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
-  // Prepare sms data
-  var url  = 'http://pay.brandfi.co.ke:8301/sms/send';
-  var clientId = '2';
-  var message = "Your confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
-  var mobileNumber = req.body.mobileNumber;
-  // set header content type to application/json
-  res.set('Content-Type': 'application/json');
-console.log(req.body);
-  // debug - monitor : display all session data on console
-  console.log("Session data at login page = " + util.inspect(req.session, false, null));
-  
-    // *** redirect user to Meraki to process authentication, then send client to success_url
+app.post('/auth/sms', function(req, res) {
+    var message = "Your confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
+    var mobileNumber = req.body.mobileNumber;
+    // generate confirmation code
+    var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
+    req.session.smsConfirmationCode = smsConfirmationCode;
+    req.session.mobileNumber = mobileNumber;
+    // Prepare sms data
+    var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+    var clientId = '1';
+    
+    // set header content type to application/json
+    var postData = {
+        clientId: clientId,
+        message: message,
+        recepients: mobileNumber
+    }
 
-  res.end();
+var clientServerOptions = {
+    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+    body: JSON.stringify(postData),
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
+request(clientServerOptions,);
+res.redirect('/auth/confirmsms');
+
 });
 
+// ====================================================
+// Confirm sms---------------------------------
+// ====================================================
+
+// authenticate wireless session with Cisco Meraki
+app.get('/auth/confirmsms', function(req, res) {
+    res.render('confirmsms.hbs', req.session)
+});
 
 
 // ====================================================
@@ -334,15 +355,15 @@ console.log(req.body);
 // ====================================================
 
 // authenticate wireless session with Cisco Meraki
-app.get('/auth/wifi', function(req, res){
-  req.session.splashlogin_time = new Date().toString();
+app.get('/auth/wifi', function(req, res) {
+    req.session.splashlogin_time = new Date().toString();
 
-  // debug - monitor : display all session data on console
-  console.log("Session data at login page = " + util.inspect(req.session, false, null));
-  
+    // debug - monitor : display all session data on console
+    console.log("Session data at login page = " + util.inspect(req.session, false, null));
+
     // *** redirect user to Meraki to process authentication, then send client to success_url
-  res.writeHead(302, {'Location': req.session.base_grant_url + "?continue_url="+req.session.success_url});
-  res.end();
+    res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.success_url });
+    res.end();
 });
 
 // ################################################################
@@ -352,67 +373,67 @@ app.get('/auth/wifi', function(req, res){
 // #######
 // signon page
 // #######
-app.get('/signon', function (req, res) {
+app.get('/signon', function(req, res) {
 
-  // extract parameters (queries) from URL
-  req.session.protocol = req.protocol;
-  req.session.host = req.headers.host;
-  req.session.login_url = req.query.login_url;
-  req.session.continue_url = req.query.continue_url;
-  req.session.ap_name = req.query.ap_name;
-  req.session.ap_tags = req.query.ap_tags;
-  req.session.client_ip = req.query.client_ip;
-  req.session.client_mac = req.query.client_mac;
-  req.session.success_url =  req.protocol + '://' + req.session.host + "/successSignOn";
-  req.session.signon_time = new Date();
+    // extract parameters (queries) from URL
+    req.session.protocol = req.protocol;
+    req.session.host = req.headers.host;
+    req.session.login_url = req.query.login_url;
+    req.session.continue_url = req.query.continue_url;
+    req.session.ap_name = req.query.ap_name;
+    req.session.ap_tags = req.query.ap_tags;
+    req.session.client_ip = req.query.client_ip;
+    req.session.client_mac = req.query.client_mac;
+    req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+    req.session.signon_time = new Date();
     // display data for debugging purposes
-  console.log("Session data at signon page = " + util.inspect(req.session, false, null));
+    console.log("Session data at signon page = " + util.inspect(req.session, false, null));
 
-  res.render('sign-on', req.session);
+    res.render('sign-on', req.session);
 });
 
 // #############
 // success for sign on page
 // #############
-app.get('/successSignOn', function (req, res) {
-  // extract parameters (queries) from URL
-  req.session.host = req.headers.host;
-  req.session.success_time = new Date();
-  req.session.logout_url = req.query.logout_url;
-  req.session.logout_url_continue = req.query.logout_url + "&continue_url=" + req.session.protocol+ '://' + req.session.host + "/logout";
-  console.log("Logout URL = " + util.inspect(req.logout_url_continue)); 
+app.get('/successSignOn', function(req, res) {
+    // extract parameters (queries) from URL
+    req.session.host = req.headers.host;
+    req.session.success_time = new Date();
+    req.session.logout_url = req.query.logout_url;
+    req.session.logout_url_continue = req.query.logout_url + "&continue_url=" + req.session.protocol + '://' + req.session.host + "/logout";
+    console.log("Logout URL = " + util.inspect(req.logout_url_continue));
 
-    
-  console.log("Session data at success page = " + util.inspect(req.session, false, null));
 
-  // render sucess page using handlebars template and send in session data
-  res.render('success', req.session);
+    console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+    // render sucess page using handlebars template and send in session data
+    res.render('success', req.session);
 });
 
 // #############
 // logged-out page
 // #############
-app.get('/logout', function (req, res) {
-  // determine session duration
-  req.session.loggedout_time = new Date();
-  req.session.duration = {};
-  req.session.duration.ms = Math.abs(req.session.loggedout_time - req.session.success_time); // total milliseconds
-  req.session.duration.sec = Math.floor((req.session.duration.ms/1000) % 60);
-  req.session.duration.min = (req.session.duration.ms/1000/60) << 0;
+app.get('/logout', function(req, res) {
+    // determine session duration
+    req.session.loggedout_time = new Date();
+    req.session.duration = {};
+    req.session.duration.ms = Math.abs(req.session.loggedout_time - req.session.success_time); // total milliseconds
+    req.session.duration.sec = Math.floor((req.session.duration.ms / 1000) % 60);
+    req.session.duration.min = (req.session.duration.ms / 1000 / 60) << 0;
 
-  // do something with the session data (i.e. console, database, file, etc. )
+    // do something with the session data (i.e. console, database, file, etc. )
     // display data for debugging purposes
-  console.log("Session data at logged-out page = " + util.inspect(req.session, false, null));
+    console.log("Session data at logged-out page = " + util.inspect(req.session, false, null));
 
-  // render sucess page using handlebars template and send in session data
-  res.render('logged-out', req.session);
+    // render sucess page using handlebars template and send in session data
+    res.render('logged-out', req.session);
 });
 
 // #############
 // terms of service page
 // #############
-app.get('/terms', function (req, res) {
-  res.render('terms', req.session);
+app.get('/terms', function(req, res) {
+    res.render('terms', req.session);
 });
 
 
@@ -428,7 +449,7 @@ app.use(express.static('./public'));
 
 // start web services
 
-app.listen(port, '0.0.0.0', function () {
-   console.log('Started!');
+app.listen(port, '0.0.0.0', function() {
+    console.log('Started!');
 });
 console.log("Server listening on port " + port);
