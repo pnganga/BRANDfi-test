@@ -450,6 +450,88 @@ app.get('/terms', function(req, res) {
 });
 
 
+// #####################################################################################################
+// SIGN ON STARTS HERE
+// ########################################################################################################
+
+// ################################################################
+// Sign-on Splash Page
+// ################################################################
+
+// #######
+// signon page
+// #######
+app.get('/signon', function (req, res) {
+
+  // extract parameters (queries) from URL
+  req.session.host = req.headers.host;
+  req.session.login_url = req.query.login_url;
+  req.session.continue_url = req.query.continue_url;
+  req.session.ap_name = req.query.ap_name;
+  req.session.ap_tags = req.query.ap_tags;
+  req.session.client_ip = req.query.client_ip;
+  req.session.client_mac = req.query.client_mac;
+  req.session.success_url = req.protocol + "://" + req.session.host + "/success";
+  req.session.signon_time = new Date();
+  req.session.recent_error = req.query.error_message;
+  
+  console.log(req.session.recent_error);
+
+  // do something with the session and form data (i.e. console, database, file, etc. )
+    // display data for debugging purposes
+  console.log("Session data at signon page = " + util.inspect(req.session, false, null));
+
+  // render login page using handlebars template and send in session data
+  res.render('sign-on', req.session);
+
+});
+
+// #############
+// success page
+// #############
+app.get('/signonsuccess', function (req, res) {
+  // extract parameters (queries) from URL
+  req.session.host = req.headers.host;
+  //req.session.logout_url = req.query.logout_url;
+  req.session.logout_url = req.query.logout_url + "&continue_url=" + req.protocol + "://" + req.session.host + "/logout";
+  req.session.success_time = new Date();
+
+  // do something with the session data (i.e. console, database, file, etc. )
+    // display data for debugging purposes
+  console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+  // render sucess page using handlebars template and send in session data
+  res.render('success', req.session);
+});
+
+// #############
+// logged-out page
+// #############
+app.get('/logout', function (req, res) {
+  // determine session duration
+  req.session.loggedout_time = new Date();
+  req.session.duration = {};
+  req.session.duration.ms = Math.abs(req.session.loggedout_time - req.session.success_time); // total milliseconds
+  req.session.duration.sec = Math.floor((req.session.duration.ms/1000) % 60);
+  req.session.duration.min = (req.session.duration.ms/1000/60) << 0;
+
+  // extract parameters (queries) from URL
+  req.session.host = req.headers.host;
+  req.session.logout_url = req.query.logout_url + "&continue_url=" + req.protocol + "://" + req.session.host + "/logged-out";
+
+  // do something with the session data (i.e. console, database, file, etc. )
+    // display data for debugging purposes
+  console.log("Session data at logged-out page = " + util.inspect(req.session, false, null));
+    // write to log file
+  //jsonfile.writeFile(logPath, session, function (err) {
+  //  console.log(err)
+  // })
+
+  // render sucess page using handlebars template and send in session data
+  res.render('logged-out', req.session);
+});
+
+
 
 
 // ################################################################
