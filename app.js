@@ -212,7 +212,7 @@ app.get('/successClick', function(req, res) {
     // console.log("Session data at success page = " + util.inspect(req.session, false, null));
 
     // render sucess page using handlebars template and send in session data
-    res.render()
+    res.render('success', req.session);
 });
 
 
@@ -310,17 +310,17 @@ app.get('/auth/google/callback',
 
 // authenticate wireless session with Cisco Meraki
 app.post('/auth/sms', function(req, res) {
-    var message = "Your confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
+    var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
     var mobileNumber = req.body.mobileNumber;
     // generate confirmation code
-    var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
+    
     req.session.smsConfirmationCode = smsConfirmationCode;
     req.session.mobileNumber = mobileNumber;
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
+    var message = "The confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
     
-    // set header content type to application/json
     var postData = {
         clientId: clientId,
         message: message,
@@ -335,6 +335,7 @@ var clientServerOptions = {
         'Content-Type': 'application/json'
     }
 }
+// send sms
 request(clientServerOptions,);
 res.redirect('/auth/confirmsms');
 
@@ -344,9 +345,21 @@ res.redirect('/auth/confirmsms');
 // Confirm sms---------------------------------
 // ====================================================
 
-// authenticate wireless session with Cisco Meraki
+// Render page for sms confirmation
 app.get('/auth/confirmsms', function(req, res) {
     res.render('confirmsms.hbs', req.session)
+});
+// Sms confirmation logic
+app.post('/auth/confirmsms', function(req, res) {
+    if (req.body.code === req.session.smsConfirmationCode ) {
+      // This is where you save the user to MongoDB
+      console.log('Saving user to DB');
+      res.redirect('/auth/wifi');
+
+    }else{
+      req.session.error = 'The confirmation code is not correct';
+      res.render('confirmsms', req.session);
+    }
 });
 
 
