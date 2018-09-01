@@ -11,8 +11,8 @@ module.exports = {
     },
 
     'twitterAuth' : {
-        'consumerKey'        : 'x6FSU8DTjNdFxCb93GBb29PBb',
-        'consumerSecret'     : 'GQWBKP1Z2EEGP3BN91U1uWp5OuAKyn0as66jmztJAuolSn72Kq',
+        'consumerKey'        : 'rNaoWOUTS1HaP1GR8kDV5UgQx',
+        'consumerSecret'     : 'BTAeOVPCk0rrL5XT4rK0w7ZOhVXCJusrY4EHCNUQtz4AYh0J7i',
         'callbackURL'        : 'https://demo.brandfi.co.ke/auth/twitter/callback'
     }
     // },
