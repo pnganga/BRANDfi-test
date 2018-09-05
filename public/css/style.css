@@ -1,4 +1,7 @@
 html { font-size: 100%;-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+html, body{
+  height: 100%;
+}
 form { margin: 0; }
 label { cursor: pointer; }
 button, input {

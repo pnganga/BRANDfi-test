@@ -185,7 +185,7 @@ module.exports = function(passport) {
                             user.facebook.name    = profile.name.givenName + ' ' + profile.name.familyName;
                             user.facebook.email   = (profile.email) ? profile.emails[0].value.toLowerCase() : '';
                             user.facebook.profile = profile;
-
+                            // send to mautic here
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -196,8 +196,8 @@ module.exports = function(passport) {
 
                         return done(null, user); // user found, return that user
                     } else {
-                        // if there is no user, create them
-                        var newUser            = new User();
+                        // if there is no user, create them or send to mautic
+                        var newUser  = new User();
 
                         newUser.facebook.id         = profile.id;
                         newUser.facebook.token      = token;

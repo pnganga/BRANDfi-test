@@ -70,11 +70,8 @@ var port = 8181;
 var https = require('https');
 var app = require('express')();
 var request = require('request');
-// var options = {
-//    key  : config.key,
-//    cert : config.cert,
-//    ca   : config.ca
-// };
+var path = require('path');
+var fs = require("fs"); 
 
 // =================================
 // express webserver service
@@ -83,6 +80,11 @@ var express = require('express');
 
 // create the web app
 var app = express();
+
+
+
+
+
 
 
 // =================================
@@ -148,9 +150,24 @@ app.use(bodyParser.json());
 // =================================
 
 var exphbs = require('express3-handlebars');
-app.engine('.hbs', exphbs({ defaultLayout: 'single', extname: '.hbs' }));
+app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs', }));
 app.set('view engine', '.hbs');
 
+
+// #########################################################################
+// Froala WYSIWYG Editor to enable users create custom splash pages
+// #########################################################################
+
+var FroalaEditor = require('wysiwyg-editor-node-sdk');
+
+var upload_image = require("./app/controllers/image_upload.js");
+
+// Create folder for uploading files.
+var filesDir = path.join(path.dirname(require.main.filename), "uploads");
+ 
+if (!fs.existsSync(filesDir)){
+  fs.mkdirSync(filesDir);
+}
 
 // =================================
 // ROUTES #########################################################
@@ -189,8 +206,9 @@ app.get('/click', function(req, res) {
     req.session.logout_url_continue = false; // no support for logout url with click through method
 
     // success page options instead of continuing on to intended url
-    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
     req.session.continue_url = req.query.user_continue_url;
+    // req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    req.session.success_url = req.query.user_continue_url;
 
 
     // display session data for debugging purposes
@@ -313,31 +331,31 @@ app.post('/auth/sms', function(req, res) {
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
     var mobileNumber = req.body.mobileNumber;
     // generate confirmation code
-    
+
     req.session.smsConfirmationCode = smsConfirmationCode;
     req.session.mobileNumber = mobileNumber;
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
     var message = "The confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
-    
+
     var postData = {
         clientId: clientId,
         message: message,
         recepients: mobileNumber
     }
 
-var clientServerOptions = {
-    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
-    body: JSON.stringify(postData),
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
+    var clientServerOptions = {
+        uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+        body: JSON.stringify(postData),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }
-}
-// send sms
-request(clientServerOptions,);
-res.redirect('/auth/confirmsms');
+    // send sms
+    request(clientServerOptions, );
+    res.redirect('/auth/confirmsms');
 
 });
 
@@ -353,14 +371,14 @@ app.get('/auth/confirmsms', function(req, res) {
 app.post('/auth/confirmsms', function(req, res) {
     console.log('This is save on session ' + req.session.smsConfirmationCode);
     console.log('This is on req body ' + req.body.code);
-    if (req.body.code == req.session.smsConfirmationCode ) {
-      // This is where you save the user to MongoDB
-      console.log('Saving user to DB');
-      res.redirect('/auth/wifi');
+    if (req.body.code == req.session.smsConfirmationCode) {
+        // This is where you save the user to MongoDB
+        console.log('Saving user to DB');
+        res.redirect('/auth/wifi');
 
-    }else{
-      req.session.error = 'The confirmation code is not correct';
-      res.render('confirmsms', req.session);
+    } else {
+        req.session.error = 'The confirmation code is not correct';
+        res.render('confirmsms', req.session);
     }
 });
 
@@ -451,7 +469,26 @@ app.get('/terms', function(req, res) {
     res.render('terms', req.session);
 });
 
+app.get('/', function(req, res) {
+    res.render('index', req.session);
+});
 
+app.post('/custompage', function(req, res) {
+    console.log(req.body);
+    res.end();
+});
+
+app.post('/image_upload', function(req, res) {
+    upload_image(req, function(err, data) {
+
+        if (err) {
+            return res.status(404).end(JSON.stringify(err));
+        }
+        console.log(data); 
+        res.send(data);
+    });
+   
+});
 
 
 

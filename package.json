@@ -1,9 +1,9 @@
 {
-  "name": "excap",
+  "name": "BRANDfi",
   "version": "1.0.0",
-  "description": "Cisco Meraki Click-through Captive Portal",
+  "description": "Portal for consuming Meraki API's",
   "main": "app.js",
-  "scripts":{
+  "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +18,7 @@
     "Portal",
     "EXCAP"
   ],
-  "author": "Cory Guynn",
+  "author": "Pius Ng'ang'a",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -43,6 +43,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
-    "session": "~0.1.0"
+    "session": "~0.1.0",
+    "wysiwyg-editor-node-sdk": "^2.3.4"
   }
 }

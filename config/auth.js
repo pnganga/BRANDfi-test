@@ -14,7 +14,7 @@ module.exports = {
         'consumerKey'        : 'rNaoWOUTS1HaP1GR8kDV5UgQx',
         'consumerSecret'     : 'BTAeOVPCk0rrL5XT4rK0w7ZOhVXCJusrY4EHCNUQtz4AYh0J7i',
         'callbackURL'        : 'https://demo.brandfi.co.ke/auth/twitter/callback'
-    }
+    },
     // },
 
     // 'linkedinAuth' : {
@@ -28,5 +28,8 @@ module.exports = {
     //     'clientSecret'     : 'xxxxxxxxxxxxxxxxxx',
     //     'callbackURL'      : 'https://localhost:3000/auth/google/callback'
     // }
-
+      'merakiAuth' : {
+        'APIkey'     : '205f3df9cdb44e7b1c5f427f6bde3d61d0cdeb6c',
+        'callbackURL'        : 'https://demo.brandfi.co.ke/click'
+    }
 };
