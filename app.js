@@ -108,6 +108,22 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(cookieParser()); // read cookies (needed for auth)
 
+// ###################################
+// Allow cors
+// ###################################
+app.use(function(req, res, next) { //allow cross origin requests
+    res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+// +++++++++++++++++++
+// End allow cors
+// +++++++++++++++++++
+
+
+
+
 // =================================
 // session state
 // =================================
@@ -469,6 +485,10 @@ app.get('/terms', function(req, res) {
     res.render('terms', req.session);
 });
 
+
+// ##########################
+// Home page
+// #########################
 app.get('/', function(req, res) {
     res.render('index', req.session);
 });
@@ -479,6 +499,7 @@ app.post('/custompage', function(req, res) {
 });
 
 app.post('/image_upload', function(req, res) {
+   
     upload_image(req, function(err, data) {
 
         if (err) {
