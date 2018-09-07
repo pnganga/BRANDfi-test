@@ -1,15 +1,6 @@
 <div id="content">
     <div id="container">
-        <div class="header row">
-            <div>
-                <h1>Welcome to Java House</h1>
-            <div>
-    <img class="text-center" src="/img/Java-House.jpg" style="width:10%; margin:10px;">
-</div>
-
-                <p>Please enjoy our complimentary WiFi and a Cappucino!</p>
-            </div>
-        </div>
+       {{clickhead}}
         <h2>Choose a Login option below to continue browsing</h2>
         <br>
         <div id="continue" class="row">
@@ -20,13 +11,14 @@
                 <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span>Login with Twitter</a>
                 <!-- <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
     <a href="/auth/linkedin" class="btn btn-info"><span class="fa fa-linkedin"></span> LinkedIn</a> -->
-            </div><br>
+            </div>
+            <br>
             <div class="col-sm-2"></div>
             <div class="col-sm-5">
                 <!-- <h3>Sms login</h3> -->
                 <form action="/auth/sms" method="post">
                     <div class="input-group mb-3" style="padding-left: 100px;">
-                        <input type="text" title=" e.g 0790200500" class="form-control" name="mobileNumber" placeholder="Mobile number"  aria-label="mobile number" aria-describedby="basic-addon2" required>
+                        <input type="text" title=" e.g 0790200500" class="form-control" name="mobileNumber" placeholder="Mobile number" aria-label="mobile number" aria-describedby="basic-addon2" required>
                         <br>
                         <br>
                         <!-- <div class="input-group-append"> -->
@@ -38,7 +30,8 @@
         </div>
         <br>
         <span class=""><a href="/terms" style="color: #26a69a; text-decoration: none;">Terms and Conditions</a></span>
-    </div><br>
+    </div>
+    <br>
     <div class="footer">
         <h3>POWERED BY</h3>
         <a href="www.brandfi.co.ke"><h2 style="color: green; text-decoration: none;">BRAND-fi</h2></a>

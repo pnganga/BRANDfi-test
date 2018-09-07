@@ -71,7 +71,7 @@ var https = require('https');
 var app = require('express')();
 var request = require('request');
 var path = require('path');
-var fs = require("fs"); 
+var fs = require("fs");
 
 // =================================
 // express webserver service
@@ -180,9 +180,9 @@ var upload_image = require("./app/controllers/image_upload.js");
 
 // Create folder for uploading files.
 var filesDir = path.join(path.dirname(require.main.filename), "uploads");
- 
-if (!fs.existsSync(filesDir)){
-  fs.mkdirSync(filesDir);
+
+if (!fs.existsSync(filesDir)) {
+    fs.mkdirSync(filesDir);
 }
 
 // =================================
@@ -493,22 +493,53 @@ app.get('/', function(req, res) {
     res.render('index', req.session);
 });
 
+
+
+// #########################################
+// Froala editor save page
+// ############################################
+app.get('/customizepage', function(req, res) {
+    // set editor page to our default if he hasn't saved his
+    console.log(req.session.editor_content);
+    if (!req.session.editor_content) {
+        fs.readFile(__dirname + "/views/partials/clickhead.hbs", "utf8",  function(err, html) {
+            if (err) throw err;
+            
+            req.session.editor_content  = html;
+            console.log(req.session.editor_content);
+            res.render('customize', req.session);
+        });
+    }else{
+      res.render('customize', req.session);
+    }
+    
+    
+});
+
 app.post('/custompage', function(req, res) {
-    console.log(req.body);
-    res.end();
+    // save content to session
+    req.session.editor_content = req.body.editor_content;
+    // Write content to Page
+    fs.writeFile(__dirname + "/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function (err, data) {
+      if (err) throw err;
+      
+      console.log(data);
+      res.render('customize', req.session);
+    })
+    
 });
 
 app.post('/image_upload', function(req, res) {
-   
+
     upload_image(req, function(err, data) {
 
         if (err) {
             return res.status(404).end(JSON.stringify(err));
         }
-        console.log(data); 
+        console.log(data);
         res.send(data);
     });
-   
+
 });
 
 
@@ -520,6 +551,8 @@ app.post('/image_upload', function(req, res) {
 
 
 // define the static resources for the splash pages
+
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use(express.static('./public'));
 
 // start web services
