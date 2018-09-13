@@ -9,35 +9,52 @@
     </style>
 </head>
 <body>
-<div class="container">
-<div class="col-sm-6 col-sm-offset-3">
-
-    <h1><span class="fa fa-sign-in"></span> Login</h1>
-
-    <!-- LOGIN FORM -->
-    <form action="/auth/login" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
+<div style="min-height: 100px;"></div>
+<div class="col-sm-3"></div>
+<div class="col-sm-6" class="img-responsive" >
+    
+    <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);"><br>
+        <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <img src="/img/Java-House.jpg" alt="" class="img-responsive"><br>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
-
-    <hr>
-
-    <p>Need an account? <a href="/auth/signup">Signup</a></p>
-    <p>Or go <a href="/click">home</a>.</p>
-
-    <div class="text-center">
-        <p>A project by: <a href="http://www.internetoflego.com">Internet Of Lego</a>.</p>
+       
+        <div class="col-sm-4"></div>
     </div>
+        <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);"><br><br>
+            <form action="{{login_url}}" method="post " class="form col-md-12 center-block ">
+                <input type="hidden" name="continue_url " value={{user_continue_url}} />
+                <div class="form-group ">
+                  <input class="form-control input-lg " type="text " name="username " placeholder="Mobile number ">
+                  <i class="icon-user icon-large "></i>
+                </div>
+                <div class="form-group ">
+                  <input class="form-control input-lg " type="password " name="password " placeholder="Password ">
+                  <i class="icon-lock icon-large "></i>
+                </div>
 
+                <div class="form-group ">
+                  <button class="btn btn-primary btn-lg btn-block ">Sign In</button><br>
+                  <a class="pull-left" href="/auth/signup"><p style="color: #26a69a; text-decoration: none;">I dont have an account</p></a>
+                  <span class="pull-right"><a href="/terms " style="color: #26a69a; text-decoration: none; ">Terms and Conditions</a></span>
+                </div>
+
+            </form><br>
+            or signin with<br><br>
+        <div id="continue " class="row ">
+                <!-- <h3>Social Login</h3> -->
+                <!-- <a href="/auth/signup " class="btn btn-default col-sm- "><span class="fa fa-user "></span> Email</a> -->
+                <a href="/auth/facebook " class="btn btn-primary "><span class="fa fa-facebook "></span> Facebook</a>
+                <a href="/auth/twitter " class="btn btn-info "><span class="fa fa-twitter "></span> Twitter</a>
+                <!-- <a href="/auth/google " class="btn btn-danger "><span class="fa fa-google-plus "></span> Google+</a>
+    <a href="/auth/linkedin " class="btn btn-info "><span class="fa fa-linkedin "></span> LinkedIn</a> -->
+            
+        </div>
+        <br>
+        
+    </div><br>
 </div>
-</div>
+<div class="col-sm-3 "></div>
 </body>
 </html>
