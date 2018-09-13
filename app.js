@@ -260,7 +260,7 @@ app.get('/successClick', function(req, res) {
 
 // show the login form
 app.get('/auth/login', function(req, res) {
-    res.render('login', { message: req.flash('loginMessage') });
+    res.render('login', { message: req.flash('loginMessage'), session: req.session });
 });
 
 // process the login form
@@ -274,7 +274,8 @@ app.post('/auth/login',
 // Signup =================================
 // show the signup form
 app.get('/auth/signup', function(req, res) {
-    res.render('signup', { message: req.flash('signupMessage') });
+    console.log(req.session)
+    res.render('signup', { message: req.flash('signupMessage'), session: req.session });
 });
 
 // process the signup form
@@ -285,6 +286,31 @@ app.post('/auth/signup',
         failureFlash: true // allow flash messages
     })
 );
+
+app.post('/auth/signon', function(req, res) {
+    console.log(req.body);
+    var url = 'http://radius.brandfi.co.ke/api/registration?';
+    var uname = req.body.username;
+    var fname = req.body.firstname;
+    var lname = req.body.lastname;
+    var queryParams = "uname=" + uname + "&fname=" + fname + "&lname=" + lname + "&contact=" + uname + "&status=" + 1;
+
+
+    var clientServerOptions = {
+        uri: url + queryParams,
+        method: 'POST',
+        headers: {
+                    'Content-Type': 'application/json'
+                }
+       
+    }
+    // send sms
+    request(clientServerOptions, function (err, res) {
+        var resp = JSON.parse(res.body);
+       console.log(resp.status);
+    });
+    res.redirect('/auth/login'); 
+});
 
 // FACEBOOK -------------------------------
 
@@ -344,9 +370,10 @@ app.get('/auth/google/callback',
 
 // authenticate wireless session with Cisco Meraki
 app.post('/auth/sms', function(req, res) {
+    // generate confirmation code
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
     var mobileNumber = req.body.mobileNumber;
-    // generate confirmation code
+
 
     req.session.smsConfirmationCode = smsConfirmationCode;
     req.session.mobileNumber = mobileNumber;
@@ -438,7 +465,7 @@ app.get('/signon', function(req, res) {
     // display data for debugging purposes
     console.log("Session data at signon page = " + util.inspect(req.session, false, null));
 
-    res.render('sign-on', req.session);
+    res.render('login', req.session);
 });
 
 // #############
@@ -502,31 +529,31 @@ app.get('/customizepage', function(req, res) {
     // set editor page to our default if he hasn't saved his
     console.log(req.session.editor_content);
     if (!req.session.editor_content) {
-        fs.readFile(__dirname + "/views/partials/clickhead.hbs", "utf8",  function(err, html) {
+        fs.readFile(__dirname + "/views/partials/clickhead.hbs", "utf8", function(err, html) {
             if (err) throw err;
-            
-            req.session.editor_content  = html;
+
+            req.session.editor_content = html;
             console.log(req.session.editor_content);
             res.render('customize', req.session);
         });
-    }else{
-      res.render('customize', req.session);
+    } else {
+        res.render('customize', req.session);
     }
-    
-    
+
+
 });
 
 app.post('/custompage', function(req, res) {
     // save content to session
     req.session.editor_content = req.body.editor_content;
     // Write content to Page
-    fs.writeFile(__dirname + "/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function (err, data) {
-      if (err) throw err;
-      
-      console.log(data);
-      res.render('customize', req.session);
+    fs.writeFile(__dirname + "/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
+        if (err) throw err;
+
+        console.log(data);
+        res.render('customize', req.session);
     })
-    
+
 });
 
 app.post('/image_upload', function(req, res) {
