@@ -442,10 +442,46 @@ app.get('/auth/wifi', function(req, res) {
     res.end();
 });
 
+
+// ####################################################################
+// Splash page for premium users
+// 3######################################################################
+app.get('/premium', function(req, res) {
+
+    // extract parameters (queries) from URL
+    req.session.protocol = req.protocol;
+    req.session.host = req.headers.host;
+    req.session.base_grant_url = req.query.base_grant_url;
+    req.session.user_continue_url = req.query.user_continue_url;
+    req.session.node_mac = req.query.node_mac;
+    req.session.client_ip = req.query.client_ip;
+    req.session.client_mac = req.query.client_mac;
+    req.session.splashclick_time = new Date().toString();
+    req.session.logout_url_continue = false; // no support for logout url with click through method
+
+    // success page options instead of continuing on to intended url
+    req.session.continue_url = req.query.user_continue_url;
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    // req.session.success_url = req.query.user_continue_url;
+
+
+    // display session data for debugging purposes
+    console.log("Session data at click page = " + util.inspect(req.session, false, null));
+
+    // render login page using handlebars template and send in session data
+    res.render('click-through', req.session);
+
+});
+
+
+
+// ##############################
+// End premium
+// ###############################
+
 // ################################################################
 // Sign-on Splash Page /w RADIUS username and password
 // ################################################################
-
 // #######
 // signon page
 // #######
