@@ -223,8 +223,8 @@ app.get('/click', function(req, res) {
 
     // success page options instead of continuing on to intended url
     req.session.continue_url = req.query.user_continue_url;
-    // req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
-    req.session.success_url = req.query.user_continue_url;
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    // req.session.success_url = req.query.user_continue_url;
 
 
     // display session data for debugging purposes
@@ -438,7 +438,7 @@ app.get('/auth/wifi', function(req, res) {
     console.log("Session data at login page = " + util.inspect(req.session, false, null));
 
     // *** redirect user to Meraki to process authentication, then send client to success_url
-    res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.continue_url });
+    res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.success_url });
     res.end();
 });
 
@@ -483,7 +483,7 @@ app.get('/successSignOn', function(req, res) {
     console.log("Session data at success page = " + util.inspect(req.session, false, null));
 
     // render sucess page using handlebars template and send in session data
-    res.render('success', req.session);
+    res.render('successsignon', req.session);
 });
 
 // #############
