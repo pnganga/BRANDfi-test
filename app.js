@@ -461,7 +461,7 @@ app.get('/premium', function(req, res) {
 
     // success page options instead of continuing on to intended url
     req.session.continue_url = req.query.user_continue_url;
-    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successPremium";
     // req.session.success_url = req.query.user_continue_url;
 
 
@@ -469,10 +469,28 @@ app.get('/premium', function(req, res) {
     console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
     // render login page using handlebars template and send in session data
-    res.render('click-through', req.session);
+    res.render('premium', req.session);
 
 });
 
+app.post('/premium', function(req, res) {
+    console.log(req.body);
+    res.end();
+});
+
+// #############
+// success for premium page
+// #############
+app.get('/successPremium', function(req, res) {
+    // extract parameters (queries) from URL
+    req.session.host = req.headers.host;
+    req.session.success_time = new Date();
+
+    // console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+    // render sucess page using handlebars template and send in session data
+    res.render('premiumsuccess', req.session);
+});
 
 
 // ##############################
