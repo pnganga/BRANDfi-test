@@ -288,28 +288,25 @@ app.post('/auth/signup',
 );
 
 app.post('/auth/signon', function(req, res) {
-    console.log(req.body);
     var url = 'http://radius.brandfi.co.ke/api/registration?';
     var uname = req.body.username;
     var fname = req.body.firstname;
     var lname = req.body.lastname;
     var queryParams = "uname=" + uname + "&fname=" + fname + "&lname=" + lname + "&contact=" + uname + "&status=" + 1;
 
-
     var clientServerOptions = {
         uri: url + queryParams,
         method: 'POST',
         headers: {
-                    'Content-Type': 'application/json'
-                }
-       
+            'Content-Type': 'application/json'
+        }
     }
     // send sms
-    request(clientServerOptions, function (err, res) {
+    request(clientServerOptions, function(err, res) {
         var resp = JSON.parse(res.body);
-       console.log(resp.status);
+        console.log(resp.status);
     });
-    res.redirect('/auth/login'); 
+    res.redirect('/auth/login');
 });
 
 // FACEBOOK -------------------------------
@@ -446,8 +443,9 @@ app.get('/auth/wifi', function(req, res) {
 // ####################################################################
 // Splash page for premium users
 // 3######################################################################
-app.get('/premium', function(req, res) {
 
+app.get('/premium', function(req, res) {
+    delete req.session["mpesaError"];
     // extract parameters (queries) from URL
     req.session.protocol = req.protocol;
     req.session.host = req.headers.host;
@@ -459,28 +457,119 @@ app.get('/premium', function(req, res) {
     req.session.splashclick_time = new Date().toString();
     req.session.logout_url_continue = false; // no support for logout url with click through method
 
+    console.log(req.session);
     // success page options instead of continuing on to intended url
     req.session.continue_url = req.query.user_continue_url;
     req.session.success_url = req.session.protocol + '://' + req.session.host + "/successPremium";
-    // req.session.success_url = req.query.user_continue_url;
+
+    var url = 'http://radius.brandfi.co.ke/api/tarrifs';
+    var tariffs = [];
+
+    // Fetch tarriffs from RADIUS server
+    var clientServerOptions = {
+        uri: url,
+        method: 'GET',
+    }
+
+    request(clientServerOptions, function(err, data) {
+        var resp = JSON.parse(data.body);
+        tariffs = resp;
+        // render login page using handlebars template and send in session data
+        res.render('premium', { session: req.session, tariffs: tariffs });
+    });
 
 
-    // display session data for debugging purposes
-    console.log("Session data at click page = " + util.inspect(req.session, false, null));
-
-    // render login page using handlebars template and send in session data
-    res.render('premium', req.session);
 
 });
 
 app.post('/premium', function(req, res) {
-    console.log(req.body);
-    res.end();
+    var fname = req.body.fname;
+    var lname = req.body.lname;
+    var uname = req.body.uname;
+    var plan = req.body.plan;
+
+    // use phone number to check if user exists
+    var clientServerOptions = {
+        uri: 'http://radius.brandfi.co.ke/api/user/by-phone/' + uname,
+        method: 'GET',
+    }
+
+    request(clientServerOptions, function(err, data) {
+        var resp = data.headers;
+        var rBody = JSON.parse(data.body);
+        // if user exists
+        if (resp['content-length'] > 0) {
+            // login user and send stk push
+            var userServerOptions = {
+
+                uri: 'http://radius.brandfi.co.ke/api/login?' + 'uname=' + uname + '&pword=' + rBody.clear_pword,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            request(userServerOptions, function(err, loginRes) {
+                if (err) console.log('error');
+                var userDetails = JSON.parse(loginRes.body);
+                req.session.user = userDetails;
+                var phoneNumber = userDetails.user.contact.substr(1);
+                var postData = {
+                    "clientId": "2",
+                    "transactionType": "CustomerPayBillOnline",
+                    "phoneNumber": '254' + phoneNumber,
+                    "amount": 1,
+                    "callbackUrl": "http://localhost:8181/payfi-success",
+                    "accountReference": "demo",
+                    "transactionDesc": "Test"
+                }
+                var reqOptions = {
+                    uri: 'http://pay.brandfi.co.ke:8301/api/stkpush',
+                    method: 'POST',
+                    body: JSON.stringify(postData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                request(reqOptions, function(err, respMessage) {
+                    if (err) console.log('error');
+
+                    var respM = JSON.parse(respMessage.body);
+                    var merchantRequestID = respM.merchantRequestID;
+                    var CheckoutRequestID = respM.CheckoutRequestID;
+                    var ResponseCode = respM.ResponseCode;
+                    var ResponseDescription = respM.ResponseDescription;
+                    var customerMessage = respM.CustomerMessage;
+                    req.session.CheckoutRequestID = CheckoutRequestID
+
+                    res.redirect('/successPremium');
+
+                })
+                // res.render('premiumsuccess', req.session);
+            })
+        } else if (resp['content-length'] < 1) {
+            // signup user and send stk push
+            var url = 'http://radius.brandfi.co.ke/api/registration?';
+            var queryParams = "uname=" + uname + "&fname=" + fname + "&lname=" + lname + "&contact=" + uname + "&status=" + 1;
+
+            var clientServerOptions = {
+                uri: url + queryParams,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            // sign up user
+            request(clientServerOptions, function(err, signupres) {
+                var resp = JSON.parse(signupres.body);
+                console.log(resp.status);
+            });
+        }
+    });
 });
 
-// #############
+// ##########################
 // success for premium page
-// #############
+// ##########################
 app.get('/successPremium', function(req, res) {
     // extract parameters (queries) from URL
     req.session.host = req.headers.host;
@@ -492,9 +581,45 @@ app.get('/successPremium', function(req, res) {
     res.render('premiumsuccess', req.session);
 });
 
+app.get('/stkpushquery', function(req, res) {
+    var stkQueryLoad = {
+        "clientId": "2",
+        "timestamp": Date.now().toString(),
+        "checkoutRequestId": req.session.CheckoutRequestID
+    }
+    var stkQueryOptions = {
+        uri: 'http://pay.brandfi.co.ke:8301/api/stkpushquery',
+        method: 'POST',
+        body: JSON.stringify(stkQueryLoad),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    // send stkpushquery
+    request(stkQueryOptions, function(err, queryRes) {
+        if (err)
+            res.send(err);
+        queryRes = JSON.parse(queryRes.body);
+        // check if request has processed and act according to result description
+        if (queryRes.ResultCode) {
+            if (queryRes.ResultDesc == "The service request is processed successfully.") {
+                res.redirect(req.session.continue_url);
+            } else if (queryRes.ResultDesc == "[MpesaCB - ]The balance is insufficient for the transaction.") {
+                req.session.mpesaError = "You don't have enough MPESA balance to complete this transaction.";
+                res.render('premiumsuccess', req.session);
+            } else if (queryRes.ResultDesc == "[STK_CB - ]Request cancelled by user") {
+                req.session.mpesaError = "You have cancelled the transaction";
+                res.render('premiumsuccess', req.session);
+            }
+        } else if (queryRes.errorMessage) {
+            req.session.mpesaFinishError = 'Please finish transaction on phone before confirming';
+            res.render('premiumsuccess', req.session);
+        }
 
+    })
+})
 // ##############################
-// End premium
+// End premium spalsh page
 // ###############################
 
 // ################################################################
