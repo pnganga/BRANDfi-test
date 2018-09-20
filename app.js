@@ -271,6 +271,55 @@ app.post('/auth/login',
         failureFlash: true // allow flash messages
     }));
 
+// show the login form
+app.get('/forgotpassword', function(req, res) {
+    res.render('forgotpassword', req.session);
+});
+
+// process the login form
+app.post('/forgotpassword', function(req, res) {
+    var uname = req.body.username;
+    // use phone number to check if user exists
+    var clientServerOptions = {
+        uri: 'http://radius.brandfi.co.ke/api/user/by-phone/' + uname,
+        method: 'GET',
+    }
+
+    request(clientServerOptions, function(err, data) {
+        var resp = data.headers;
+        var rBody = JSON.parse(data.body);
+        // if user exists
+        if (resp['content-length'] > 0) {
+            var pword = rBody.clear_pword;
+            var fname = rBody.fname;
+
+            // send sms with password
+
+            var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+            var clientId = '1';
+            var message = "Jambo " + fname + ",Your username is " + uname + " and your password is " + pword;
+
+            var postData = {
+                clientId: clientId,
+                message: message,
+                recepients: uname
+            }
+
+            var clientServerOptions = {
+                uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+                body: JSON.stringify(postData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            // send sms
+            request(clientServerOptions, );
+            res.render('login', req.session);
+        }
+    })
+});
+
 // Signup =================================
 // show the signup form
 app.get('/auth/signup', function(req, res) {
@@ -446,6 +495,7 @@ app.get('/auth/wifi', function(req, res) {
 
 app.get('/premium', function(req, res) {
     delete req.session["mpesaError"];
+    delete req.session["mpesaFinishError"];
     // extract parameters (queries) from URL
     req.session.protocol = req.protocol;
     req.session.host = req.headers.host;
@@ -460,7 +510,7 @@ app.get('/premium', function(req, res) {
     console.log(req.session);
     // success page options instead of continuing on to intended url
     req.session.continue_url = req.query.user_continue_url;
-    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successPremium";
+    req.session.success_url = "https://www.google.com";
 
     var url = 'http://radius.brandfi.co.ke/api/tarrifs';
     var tariffs = [];
@@ -495,11 +545,13 @@ app.post('/premium', function(req, res) {
     }
 
     request(clientServerOptions, function(err, data) {
+        if (err) { res.send(err); }
         var resp = data.headers;
-        var rBody = JSON.parse(data.body);
         // if user exists
         if (resp['content-length'] > 0) {
+            console.log('user exists');
             // login user and send stk push
+            var rBody = JSON.parse(data.body);
             var userServerOptions = {
 
                 uri: 'http://radius.brandfi.co.ke/api/login?' + 'uname=' + uname + '&pword=' + rBody.clear_pword,
@@ -544,9 +596,10 @@ app.post('/premium', function(req, res) {
                     res.redirect('/successPremium');
 
                 })
-                // res.render('premiumsuccess', req.session);
             })
+            // if the user doesnt exist, sign him up
         } else if (resp['content-length'] < 1) {
+            console.log('user does not exist');
             // signup user and send stk push
             var url = 'http://radius.brandfi.co.ke/api/registration?';
             var queryParams = "uname=" + uname + "&fname=" + fname + "&lname=" + lname + "&contact=" + uname + "&status=" + 1;
@@ -558,13 +611,79 @@ app.post('/premium', function(req, res) {
                     'Content-Type': 'application/json'
                 }
             }
+
             // sign up user
             request(clientServerOptions, function(err, signupres) {
                 var resp = JSON.parse(signupres.body);
-                console.log(resp.status);
+                // if user is successfully signed up, log him in and send stk push
+                if (resp.status == "success") {
+                    // use phone number to check if user exists
+                    var clientServerOptions = {
+                        uri: 'http://radius.brandfi.co.ke/api/user/by-phone/' + uname,
+                        method: 'GET',
+                    }
+
+                    request(clientServerOptions, function(err, data) {
+                        if (err) { res.send(err); }
+                        var resp = data.headers;
+                        // if user exists
+                        if (resp['content-length'] > 0) {
+                            // login user and send stk push
+                            var userData = JSON.parse(data.body);
+                            var userOptions = {
+
+                                uri: 'http://radius.brandfi.co.ke/api/login?' + 'uname=' + uname + '&pword=' + userData.clear_pword,
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                            request(userOptions, function(err, loginRes) {
+                                if (err) console.log('error');
+                                var userDetails = JSON.parse(loginRes.body);
+                                console.log(userDetails);
+                                req.session.user = userDetails;
+                                var phoneNumber = userDetails.user.contact.substr(1);
+                                var postData = {
+                                    "clientId": "2",
+                                    "transactionType": "CustomerPayBillOnline",
+                                    "phoneNumber": '254' + phoneNumber,
+                                    "amount": 1,
+                                    "callbackUrl": "http://localhost:8181/payfi-success",
+                                    "accountReference": "demo",
+                                    "transactionDesc": "Test"
+                                }
+                                var reqOptions = {
+                                    uri: 'http://pay.brandfi.co.ke:8301/api/stkpush',
+                                    method: 'POST',
+                                    body: JSON.stringify(postData),
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                }
+                                request(reqOptions, function(err, respMessage) {
+                                    if (err) console.log('error');
+
+                                    var respM = JSON.parse(respMessage.body);
+                                    var merchantRequestID = respM.merchantRequestID;
+                                    var CheckoutRequestID = respM.CheckoutRequestID;
+                                    var ResponseCode = respM.ResponseCode;
+                                    var ResponseDescription = respM.ResponseDescription;
+                                    var customerMessage = respM.CustomerMessage;
+                                    req.session.CheckoutRequestID = CheckoutRequestID
+
+                                    res.redirect('/successPremium');
+
+                                })
+                            })
+
+                        }
+                    })
+                }
+
             });
-        }
-    });
+        };
+    })
 });
 
 // ##########################
@@ -603,7 +722,9 @@ app.get('/stkpushquery', function(req, res) {
         // check if request has processed and act according to result description
         if (queryRes.ResultCode) {
             if (queryRes.ResultDesc == "The service request is processed successfully.") {
-                res.redirect(req.session.continue_url);
+                // *** redirect user to Meraki to process authentication, then send client to success_url
+                res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.success_url });
+                res.end();
             } else if (queryRes.ResultDesc == "[MpesaCB - ]The balance is insufficient for the transaction.") {
                 req.session.mpesaError = "You don't have enough MPESA balance to complete this transaction.";
                 res.render('premiumsuccess', req.session);

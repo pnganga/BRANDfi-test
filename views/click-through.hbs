@@ -1,34 +1,47 @@
-<div style="min-height: 100px;"></div>
+<style>
+#break{
+    display: none;
+}
+@media only screen and (max-width: 700px) {
+
+    #break {
+        display: unset;
+    }
+}
+</style>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <img style="padding-left: 90px;" src="/img/Java-House.jpg" alt="" class="img-responsive">
+        <br>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
 <div class="col-sm-3"></div>
 <div class="col-sm-6" class="img-responsive">
     <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);">
         <br>
-        <div class="row">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                <img src="/img/Java-House.jpg" alt="" class="img-responsive">
-                <br>
-            </div>
-            <div class="col-sm-4"></div>
-        </div>
-        <div id="" >
-            <br>
-            <p>Welcome to JAVA HOUSE, Enjoy our free complimentary Wifi</p>
-            <p>To continue, choose a login option below</p>
-            <br>
-            <br>
-            <div id="continue " class="row ">
-                <!-- <h3>Social Login</h3> -->
-                <!-- <a href="/auth/signup " class="btn btn-default col-sm- "><span class="fa fa-user "></span> Email</a> -->
-                <a href="/auth/facebook " class="btn btn-primary" style="margin-right: 10px;"><span class="fa fa-facebook "></span> Facebook</a>
-               
-                <a href="/auth/twitter " class="btn btn-info" style=""><span class="fa fa-twitter "></span> Twitter</a>
-                <!-- <a href="/auth/google " class="btn btn-danger "><span class="fa fa-google-plus "></span> Google+</a>
-    <a href="/auth/linkedin " class="btn btn-info "><span class="fa fa-linkedin "></span> LinkedIn</a> -->
+        <h6 class="text-center" style="font-weight: bold;">Jambo, enjoy our free complimetary wifi, to continue choose a signin method below</h6>
+        <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div id="continue" class="row col-sm-6">
+                    <br>
+                    <div class="col-sm-6">
+                        <a href="/auth/facebook" class="btn btn-primary" style="margin-right: 10px;"><span class="fa fa-facebook "></span> Facebook</a>
+                    </div><br id="break">
+                    <div class="col-sm-6">
+                        <a href="/auth/twitter" class="btn btn-info" style=""><span class="fa fa-twitter "></span> Twitter</a>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
             </div>
             <br>
-            <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
+            <div class="row">
+                <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
+            </div>
+            <br>
         </div>
-        <br>
     </div>
-    <div class="col-sm-3 "></div>
+</div>
+<div class="col-sm-3 "></div>

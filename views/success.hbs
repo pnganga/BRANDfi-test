@@ -1,41 +1,35 @@
-<div style="min-height: 100px;"></div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <img style="padding-left: 90px;" src="/img/Java-House.jpg" alt="" class="img-responsive">
+        <br>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
 <div class="col-sm-3"></div>
 <div class="col-sm-6" class="img-responsive">
     <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);">
-        <br>
-        <div class="row">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                <img src="/img/Java-House.jpg" alt="" class="img-responsive">
-                <br>
+        <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div id="continue" class="row col-sm-6">
+                    <br>
+                    <p class="text-success">You have logged in successfully!!!</p>
+                    <p>Give us a like or share</p>
+                    <br>
+                    <iframe id="like" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fweb.facebook.com%2Fbrandfi&width=150px&layout=button&action=like&size=large&show_faces=true&share=true&height=65&appId" width="150px" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    <br>
+                    <a href="{{user_continue_url}}">
+                        <button id="continue" class="btn btn-default">Continue browsing</button>
+                    </a>
+                </div>
+                <div class="col-sm-3"></div>
             </div>
-            <div class="col-sm-4"></div>
+            <br>
+            <div class="row">
+                <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
+            </div>
+            <br>
         </div>
-        <div id="">
-            <br>
-            <p class="text-success">You have logged in successfully!!!</p>
-            <p>Give us a like below and click continue</p>
-            <br>
-            <iframe id="like" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fweb.facebook.com%2Fbrandfi&width=150px&layout=button&action=like&size=large&show_faces=true&share=true&height=65&appId" width="150px" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-            <br>
-            <a href="{{user_continue_url}}">
-                <button id="continue" class="btn btn-success disabled">Continue</button>
-            </a>
-            <br>
-            <br>
-            <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
-        </div>
-        <br>
     </div>
-    <div class="col-sm-3 "></div>
-    <script>
-    // $(document).ready(function() {
-
-    $(function() {
-        $("#like").click(function() {
-
-            $('#continue').toggleClass('disabled');
-        });
-
-    });
-    </script>
+</div>
