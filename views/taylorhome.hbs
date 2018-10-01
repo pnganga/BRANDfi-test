@@ -43,19 +43,19 @@
                 <br>
                 <form action="/auth/sms" method="post" class="form col-md-12 center-block">
                     <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="mobileNumber" placeholder=" Mobile number Format: 07XXXXXXXX">
+                        <input class="form-control input-lg" type="text" name="mobileNumber" placeholder=" Mobile number Format: 07XXXXXXXX" pattern="07([0-9|9])(\d){7}" required>
                         <i class="icon-user icon-large"></i>
                     </div>
                     <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="fname" placeholder="First Name">
+                        <input class="form-control input-lg" type="text" name="fname" placeholder="First Name" required>
                         <i class="icon-user icon-large"></i>
                     </div>
                     <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="lname" placeholder="Last Name">
+                        <input class="form-control input-lg" type="text" name="lname" placeholder="Last Name" required>
                         <i class="icon-user icon-large"></i>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-lg btn-block">Sign In</button>
+                        <button class="btn btn-danger btn-lg">Connect</button>
                     </div>
                 </form>
             </div>
@@ -71,67 +71,9 @@
         </div>
         <div class="col-sm-4    "></div>
     </div>
-    <!-- <div class="row">
-        <a href="/terms">
-            <p style="color: #26a69a; text-decoration: none;">Terms of service</p>
-        </a>
-    </div> -->
 </div>
-<!-- <div class="row text-center">
-    <div class="col-sm-5">
-    </div> -->
-<!-- style="box-shadow: 1px 2px hsla(120, 60%, 70%, 0.2);" -->
-<!--     <div class="col-sm-4 " >
-        <a class="navbar-brand" href="#">
-            <br>
-            <img src="/img/logos/taylorgreyLogo.png" width="150" height="150" class="d-inline-block align-top img-responsive" alt="">
-        </a>
-    </div>
-    <div class="col-sm-3">
-    </div>
-    
-</div>
-<h1>Welcome to Tayler Gray</h1>
-<div class="row">
-    <div class="img-responsive">
-        <div style="min-height: 400px;"></div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div id="content" class="text-center" style="background-color: hsla(120, 60%, 70%, 0.2); min-height: 80px;">
-                <br>
-                <form action="/taylergrey/signon" method="post" class="form col-md-12 center-block">
-                    <div class="form-group col-sm-6">
-                        <input class="form-control input-lg" type="text" name="username" placeholder="Mobile number">
-                        <i class="icon-user icon-large"></i>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <button class="btn btn-primary btn-lg">Sign In</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-</div>
-</div>
-</div> -->
-<!--  <div class="row">
-        <a class="col-sm-6" href="/auth/signup">
-            <p style="color: #26a69a; text-decoration: none;">I dont have an account</p>
-        </a>
-        <a href="/forgotpassword" class="col-sm-6">
-            <p style="color: #26a69a; text-decoration: none;">Forgot password?</p>
-        </a>
-    </div>
-    <div class="row">
-        <a href="/terms">
-            <p style="color: #26a69a; text-decoration: none;">Terms of service</p>
-        </a>
-    </div> -->
 <script>
 $(function() {
     $('body').css({ "background-image": 'none', "background-color": "white", });
 });
 </script>
-<!-- border-image: url('/media/examples/border-diamonds.png') 30; -->
-<!-- "border-right-width": "120px", "border-right-color": "blue", "border-right-style": "solid", "border-left-width": "120px", "border-left-color": "blue", "border-left-style": "solid", "border-image": "url('/img/print.jpg') 25% repeat" -->

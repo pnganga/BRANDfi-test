@@ -252,6 +252,17 @@ app.get('/successClick', function(req, res) {
     res.render('success', req.session);
 });
 
+app.get('/taylorClick', function(req, res) {
+    // extract parameters (queries) from URL
+    req.session.host = req.headers.host;
+    req.session.success_time = new Date();
+
+    // console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+    // render sucess page using handlebars template and send in session data
+    res.render('successTaylor', req.session);
+});
+
 
 // ****************************************
 // PASSPORT Login Methods for Click Through
@@ -806,7 +817,7 @@ app.get('/taylergray/click', function(req, res) {
 
     // success page options instead of continuing on to intended url
     req.session.continue_url = req.query.user_continue_url;
-    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/taylorClick";
     // req.session.success_url = req.query.user_continue_url;
 
 
