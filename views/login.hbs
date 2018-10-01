@@ -7,48 +7,57 @@
 </style>
 <!-- <div style="min-height: 100px;"></div> -->
 <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <img style="padding-left: 90px;" id="logo" src="/img/Java-House.jpg" alt="" class="img-responsive">
-        <br>
-    </div>
-    <div class="col-md-4"></div>
-</div>
-<div class="col-sm-3"></div>
-<div class="col-sm-6" class="img-responsive">
-    <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);"><br>
-        <h6 class="text-center" style="font-weight: bold;">Jambo, enjoy our free complimetary wifi, to continue signin or create account</h6>
-    <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
-        <br>
-        <br>
-        <form action="{{login_url}}" method="post" class="form col-md-12 center-block">
-            <input type="hidden" name="success_url" value={{success_url}} />
-            <div class="form-group ">
-                <input class="form-control input-lg" type="text" name="username" placeholder="Mobile number">
-                <i class="icon-user icon-large"></i>
-            </div>
-            <div class="form-group">
-                <input class="form-control input-lg" type="password" name="password" placeholder="Password">
-                <i class="icon-lock icon-large"></i>
-            </div>
-            <div class="form-group ">
-                <button class="btn btn-primary btn-lg btn-block">Sign In</button>
-                <br>
-                <div class="row">
-                    <a class="col-sm-6" href="/auth/signup">
-                        <p style="color: #26a69a; text-decoration: none;">I dont have an account</p>
-                    </a>
-                   <a href="/forgotpassword" class="col-sm-6">
-                    <p style="color: #26a69a; text-decoration: none;">Forgot password?</p>
-                   </a>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6" class="img-responsive">
+        <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);">
+            <br>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <img id="logo" src="/img/logo.svg" alt="">
+                    <br>
                 </div>
+                <div class="col-md-4"></div>
             </div>
-        </form>
-        <div class="row">
-            <a href="/terms">
-                    <p style="color: #26a69a; text-decoration: none;">Terms of service</p>
-                   </a>
-        </div><br>
+            <h6 class="text-center" style="font-weight: bold;">Jambo, enjoy our free complimentary wifi, to continue signin or create account</h6>
+            <br>
+            <hr>
+            <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
+                <br>
+                <br>
+                <form action="{{login_url}}" method="post" class="form col-md-12 center-block">
+                    <input type="hidden" name="success_url" value={{success_url}} />
+                    <div class="form-group ">
+                        <input class="form-control input-lg" type="text" name="username" placeholder="Mobile number">
+                        <i class="icon-user icon-large"></i>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control input-lg" type="password" name="password" placeholder="Password">
+                        <i class="icon-lock icon-large"></i>
+                    </div>
+                    <div class="form-group ">
+                        <button class="btn btn-primary btn-lg btn-block">Sign In</button>
+                        <br>
+                        <div class="row">
+                            <a class="col-sm-6" href="/auth/signup">
+                                <p style="color: #26a69a; text-decoration: none;">I dont have an account</p>
+                            </a>
+                            <a href="/forgotpassword" class="col-sm-6">
+                                <p style="color: #26a69a; text-decoration: none;">Forgot password?</p>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <a href="/terms">
+                        <p style="color: #26a69a; text-decoration: none;">Terms of service</p>
+                    </a>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="col-sm-3 "></div>
+        <div class="row text-center">
+            ADVERT HERE
+        </div>
     </div>
-    </div>
-    <div class="col-sm-3 "></div>

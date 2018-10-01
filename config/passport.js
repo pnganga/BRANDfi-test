@@ -77,37 +77,41 @@ module.exports = function(passport) {
     // =========================================================================
     passport.use('local-signup', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+        usernameField : 'mobileNumber',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
-    function(req, email, password, done) {
-        console.log("local email signup, email: "+email);
-        if (email)
-            email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+    function(req, mobileNumber, password, done) {
+        console.log('signup body = ' + req.body);
+        var fName = req.body.fName;
+        var lName = req.body.lName;
+        var macAddress = req.body.macAddress;
+        console.log("local mobileNumber signup, mobileNumber: "+mobileNumber);
+        if (mobileNumber)
+            // mobileNumber = mobileNumber.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
             if (!req.user) {
-                console.log("looking for email: "+email);
-                User.findOne({ 'local.email' :  email }, function(err, user) {
+                console.log("looking for mobileNumber: "+mobileNumber);
+                User.findOne({ 'local.mobileNumber' :  mobileNumber }, function(err, user) {
                     console.log("User.findOne callback land. user: "+user);
                     // if there are any errors, return the error
                     //if (err)
                     //    console.log('local-signup, returning error: '+err);
                     //    return done(err);
 
-                    // check to see if theres already a user with that email
+                    // check to see if theres already a user with that mobileNumber
                     if (user) {
                         console.log("local-signup, user found: "+user);
-                        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                        return done(null, user);
                     } else if(user===null){
                         console.log("Creating local user "+user);
                         // create the user
                         var newUser            = new User();
 
-                        newUser.local.email    = email;
+                        newUser.local.mobileNumber    = mobileNumber;
                         newUser.local.password = newUser.generateHash(password);
 
                         newUser.save(function(err) {
@@ -120,22 +124,25 @@ module.exports = function(passport) {
 
                 });
             // if the user is logged in but has no local account...
-            } else if ( !req.user.local.email ) {
+            } else if ( !req.user.local.mobileNumber ) {
                 // ...presumably they're trying to connect a local account
-                // BUT let's check if the email used to connect a local account is being used by another user
-                User.findOne({ 'local.email' :  email }, function(err, user) {
+                // BUT let's check if the mobileNumber used to connect a local account is being used by another user
+                User.findOne({ 'local.mobileNumber' :  mobileNumber }, function(err, user) {
                     if (err)
                         console.log("error searching for user");
                         return done(err);
 
                     if (user) {
                         console.log("found user");
-                        return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
+                        return done(null, false, req.flash('loginMessage', 'That mobileNumber is already taken.'));
                         // Using 'loginMessage instead of signupMessage because it's used by /connect/local'
                     } else {
                         console.log("did not find user, creating one now: "+req.user);
                         var user = req.user;
-                        user.local.email = email;
+                        user.local.mobileNumber = mobileNumber;
+                        user.local.fName = fName;
+                        user.local.lName = lName;
+                        user.local.macAddress = macAddress;
                         user.local.password = user.generateHash(password);
                         user.save(function (err) {
                             if (err)

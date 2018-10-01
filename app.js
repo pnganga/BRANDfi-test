@@ -108,6 +108,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(cookieParser()); // read cookies (needed for auth)
 
+
+
+
 // ###################################
 // Allow cors
 // ###################################
@@ -419,14 +422,18 @@ app.post('/auth/sms', function(req, res) {
     // generate confirmation code
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
     var mobileNumber = req.body.mobileNumber;
+    var fname = req.body.fname;
+    var lname = req.body.lname;
 
 
     req.session.smsConfirmationCode = smsConfirmationCode;
     req.session.mobileNumber = mobileNumber;
+    req.session.fname = fname;
+    req.session.lname = lname;
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
-    var message = "The confirmation to verify your phone number on JAVA Wifi is " + smsConfirmationCode;
+    var message = "The confirmation to verify your phone number on Tayler Grey Wifi is " + smsConfirmationCode;
 
     var postData = {
         clientId: clientId,
@@ -463,7 +470,20 @@ app.post('/auth/confirmsms', function(req, res) {
     if (req.body.code == req.session.smsConfirmationCode) {
         // This is where you save the user to MongoDB
         console.log('Saving user to DB');
-        res.redirect('/auth/wifi');
+        var User = require(path.join(__dirname, 'app/models/user.js'));
+        var newUser = new User();
+        newUser.local.mobileNumber = req.session.mobileNumber;
+        newUser.local.fName = req.session.fname;
+        newUser.local.lName = req.session.lname;
+        newUser.local.macAddress = req.session.client_mac;
+        newUser.local.password = newUser.generateHash(req.session.smsConfirmationCode);
+
+        newUser.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.redirect('/auth/wifi');
+        });
 
     } else {
         req.session.error = 'The confirmation code is not correct';
@@ -766,6 +786,34 @@ app.get('/signon', function(req, res) {
     console.log("Session data at signon page = " + util.inspect(req.session, false, null));
 
     res.render('login', req.session);
+});
+
+app.get('/taylergray/click', function(req, res) {
+    delete req.session["fname"];
+    delete req.session["lname"];
+    delete req.session["mobileNumber"];
+    delete req.session["smsConfirmationCode"];
+    // extract parameters (queries) from URL
+    req.session.protocol = req.protocol;
+    req.session.host = req.headers.host;
+    req.session.base_grant_url = req.query.base_grant_url;
+    req.session.user_continue_url = req.query.user_continue_url;
+    req.session.node_mac = req.query.node_mac;
+    req.session.client_ip = req.query.client_ip;
+    req.session.client_mac = req.query.client_mac;
+    req.session.splashclick_time = new Date().toString();
+    req.session.logout_url_continue = false; // no support for logout url with click through method
+
+    // success page options instead of continuing on to intended url
+    req.session.continue_url = req.query.user_continue_url;
+    req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+    // req.session.success_url = req.query.user_continue_url;
+
+
+    // display session data for debugging purposes
+    console.log("Session data at click page = " + util.inspect(req.session, false, null));
+
+    res.render('taylorhome', req.session);
 });
 
 // #############
