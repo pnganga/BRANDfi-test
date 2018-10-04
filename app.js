@@ -505,7 +505,7 @@ app.post('/auth/confirmsms', function(req, res) {
 
         var clientServerOptions = {
             uri: req.session.login_url,
-            body: postData,
+            body: JSON.stringify(postData),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
