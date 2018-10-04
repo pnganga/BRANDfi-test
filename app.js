@@ -465,7 +465,7 @@ app.post('/auth/sms', function(req, res) {
         recepients: mobileNumber
     }
 
-    var clientServerOptions = {BRANDfi-DemoRadius
+    var clientServerOptions = {
         uri: 'http://pay.brandfi.co.ke:8301/sms/send',
         body: JSON.stringify(postData),
         method: 'POST',
