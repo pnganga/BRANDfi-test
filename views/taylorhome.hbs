@@ -39,38 +39,33 @@
     <div class="row img-responsive">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <div id="content" class="text-center" style="background-color: hsla(120, 60%, 70%, 0.2); min-height: 260px;">
+            <div id="content" class="text-center" style="background-color: hsla(120, 60%, 70%, 0.2); min-height: 200px;">
                 <br>
                 <form action="/auth/sms" method="post" class="form col-md-12 center-block">
                     <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="mobileNumber" placeholder=" Mobile number Format: 07XXXXXXXX" pattern="07([0-9|9])(\d){7}" required>
-                        <i class="icon-user icon-large"></i>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="fname" placeholder="First Name" required>
-                        <i class="icon-user icon-large"></i>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control input-lg" type="text" name="lname" placeholder="Last Name" required>
+                        <input class="form-control input-lg" type="text" name="mobileNumber" placeholder="Mobile number Format: 07XXXXXXXX" pattern="07([0-9|9])(\d){7}" required>
                         <i class="icon-user icon-large"></i>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-danger btn-lg">Connect</button>
+                    </div>
+                    <div class="form-group">
+                       <p>By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; text-decoration: none;">terms of service</a></span></p>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-sm-2"></div>
     </div><br>
-    <div class="row">
+   <!--  <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4 row text-center">
-            <a href="/forgotpassword">
-                <p style="color: #26a69a; text-decoration: none;">Terms of service</p>
+            <a href="/terms">
+                <p >Terms of service</p>
             </a>
         </div>
-        <div class="col-sm-4    "></div>
-    </div>
+        <div class="col-sm-4"></div>
+    </div> -->
 </div>
 <script>
 $(function() {

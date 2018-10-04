@@ -82,10 +82,24 @@ var express = require('express');
 var app = express();
 
 
+// #####################################################
+// sql database connection
+// #####################################################
 
+var db = require('./db');
+var users = require('./app/controllers/users');
 
+// Connect to MySQL on start
+db.connect(db.MODE_PRODUCTION, function(err) {
+    if (err) {
+        console.log('Unable to connect to MySQL.')
+        process.exit(1)
+    }
+})
 
-
+// ######################################################
+// end mysql connection
+// ######################################################
 
 // =================================
 // passport configuration
@@ -439,8 +453,7 @@ app.post('/auth/sms', function(req, res) {
 
     req.session.smsConfirmationCode = smsConfirmationCode;
     req.session.mobileNumber = mobileNumber;
-    req.session.fname = fname;
-    req.session.lname = lname;
+    console.log(smsConfirmationCode);
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
@@ -450,9 +463,9 @@ app.post('/auth/sms', function(req, res) {
         clientId: clientId,
         message: message,
         recepients: mobileNumber
-    }
+    }BRANDfi-DemoRadius
 
-    var clientServerOptions = {
+    var clientServerOptions = {BRANDfi-DemoRadius
         uri: 'http://pay.brandfi.co.ke:8301/sms/send',
         body: JSON.stringify(postData),
         method: 'POST',
@@ -461,7 +474,7 @@ app.post('/auth/sms', function(req, res) {
         }
     }
     // send sms
-    request(clientServerOptions, );
+    request(clientServerOptions);
     res.redirect('/auth/confirmsms');
 
 });
@@ -479,23 +492,27 @@ app.post('/auth/confirmsms', function(req, res) {
     console.log('This is save on session ' + req.session.smsConfirmationCode);
     console.log('This is on req body ' + req.body.code);
     if (req.body.code == req.session.smsConfirmationCode) {
-        // This is where you save the user to MongoDB
+        // This is where you save the user to mysql
         console.log('Saving user to DB');
-        var User = require(path.join(__dirname, 'app/models/user.js'));
-        var newUser = new User();
-        newUser.local.mobileNumber = req.session.mobileNumber;
-        newUser.local.fName = req.session.fname;
-        newUser.local.lName = req.session.lname;
-        newUser.local.macAddress = req.session.client_mac;
-        newUser.local.password = newUser.generateHash(req.session.smsConfirmationCode);
+        var newUser = req.session.mobileNumber;
+        var newPassword = req.session.smsConfirmationCode;
+        users.create(newUser, newPassword);
+        var postData = {
+            username: newUser,
+            password: newPassword,
+            success_url: req.session.continue_url
+        }
 
-        newUser.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.redirect('/auth/wifi');
-        });
-
+        var clientServerOptions = {
+            uri: req.session.login_url,
+            body: postData,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        // return credentials to meraki for auth
+        request(clientServerOptions);
     } else {
         req.session.error = 'The confirmation code is not correct';
         res.render('confirmsms', req.session);
@@ -799,7 +816,7 @@ app.get('/signon', function(req, res) {
     res.render('login', req.session);
 });
 
-app.get('/taylergray/click', function(req, res) {
+app.get('/taylergray/signon', function(req, res) {
     delete req.session["fname"];
     delete req.session["lname"];
     delete req.session["mobileNumber"];
@@ -807,19 +824,14 @@ app.get('/taylergray/click', function(req, res) {
     // extract parameters (queries) from URL
     req.session.protocol = req.protocol;
     req.session.host = req.headers.host;
-    req.session.base_grant_url = req.query.base_grant_url;
-    req.session.user_continue_url = req.query.user_continue_url;
-    req.session.node_mac = req.query.node_mac;
+    req.session.login_url = req.query.login_url;
+    req.session.continue_url = req.query.continue_url;
+    req.session.ap_name = req.query.ap_name;
+    req.session.ap_tags = req.query.ap_tags;
     req.session.client_ip = req.query.client_ip;
     req.session.client_mac = req.query.client_mac;
-    req.session.splashclick_time = new Date().toString();
-    req.session.logout_url_continue = false; // no support for logout url with click through method
-
-    // success page options instead of continuing on to intended url
-    req.session.continue_url = req.query.user_continue_url;
-    req.session.success_url = req.session.protocol + '://' + req.session.host + "/taylorClick";
-    // req.session.success_url = req.query.user_continue_url;
-
+    req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+    req.session.signon_time = new Date();
 
     // display session data for debugging purposes
     console.log("Session data at click page = " + util.inspect(req.session, false, null));
@@ -927,6 +939,11 @@ app.post('/image_upload', function(req, res) {
     });
 
 });
+
+// app.get('/test', function(req, res) {
+//     users.create('swiz', 'swizbeatz');
+
+// });
 
 
 
