@@ -498,8 +498,8 @@ app.post('/auth/confirmsms', function(req, res) {
         var newPassword = req.session.smsConfirmationCode;
         users.create(newUser, newPassword.toString());
         var postData = {
-            username: '0715753308',
-            password: '4956',
+            username: newUser,
+            password: newPassword.toString(),
             success_url: req.session.success_url
         }
         console.log(req.session.login_url);
@@ -513,6 +513,7 @@ app.post('/auth/confirmsms', function(req, res) {
         request(clientServerOptions,function (err, msg) {
             if (err) res.send(err);
             console.log("auth sent to meraki");
+            console.log(msg);
         });
     } else {
         req.session.error = 'The confirmation code is not correct';
