@@ -507,10 +507,13 @@ app.post('/auth/confirmsms', function(req, res) {
             uri: req.session.login_url,
             body: JSON.stringify(postData).toString(),
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
         console.log(JSON.stringify(postData));
         // return credentials to meraki for auth
-        request(clientServerOptions,function (err, msg) {
+        request(clientServerOptions, function(err, msg) {
             if (err) res.send(err);
             console.log("auth sent to meraki");
             console.log(msg);
