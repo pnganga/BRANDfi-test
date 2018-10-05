@@ -496,21 +496,19 @@ app.post('/auth/confirmsms', function(req, res) {
         console.log('Saving user to DB');
         var newUser = req.session.mobileNumber;
         var newPassword = req.session.smsConfirmationCode;
-        users.create(newUser, newPassword);
+        users.create(newUser, newPassword.toString());
         var postData = {
             username: newUser,
-            password: newPassword,
+            password: newPassword.toString(),
             success_url: req.session.continue_url
         }
-
+        console.log(req.session.login_url);
         var clientServerOptions = {
             uri: req.session.login_url,
             body: JSON.stringify(postData),
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
         }
+        console.log(JSON.stringify(postData));
         // return credentials to meraki for auth
         request(clientServerOptions,function (err, msg) {
             if (err) res.send(err);
