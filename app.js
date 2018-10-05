@@ -513,7 +513,11 @@ app.post('/auth/confirmsms', function(req, res) {
         }
         console.log(JSON.stringify(postData));
         // return credentials to meraki for auth
-        request(clientServerOptions);
+        request(clientServerOptions, function(err, msg) {
+            if (err) res.send(err);
+            console.log("auth sent to meraki");
+            console.log(msg.body);
+        });
     } else {
         req.session.error = 'The confirmation code is not correct';
         res.render('confirmsms', req.session);
