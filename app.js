@@ -513,11 +513,7 @@ app.post('/auth/confirmsms', function(req, res) {
         }
         console.log(JSON.stringify(postData));
         // return credentials to meraki for auth
-        request(clientServerOptions, function(err, msg) {
-            if (err) res.send(err);
-            console.log("auth sent to meraki");
-            console.log(msg.body);
-        });
+        request(clientServerOptions);
     } else {
         req.session.error = 'The confirmation code is not correct';
         res.render('confirmsms', req.session);
@@ -835,7 +831,7 @@ app.get('/taylergray/signon', function(req, res) {
     req.session.ap_tags = req.query.ap_tags;
     req.session.client_ip = req.query.client_ip;
     req.session.client_mac = req.query.client_mac;
-    req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+    req.session.success_url = req.protocol + '://' + req.session.host + "/taylorClick";
     req.session.signon_time = new Date();
 
     // display session data for debugging purposes
