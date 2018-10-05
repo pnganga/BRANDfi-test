@@ -505,7 +505,7 @@ app.post('/auth/confirmsms', function(req, res) {
         console.log(req.session.login_url);
         var clientServerOptions = {
             uri: req.session.login_url,
-            body: JSON.stringify(postData).toString(),
+            body: JSON.stringify(postData),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -516,7 +516,7 @@ app.post('/auth/confirmsms', function(req, res) {
         request(clientServerOptions, function(err, msg) {
             if (err) res.send(err);
             console.log("auth sent to meraki");
-            console.log(msg);
+            console.log(msg.body);
         });
     } else {
         req.session.error = 'The confirmation code is not correct';
