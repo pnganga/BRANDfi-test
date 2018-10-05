@@ -493,23 +493,25 @@ app.post('/auth/confirmsms', function(req, res) {
     console.log('This is on req body ' + req.body.code);
     if (req.body.code == req.session.smsConfirmationCode) {
         // This is where you save the user to mysql
-        console.log('Saving user to DB');
+        // console.log('Saving user to DB');
         var newUser = req.session.mobileNumber;
-        var newPassword = req.session.smsConfirmationCode;
+        var newPassword = req.body.code;
+        
+        var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword.toString() + "&success_url=" + req.session.success_url;
+        console.log(ur);
         users.create(newUser, newPassword.toString());
-        var postData = {
-            username: newUser,
-            password: newPassword.toString(),
-            success_url: req.session.success_url
-        }
-        console.log(req.session.login_url);
         var clientServerOptions = {
-            uri: req.session.login_url + "?username=" + newUser + "&password=" + newPassword.toString() + "&success_url=" + req.session.success_url,
-            method: 'POST',
+            uri: ur,
+            method: 'POST'
         }
         
-        // return credentials to meraki for auth
-        request(clientServerOptions);
+        // // return credentials to meraki for auth
+        request(clientServerOptions, function(err, msg) {
+            if (err) res.send(err);
+            console.log("auth sent to meraki");
+            console.log(msg);
+        });
+        
     } else {
         req.session.error = 'The confirmation code is not correct';
         res.render('confirmsms', req.session);
