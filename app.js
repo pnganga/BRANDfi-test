@@ -447,13 +447,7 @@ app.post('/auth/sms', function(req, res) {
     // generate confirmation code
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
     var mobileNumber = req.body.mobileNumber;
-    var fname = req.body.fname;
-    var lname = req.body.lname;
-
-
-    req.session.smsConfirmationCode = smsConfirmationCode;
-    req.session.mobileNumber = mobileNumber;
-    console.log(smsConfirmationCode);
+    users.create(mobileNumber, smsConfirmationCode);
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
@@ -489,33 +483,27 @@ app.get('/auth/confirmsms', function(req, res) {
 });
 // Sms confirmation logic
 app.post('/auth/confirmsms', function(req, res) {
-    console.log('This is save on session ' + req.session.smsConfirmationCode);
-    console.log('This is on req body ' + req.body.code);
-    if (req.body.code == req.session.smsConfirmationCode) {
-        // This is where you save the user to mysql
-        // console.log('Saving user to DB');
-        var newUser = req.session.mobileNumber;
-        var newPassword = req.body.code;
-        
-        var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword.toString() + "&success_url=" + req.session.success_url;
-        console.log(ur);
-        users.create(newUser, newPassword.toString());
-        var clientServerOptions = {
-            uri: ur,
-            method: 'POST'
+    // res.send(req.body.code);
+    users.getOne(req.body.code, function(err, arg) {
+        if (err) {
+            req.session.error = 'The confirmation code is not correct';
+            res.render('confirmsms', req.session);
+        } else {
+            var newUser = arg[0].username;
+            var newPassword = arg[0].value;
+            var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
+            var clientServerOptions = {
+                uri: ur,
+                method: 'POST'
+            }
+            // return credentials to meraki for auth
+            request(clientServerOptions, function(err, msg) {
+                if (err) res.send(err);
+                console.log("auth sent to meraki");
+                console.log(msg);
+            });
         }
-        
-        // // return credentials to meraki for auth
-        request(clientServerOptions, function(err, msg) {
-            if (err) res.send(err);
-            console.log("auth sent to meraki");
-            console.log(msg);
-        });
-        
-    } else {
-        req.session.error = 'The confirmation code is not correct';
-        res.render('confirmsms', req.session);
-    }
+    });
 });
 
 
