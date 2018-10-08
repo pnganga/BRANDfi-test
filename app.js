@@ -250,13 +250,14 @@ app.post('/voucherclick', function(req, res) {
             }
             request(clientServeOptions,function (err, states) {
                 var resp = JSON.parse(states.body);
+                console.log();
                 if (resp.resCode = 200) {
                     res.redirect('/auth/wifi');
                 }
             })
-        } else if (resp.message == 'fail') {
+        } else if (resp.resCode == 401 && resp.message == 'fail') {
             req.session.voucherErr = 'The code you entered is invalid';
-            res.render('/click', req.session);
+            res.render('click-voucher', req.session);
         }
     });
 
