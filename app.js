@@ -271,7 +271,7 @@ app.post('/voucherclick', function(req, res) {
 
 // serving the static click-through HTML splash page
 app.get('/click', function(req, res) {
-
+    delete req.session.voucherErr;
     // extract parameters (queries) from URL
     req.session.protocol = req.protocol;
     req.session.host = req.headers.host;
