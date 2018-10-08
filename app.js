@@ -88,6 +88,7 @@ var app = express();
 
 var db = require('./db');
 var users = require('./app/controllers/users');
+var clients = require('./app/controllers/clients');
 
 // Connect to MySQL on start
 db.connect(db.MODE_PRODUCTION, function(err) {
@@ -223,6 +224,49 @@ app.use('/api/v1', expressMongoRest('mongodb://localhost:27017/excap'));
 // Click-through Splash Page: using passport for social login
 // ################################################################
 
+// ##############################
+// voucher click logic
+// ##############################
+
+app.post('/voucherclick', function(req, res) {
+    var code = req.body.code;
+    console.log(code);
+    var url = 'http://178.62.86.105/validate' + '?code=' + code;
+    var clientServerOptions = {
+        uri: url,
+        method: 'post',
+    }
+    // send code
+    request(clientServerOptions, function(err, status) {
+        if (err) {
+            res.send(err);
+        }
+        var resp = JSON.parse(status.body);
+        if (resp.resCode == 200 && resp.message == 'success') {
+            var ur = 'http://178.62.86.105/update' + '?code=' + code;
+            var clientServeOptions = {
+                uri: ur,
+                method: 'post',
+            }
+            request(clientServeOptions,function (err, states) {
+                var resp = JSON.parse(states.body);
+                if (resp.resCode = 200) {
+                    res.redirect('/auth/wifi');
+                }
+            })
+        } else if (resp.message == 'fail') {
+            req.session.voucherErr = 'The code you entered is invalid';
+            res.render('/click', req.session);
+        }
+    });
+
+
+});
+
+
+
+
+
 
 // serving the static click-through HTML splash page
 app.get('/click', function(req, res) {
@@ -248,7 +292,7 @@ app.get('/click', function(req, res) {
     console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
     // render login page using handlebars template and send in session data
-    res.render('click-through', req.session);
+    res.render('click-voucher', req.session);
 
 });
 
@@ -378,6 +422,8 @@ app.post('/auth/signon', function(req, res) {
             'Content-Type': 'application/json'
         }
     }
+
+
     // send sms
     request(clientServerOptions, function(err, res) {
         var resp = JSON.parse(res.body);
@@ -444,9 +490,10 @@ app.get('/auth/google/callback',
 
 // authenticate wireless session with Cisco Meraki
 app.post('/auth/sms', function(req, res) {
-    // generate confirmation code
-    var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000);
+    // generate confirmation code/password
+    var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
     var mobileNumber = req.body.mobileNumber;
+    // save the user to mysql
     users.create(mobileNumber, smsConfirmationCode);
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
@@ -467,8 +514,9 @@ app.post('/auth/sms', function(req, res) {
             'Content-Type': 'application/json'
         }
     }
-    // send sms
-    request(clientServerOptions);
+    // send sms and redirect user to confirmation page
+    console.log(smsConfirmationCode)
+    // request(clientServerOptions);
     res.redirect('/auth/confirmsms');
 
 });
@@ -483,24 +531,26 @@ app.get('/auth/confirmsms', function(req, res) {
 });
 // Sms confirmation logic
 app.post('/auth/confirmsms', function(req, res) {
-    // res.send(req.body.code);
+    // check db for user with the code for confirmation
     users.getOne(req.body.code, function(err, arg) {
+        // if user does not exist, redirect to confirm page
         if (err) {
             req.session.error = 'The confirmation code is not correct';
             res.render('confirmsms', req.session);
+            // send user details to meraki
         } else {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
             var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
             var clientServerOptions = {
                 uri: ur,
-                method: 'POST'
+                method: 'post'
             }
             // return credentials to meraki for auth
             request(clientServerOptions, function(err, msg) {
                 if (err) res.send(err);
                 console.log("auth sent to meraki");
-                console.log(msg);
+                res.send(msg);
             });
         }
     });
@@ -879,26 +929,66 @@ app.get('/', function(req, res) {
 });
 
 
+// ####################################################
+// Client signin page
+// #######################################################
+app.get('/client/signin', function(req, res) {
+    res.render('clientSignin', req.session);
+});
+
+app.post('/client/signin', function(req, res) {
+    var fName = req.body.fname;
+    var lName = req.body.lname;
+    var email = req.body.email;
+    var company = req.body.company;
+    var mobileNumber = req.body.mobilenumber;
+    var venue = req.body.venue;
+    // save client to mysql
+    clients.create(fName, lName, email, mobileNumber, company, venue);
+
+
+});
+
+
+
+// ####################################################
+// Client signup page
+// #######################################################
+app.get('/client/signup', function(req, res) {
+    res.render('clientSignup', req.session);
+});
+
+app.post('/client/signup', function(req, res) {
+    var fName = req.body.fname;
+    var lName = req.body.lname;
+    var email = req.body.email;
+    var company = req.body.company;
+    var mobileNumber = req.body.mobilenumber;
+    var venue = req.body.venue;
+    // save client to mysql
+    clients.create(fName, lName, email, mobileNumber, company, venue);
+    // redirect to sign in page
+    res.redirect('/customizepage');
+});
+
 
 // #########################################
 // Froala editor save page
 // ############################################
 app.get('/customizepage', function(req, res) {
     // set editor page to our default if he hasn't saved his
-    console.log(req.session.editor_content);
-    if (!req.session.editor_content) {
-        fs.readFile(__dirname + "/views/partials/clickhead.hbs", "utf8", function(err, html) {
-            if (err) throw err;
+    // console.log(req.session.editor_content);
+    // if (!req.session.editor_content) {
+    //     fs.readFile(__dirname + "/views/partials/clickhead.hbs", "utf8", function(err, html) {
+    //         if (err) throw err;
 
-            req.session.editor_content = html;
-            console.log(req.session.editor_content);
-            res.render('customize', req.session);
-        });
-    } else {
-        res.render('customize', req.session);
-    }
-
-
+    //         req.session.editor_content = html;
+    //         console.log(req.session.editor_content);
+    //         res.render('customize', req.session);
+    //     });
+    // } else {
+    res.render('customize', req.session);
+    // }
 });
 
 app.post('/custompage', function(req, res) {
@@ -926,11 +1016,6 @@ app.post('/image_upload', function(req, res) {
     });
 
 });
-
-// app.get('/test', function(req, res) {
-//     users.create('swiz', 'swizbeatz');
-
-// });
 
 
 

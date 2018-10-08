@@ -1,0 +1,64 @@
+<br>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <!-- <br> -->
+        <div>
+            <b class="" style="color: #26a69a;">Brand-fi Beta</b>
+        </div>
+        <div>
+           <p class="pull-right">Already have an account? <a href="/client/signin" style="color: #26a69a;">sign in</a></p> 
+        </div><br>
+        <!-- <div> -->
+        <hr style="height: 1px; background-color: grey;">
+        <!-- </div> -->
+        <h2 class="text-center" style="font-size: 16px; font-weight: bold;">Create an account below</h2>
+        <br>
+        <p>Fields marked with <span style="color: red">*</span> are mandatory</p>
+        <div class="row">
+            <form action="/client/signup" method="post">
+                <div class=" text-center">
+                    <div style="box-shadow: 1px 1px hsla(110,800%,50%,0.3);">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="text" name="fname" class="form-control" placeholder="First Name*" aria-label="Username" aria-describedby="basic-addon1" required></label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="text" class="form-control" name="lname" placeholder="Last Name*" aria-label="Username" aria-describedby="basic-addon1" required></label>
+                            </div>
+                        </div>
+                        <hr style="background-color: #FAFAFA; height: 1px; margin-top: -10px;">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="email" class="form-control" name="email" placeholder="Email*" aria-label="Username" aria-describedby="basic-addon1" required></label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="text" class="form-control" name="mobilenumber" placeholder="Mobile No*" pattern="07([0-9|9])(\d){7}" required></label><br>
+                                format: 0700XXXXXX
+                            </div>
+                        </div>
+                        <hr style="background-color: #FAFAFA; height: 1px; margin-top: -10px;">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="text" class="form-control" name="company" placeholder="Company*" aria-label="Username" aria-describedby="basic-addon1" required></label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for=""><input type="text" class="form-control" name="venue" placeholder="Venue*" required></label><br>
+                                <p>You can add more venues later</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary btn-block">Get Started</button>
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div><br>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="col-sm-1"></div>
+</div>

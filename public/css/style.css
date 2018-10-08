@@ -426,3 +426,28 @@ Admin Dashboard styling
 .navbar-brand {
     padding: 5px 15px;
 }
+/*canvas styling for grapejs editor*/
+
+#gjs{
+
+  border: 3px solid #444;
+  font-size: 12px;
+}
+/* Reset some default styling */
+.gjs-cv-canvas {
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panel__top {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  position: initial;
+  justify-content: center;
+  justify-content: space-between;
+}
+.panel__basic-actions {
+  position: initial;
+}

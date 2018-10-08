@@ -1,0 +1,58 @@
+<style>
+    #break {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+
+    #break {
+        display: unset;
+    }
+}
+</style>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <img style="padding-left: 90px;" src="/img/Java-House.jpg" alt="" class="img-responsive">
+        <br>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<div class="col-sm-3"></div>
+<div class="col-sm-6" class="img-responsive">
+    <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);">
+        <br>
+        <h6 class="text-center" style="font-weight: bold;">Jambo, enjoy our free complimetary wifi. To continue voucher code below</h6>
+        <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
+            <br>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div id="continue" class="row col-sm-6">
+                    <form action="/voucherclick" method="post">
+                        <div class="form-group">
+                            <input class="form-control input-lg" type="text" name="code" placeholder="Enter voucher code" validate required>
+                            <i class="icon-user icon-large"></i>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-danger btn-lg">Connect</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+            <div class="form-group">
+                <p>By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; text-decoration: none;">terms of service</a></span></p>
+            </div>
+            <div class="row">
+                <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<div class="col-sm-3 "></div>
+<script>
+$(function() {
+    $('body').css({ "background-image": "url('/img/coffee.jpeg')", "background-color": "white", "background-repeat": "no-repeat", "background-size": "cover" });
+});
+</script>

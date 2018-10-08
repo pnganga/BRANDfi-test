@@ -1,122 +1,22 @@
-<!-- <div id="throbber" style="display:none; min-height:120px;"></div>
-<div id="noty-holder"></div> -->
-<div id="wrapper">
-    <!-- Navigation -->
-    <nav class="navbar  navbar-fixed-top" style="background-color: #26a69a;" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+<nav class="nav navbar-inverse navbar-fixed-top" style="background-color: #26a69a;">
+    <div class="container-fluid"><br>
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span style="background-color: white;" class="icon-bar"></span>
-                <span style="background-color: white;" class="icon-bar"></span>
-                <span style="background-color: white;" class="icon-bar"></span>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" style="padding-top: 15px;">
-                <img src="" alt="BRAND-fi BETA">
-            </a>
+            <b class='navbar-brand' style="color: white;">Brand-fi Beta</b>
         </div>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Admin User <b class="fa fa-angle-down"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" style="text-align: justify;"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>
-                    <li><a href="#" style="display: inline; text-align: justify;"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <!-- <br> -->
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#" class="pull-left" style="text-align: justify;"><i class="fa fa-fw fas fa-key"></i> CREDENTIALS</a>
+                    <a href="/client/signup"><button class="btn btn-primary">Get started</button></a>
                 </li>
                 <li>
-                    <a href="investigaciones/favoritas" class="pull-left" style="text-align: justify;"><i class="fa fa-fw    fa-cogs   "></i> SPLASH PAGE SETTINGS</a>
-                </li>
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-1" style="text-align: justify;"><i class="fa  fa-user-circle-o" aria-hidden="true"></i> USERS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-1" class="collapse">
-                        <li><a href="#" style="text-align: justify;"><i class="fa fa-angle-double-right"></i>FACEBOOK USERS</a></li>
-                        <li><a href="#" style="text-align: justify;"><i class="fa fa-angle-double-right"></i>TWITTER USERS</a></li>
-                        <li><a href="#" style="text-align: justify;"><i class="fa fa-angle-double-right"></i>SMS USERS</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="pull-left" style="text-align: justify;"><i class="fa fa-fw  fa-line-chart "></i> ANALYTICS</a>
-                </li>
-                <li>
-                    <a href="#" class="pull-left" style="text-align: justify;"><i class="fa fa-fw fa-money"></i> BILLING</a>
+                    <a href="/client/login"><p style="color: white;">Login</p></a>
                 </li>
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-    <div style="min-height: 100px;"></div>
-    <h1><strong>Dashboard</strong></h1>
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-sm-12 col-md-12">
-                    <h3 style="font-weight: bold; font-size: 16px;">Jambo Admin, here are some starting points</h3>
-                    <br>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="row col-sm-12">
-                    <div class="col-sm-4">
-                        <a href=""><i class="fa fa-fw fa-paper-plane" style="color: grey; display: inline;"><span style="color: #26a69a;"> Send SMS to all mobile users</span></i></a>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                    <div class="col-sm-4">
-                        <a href=""><i class="fa fa-fw  fa-plus" style="color: grey; display: inline;"><span style="color: #26a69a;"> Add social app credentials</span></i></a>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                    <div class="col-sm-4">
-                        <a href=""><i class="fa fa-fw  fa-upload" style="color: grey; display: inline;"><span style="color: #26a69a;"> Upload splash page logo</span></i></a>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-        </div><br><br>
-       
-        <!-- /.container-fluid -->
     </div>
-     
-    <!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-<!-- <div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
-        <a href="/customizepage" style="color: green;">Customize splash page</a>
-    </div>
-    <div class="col-sm-4"></div>
-</div> -->
-<script>
-// $(document).ready(function() {
-
-$(function() {
-    $('body').css({ "background-image": "none", "background-color": "#EEEEEE" });
-    $('[data-toggle="tooltip"]').tooltip();
-    $(".side-nav .collapse").on("hide.bs.collapse", function() {
-        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
-    });
-    $('.side-nav .collapse').on("show.bs.collapse", function() {
-        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-down").addClass("fa-angle-right");
-    });
-});
-// });
-</script>
+</nav><br><br>
