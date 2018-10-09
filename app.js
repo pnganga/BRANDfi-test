@@ -512,7 +512,7 @@ app.post('/auth/sms', function(req, res) {
     }
     // send sms and redirect user to confirmation page
     console.log(smsConfirmationCode)
-    // request(clientServerOptions);
+    request(clientServerOptions);
     res.redirect('/auth/confirmsms');
 
 });
@@ -539,19 +539,19 @@ app.post('/auth/confirmsms', function(req, res) {
             console.log(arg);
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
-            var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&continue_url=" + req.session.success_url;
+            var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
             console.log(ur);
             var clientServOptions = {
                 url: ur,
-                method: 'post'
+                method: 'POST'
             }
             // return credentials to meraki for auth
-            // request(clientServOptions, function(err, msg) {
-            //     if (err) res.send(err);
-            //     console.log("auth sent to meraki");
-            //     res.send(msg);
-            //     // res.send(msg);
-            // });
+            request(clientServOptions, function(msg) {
+                
+                console.log("auth sent to meraki");
+                res.send(msg);
+                // res.send(msg);
+            });
         }
     });
 });
