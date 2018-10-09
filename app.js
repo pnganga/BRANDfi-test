@@ -264,11 +264,6 @@ app.post('/voucherclick', function(req, res) {
 
 });
 
-
-
-
-
-
 // serving the static click-through HTML splash page
 app.get('/click', function(req, res) {
     delete req.session.voucherErr;
@@ -495,7 +490,7 @@ app.post('/auth/sms', function(req, res) {
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
     var mobileNumber = req.body.mobileNumber;
     // save the user to mysql
-    users.create(mobileNumber, smsConfirmationCode);
+    users.create(mobileNumber, req.session.client_mac, smsConfirmationCode);
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
@@ -517,7 +512,7 @@ app.post('/auth/sms', function(req, res) {
     }
     // send sms and redirect user to confirmation page
     console.log(smsConfirmationCode)
-    // request(clientServerOptions);
+    request(clientServerOptions);
     res.redirect('/auth/confirmsms');
 
 });
@@ -551,7 +546,7 @@ app.post('/auth/confirmsms', function(req, res) {
             request(clientServerOptions, function(err, msg) {
                 if (err) res.send(err);
                 console.log("auth sent to meraki");
-                res.send(msg);
+                // res.send(msg);
             });
         }
     });
