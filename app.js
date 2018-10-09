@@ -538,15 +538,16 @@ app.post('/auth/confirmsms', function(req, res) {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
             var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
-            var clientServerOptions = {
+            console.log(ur);
+            var clientServOptions = {
                 uri: ur,
                 method: 'post'
             }
             // return credentials to meraki for auth
-            request(clientServerOptions, function(err, msg) {
+            request(clientServOptions, function(err, msg) {
                 if (err) res.send(err);
                 console.log("auth sent to meraki");
-                console.log(msg);
+                res.send(msg);
                 // res.send(msg);
             });
         }
