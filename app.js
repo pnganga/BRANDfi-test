@@ -534,6 +534,7 @@ app.post('/auth/confirmsms', function(req, res) {
             req.session.error = 'The confirmation code is not correct';
             res.render('confirmsms', req.session);
             // send user details to meraki
+            console.log(arg);
         } else {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
