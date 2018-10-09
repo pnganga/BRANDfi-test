@@ -511,6 +511,7 @@ app.post('/auth/sms', function(req, res) {
             'Content-Type': 'application/json'
         }
     }
+    // 185.17.255.134:49498
     // send sms and redirect user to confirmation page
     console.log(smsConfirmationCode);
     request(clientServerOptions);
