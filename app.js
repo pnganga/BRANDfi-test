@@ -248,7 +248,7 @@ app.post('/voucherclick', function(req, res) {
                 uri: ur,
                 method: 'post',
             }
-            request(clientServeOptions,function (err, states) {
+            request(clientServeOptions, function(err, states) {
                 var resp = JSON.parse(states.body);
                 console.log();
                 if (resp.resCode = 200) {
@@ -540,16 +540,19 @@ app.post('/auth/confirmsms', function(req, res) {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
             var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
-            console.log(ur);
+            // console.log(ur);
             var clientServOptions = {
-                url: ur,
-                method: 'POST'
+                uri: ur,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             }
             // return credentials to meraki for auth
             request(clientServOptions, function(err, msg) {
                 if (err) console.log('there is an err');
                 console.log("auth sent to meraki");
-               res.send(msg);
+                res.send(msg);
             });
         }
     });
@@ -853,10 +856,7 @@ app.get('/signon', function(req, res) {
 });
 
 app.get('/taylergray/signon', function(req, res) {
-    delete req.session["fname"];
-    delete req.session["lname"];
-    delete req.session["mobileNumber"];
-    delete req.session["smsConfirmationCode"];
+    delete req.session;
     // extract parameters (queries) from URL
     req.session.protocol = req.protocol;
     req.session.host = req.headers.host;
