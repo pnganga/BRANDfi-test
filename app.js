@@ -537,7 +537,7 @@ app.post('/auth/confirmsms', function(req, res) {
         } else {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
-            var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
+            var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&continue_url=" + req.session.success_url;
             console.log(ur);
             var clientServOptions = {
                 uri: ur,
