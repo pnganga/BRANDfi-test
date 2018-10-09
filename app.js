@@ -549,7 +549,7 @@ app.post('/auth/confirmsms', function(req, res) {
             request(clientServOptions, function(msg) {
                 
                 console.log("auth sent to meraki");
-                res.send(msg);
+               
                 // res.send(msg);
             });
         }
