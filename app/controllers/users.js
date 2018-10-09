@@ -3,7 +3,7 @@ var db = require('../../db.js')
 exports.create = function(userName, macAddress,  pass) {
     var values = [userName, macAddress,'Cleartext-Password', ":=", pass];
 
-    db.get().query('INSERT INTO radcheck (username, macAdress, attribute, op, value) VALUES(?, ?, ?, ?, ?)', values, function(err, result) {
+    db.get().query('INSERT INTO radcheck (username, macAddress, attribute, op, value) VALUES(?, ?, ?, ?, ?)', values, function(err, result) {
         if (err) console.log(err);
  		console.log(result);
         
