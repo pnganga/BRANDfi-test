@@ -420,7 +420,6 @@ app.post('/auth/signon', function(req, res) {
     }
 
 
-    // send sms
     request(clientServerOptions, function(err, res) {
         var resp = JSON.parse(res.body);
         console.log(resp.status);
@@ -489,6 +488,8 @@ app.post('/auth/sms', function(req, res) {
     // generate confirmation code/password
     var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
     var mobileNumber = req.body.mobileNumber;
+    req.session.smsConfirmationCode = smsConfirmationCode;
+    req.session.mobileNumber = mobileNumber;
     // save the user to mysql
     users.create(mobileNumber, req.session.client_mac, smsConfirmationCode);
     // Prepare sms data
@@ -511,7 +512,7 @@ app.post('/auth/sms', function(req, res) {
         }
     }
     // send sms and redirect user to confirmation page
-    console.log(smsConfirmationCode)
+    console.log(smsConfirmationCode);
     request(clientServerOptions);
     res.redirect('/auth/confirmsms');
 
@@ -540,20 +541,18 @@ app.post('/auth/confirmsms', function(req, res) {
             var newUser = arg[0].username;
             var newPassword = arg[0].value;
             var ur = req.session.login_url + "?username=" + newUser + "&password=" + newPassword + "&success_url=" + req.session.success_url;
-            // console.log(ur);
-            var clientServOptions = {
-                url: ur,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
-            // return credentials to meraki for auth
-            request(clientServOptions, function(err, msg) {
-                if (err) console.log('there is an err');
-                console.log("auth sent to meraki");
-               res.send(msg);
-            });
+            console.log(ur);
+            // var clientServOptions = {
+            //     url: ur,
+            //     method: 'POST',
+                
+            // }
+            // // return credentials to meraki for auth
+            // request(clientServOptions, function(err, msg) {
+            //     if (err) console.log('there is an err');
+            //     console.log("auth sent to meraki");
+            //    res.send(msg);
+            // });
         }
     });
 });
