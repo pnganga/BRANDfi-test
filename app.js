@@ -546,8 +546,8 @@ app.post('/auth/confirmsms', function(req, res) {
                 method: 'POST'
             }
             // return credentials to meraki for auth
-            request(clientServOptions, function(msg) {
-                
+            request(clientServOptions, function(err, msg) {
+                if (err) console.log(there is an err );
                 console.log("auth sent to meraki");
                res.send(msg);
             });
