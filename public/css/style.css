@@ -451,3 +451,33 @@ Admin Dashboard styling
 .panel__basic-actions {
   position: initial;
 }
+
+/*###########################################
+Ankole css
+#################################################*/
+
+.ankole-input{
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  background:none;
+  color: white;
+}
+
+
+#ankole-input{
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  background:none;
+  color: white;
+
+}
+#ankole-input::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+}
+
+#disclaimer{
+  color: white;
+}

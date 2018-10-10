@@ -1,0 +1,84 @@
+<style>
+    @media only screen and (max-width: 600px) {
+
+    #img {
+        padding-left: 100px;
+    }
+    #disclaimer{
+        color: black;
+    }
+}
+::placeholder {
+    color: red;
+    opacity: 1; /* Firefox */
+}
+</style>
+<div>
+    <div class="row">
+        <div class=" row  text-center">
+            <div>
+                <div class="col-sm-5"></div>
+                <a class=" col-sm-4" href="#">
+                    <br>
+                    <img id="img" src="/img/logos/taylorgreyLogo.png" class="img-responsive" alt="">
+                </a>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <h1 class="text-center" style="font-family: 'Righteous', cursive; color: white; font-size: 2em;">Confirm mobile number</h1>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row text-center" style="margin-top: 0;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <p class="text-center" style="font-family: 'Bai Jamjuree', sans-serif; color: white;">Enter PIN received on your phone to continue</p>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row img-responsive">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center" style="">
+                <form action="{{login_url}}" id="form" method="post" class="form col-md-12 center-block">
+                    <div class="form-group">
+                        <input type="hidden" name="success_url" value="{{success_url}}">
+                        <input type="hidden" name="username" value="{{mobileNumber}}">
+                        <span id="span" style="color: white;"></span>
+                        <input id="ankole-input" class=" input-lg text-center" name="password" placeholder="Enter PIN" required><br>
+                        <i class="icon-user icon-large"></i>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success btn-lg">Confirm</button>
+                    </div>
+                    <div class="form-group">
+                        <p id="disclaimer">By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; ">terms of service</a></span></p>
+                    </div>
+                    <div class="form-group">
+                        <p id="disclaimer">Powered by <span><a href="/terms" style="color: #26a69a;">BRANDfi</a></span></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div><br>
+</div>
+<script>
+$("#form").submit(function(event) {
+    var c = $("#ankole-input").val();
+    if (c === "{{smsConfirmationCode}}") {
+        return;
+    } else {
+        $("#span").text("You have entered a wrong code").show();
+    }
+    event.preventDefault();
+});
+$(function() {
+    $('body').css({ "background-image": "url('/img/bgs/ankole.jpg')", "background-color": "white", "color": "white", "background-repeat": "no-repeat", "background-size": "cover" });
+});
+</script>
