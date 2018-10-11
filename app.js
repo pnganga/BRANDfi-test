@@ -542,7 +542,7 @@ app.post('/auth/ankole/sms', function(req, res) {
     // Prepare sms data
     var url = 'http://pay.brandfi.co.ke:8301/sms/send';
     var clientId = '1';
-    var message = "The confirmation to verify your phone number on Tayler Grey Wifi is " + smsConfirmationCode;
+    var message = "Ankole grill: " + smsConfirmationCode + " is your WiFi accesss pin.";
 
     var postData = {
         clientId: clientId,
