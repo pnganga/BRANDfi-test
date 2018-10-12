@@ -493,7 +493,7 @@ router.route('/click')
         console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
         // render login page using handlebars template and send in session data
-        res.render('click-through', req.session);
+        res.render('click-voucher', req.session);
 
     });
 
