@@ -1,61 +1,109 @@
 <style>
-    #break {
-    display: none;
-}
-
-@media only screen and (max-width: 700px) {
-
-    #break {
-        display: unset;
+    @media only screen and (max-width: 600px) {
+    #errdiv{
+    	background-color: hsla(66, 71%, 95%, 1);
     }
+    #verr{
+    	color: red !important;
+    }
+    #img {
+        padding-left: 50px;
+    }
+    #disclaimer{
+        color: black;
+    }
+    #text{
+    	color: #428e92 !important;
+    	font-weight: bolder;
+    }
+    body{
+    	background-image: url('/img/bgs/java2.jpg') !important;
+    }
+    
+	#java_welcome{
+	font-family: 'Francois One', sans-serif; 
+	color: black; 
+	font-size: 2em;
+	}
+}
+#verr{
+    	color: white;
+    }
+#java_welcome{
+	font-family: 'Francois One', sans-serif; 
+	color: white; 
+	font-size: 2em;
+}
+::placeholder {
+    color: red;
+    opacity: 1; /* Firefox */
+}
+#text{
+	font-family: 'Bai Jamjuree', sans-serif; 
+	color: white; 
+	font-weight: bold;
 }
 </style>
-<div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
-        <img style="padding-left: 90px;" src="/img/Java-House.jpg" alt="" class="img-responsive">
-        <br>
-    </div>
-    <div class="col-sm-4"></div>
-</div>
-<div class="col-sm-3"></div>
-<div class="col-sm-6" class="img-responsive">
-    <div id="content" style="background-color: hsla(0, 100%, 100%, 0.6);">
-        <br>
-        <h6 class="text-center" style="font-weight: bold;">Jambo, enjoy our free complimetary wifi. To continue voucher code below</h6>
-        <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
-            <br>
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div  class="row col-sm-6">
-                    <form action="/voucherclick" method="post">
-                        {{#if voucherErr}}
-                        <p class="text-danger">{{voucherErr}}</p>
-                        {{/if}}
-                        <div class="form-group" style="padding-right: 30px; padding-left: 30px;">
-                            <input class="form-control input-lg" type="text" name="code" placeholder="Enter voucher code" validate required>
-                            <i class="icon-user icon-large"></i>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger btn-lg">Connect</button>
-                        </div>
-                    </form>
-                </div>
+<div>
+    <div class="row">
+        <div class=" row  text-center">
+            <div>
+                <div class="col-sm-5"></div>
+                <a class=" col-sm-4" href="#">
+                    <br>
+                    <img id="img" src="/img/logo.svg" class="img-responsive" alt="">
+                </a>
                 <div class="col-sm-3"></div>
             </div>
-            <div class="form-group">
-                <p>By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; text-decoration: none;">terms of service</a></span></p>
-            </div>
-            <div class="row">
-                <p>Powered by <a href="http://brandfi.co.ke" target="_blank" style="text-decoration: none;  color: #26a69a;">BRAND-fi</a></p>
-            </div>
-            <br>
         </div>
     </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <h1 class="text-center" id="java_welcome">Welcome to Java House</h1>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row text-center" style="margin-top: 0;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <p class="text-center" id="text">We are happy to provide you with free internet access. Enter voucher code below</p>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row img-responsive">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center" style="">
+                <form action="/voucherclick" method="post" class="form col-md-12 center-block">
+                    {{#if voucherErr}}
+                    <div id="errdiv">
+                    	<p id="verr">{{voucherErr}}</p>
+                    </div>
+                    
+                    <style>#text{display: none;}</style>
+                    {{/if}}
+                    <div class="form-group">
+                        <input id="java-input" class=" input-lg text-center" type="text" name="code" placeholder="Voucher Code" validate required><br>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success btn-lg">Connect</button>
+                    </div>
+                    <div class="form-group" style="background-color: hsla(66, 71%, 95%, 1);">
+                        <p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold; color: #002171;">By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; ">terms of service</a></span></p>
+                    </div>
+                    <div class="form-group">
+                        <p id="disclaimer">Powered by <span><a href="/terms" style="color: #26a69a;">BRANDfi</a></span></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div><br>
 </div>
-<div class="col-sm-3 "></div>
 <script>
 $(function() {
-    $('body').css({ "background-image": "url('/img/coffee.jpeg')", "background-color": "white", "background-repeat": "no-repeat", "background-size": "cover" });
+    $('body').css({ "background-image": "url('/img/bgs/java.jpg')", "background-color": "white", "color": "white", "background-repeat": "no-repeat", "background-size": "cover" });
 });
 </script>

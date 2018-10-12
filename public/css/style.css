@@ -478,6 +478,35 @@ Ankole css
     opacity: 1; /* Firefox */
 }
 
+
+############################################
+.java-input{
+  border-bottom-style: solid;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: white;
+  background:none;
+  color: white;
+}
+
+
+#java-input{
+  box-shadow: 1px 1px 1px 1px;
+  border-bottom-style: solid;
+  border-top-style: none;
+  border-left-style: none;
+  border-left-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: white;
+  background: hsla(66, 71%, 95%, 1);
+  color: brown;
+
+}
+#java-input::placeholder {
+    color: black;
+    opacity: 1; /* Firefox */
+}
+
 #disclaimer{
   color: white;
 }

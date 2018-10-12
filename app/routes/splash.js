@@ -23,7 +23,19 @@ router.route('/auth/wifi')
         console.log("Session data at login page = " + util.inspect(req.session, false, null));
 
         // *** redirect user to Meraki to process authentication, then send client to success_url
-        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.success_url });
+        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + "req.session.success_url" });
+        res.end();
+    });
+
+router.route('/auth/java')
+    .get(function(req, res) {
+        req.session.splashlogin_time = new Date().toString();
+
+        // debug - monitor : display all session data on console
+        console.log("Session data at login page = " + util.inspect(req.session, false, null));
+
+        // *** redirect user to Meraki to process authentication, then send client to success_url
+        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + "https://www.javahouseafrica.com" });
         res.end();
     });
 
@@ -446,17 +458,19 @@ router.route('/voucherclick')
                 res.send(err);
             }
             var resp = JSON.parse(status.body);
+           
             if (resp.resCode == 200 && resp.message == 'success') {
+            	// mark voucher as used
                 var ur = 'http://178.62.86.105/update' + '?code=' + code;
                 var clientServeOptions = {
                     uri: ur,
                     method: 'post',
                 }
                 request(clientServeOptions, function(err, states) {
-                    var resp = JSON.parse(states.body);
-                    console.log();
-                    if (resp.resCode = 200) {
-                        res.redirect('/auth/wifi');
+                    var re = JSON.parse(states.body);
+                     
+                    if (re.resCode == 200) {
+                        res.redirect('/auth/java');
                     }
                 })
             } else if (resp.resCode == 401 && resp.message == 'fail') {
@@ -465,6 +479,35 @@ router.route('/voucherclick')
             }
         });
 
+
+    });
+
+// serving the static click-through HTML splash page for voucher
+router.route('/java-voucher')
+    .get(function(req, res) {
+        delete req.session.voucherErr;
+        // extract parameters (queries) from URL
+        req.session.protocol = req.protocol;
+        req.session.host = req.headers.host;
+        req.session.base_grant_url = req.query.base_grant_url;
+        req.session.user_continue_url = req.query.user_continue_url;
+        req.session.node_mac = req.query.node_mac;
+        req.session.client_ip = req.query.client_ip;
+        req.session.client_mac = req.query.client_mac;
+        req.session.splashclick_time = new Date().toString();
+        req.session.logout_url_continue = false; // no support for logout url with click through method
+
+        // success page options instead of continuing on to intended url
+        req.session.continue_url = req.query.user_continue_url;
+        req.session.success_url = req.session.protocol + '://' + req.session.host + "/successClick";
+        // req.session.success_url = req.query.user_continue_url;
+
+
+        // display session data for debugging purposes
+        console.log("Session data at click page = " + util.inspect(req.session, false, null));
+
+        // render login page using handlebars template and send in session data
+        res.render('click-voucher', req.session);
 
     });
 
@@ -493,9 +536,10 @@ router.route('/click')
         console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
         // render login page using handlebars template and send in session data
-        res.render('click-voucher', req.session);
+        res.render('click-through', req.session);
 
     });
+
 
 // success for click through page(JAVA VOUCHER)
 
