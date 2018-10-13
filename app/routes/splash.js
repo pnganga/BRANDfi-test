@@ -378,7 +378,7 @@ router.route('/auth/ankole/sms')
                 var mobileNumber = req.body.mobileNumber;
                 req.session.smsConfirmationCode = smsConfirmationCode;
                 req.session.mobileNumber = mobileNumber;
-                var uName = mobileNumber + smsConfirmationCode;
+                var uName = mobileNumber + "-" + smsConfirmationCode;
                 req.session.uName = uName;
                 // Create ankole user and save to db
                 users.createAnkoleUser(uName, mac, mobileNumber, org, smsConfirmationCode);
@@ -386,7 +386,7 @@ router.route('/auth/ankole/sms')
                 // Send OTP PIN to user via sms
 
                 var url = 'http://pay.brandfi.co.ke:8301/sms/send';
-                var clientId = '1';
+                var clientId = '2';
                 var message = "Ankole grill: " + smsConfirmationCode + " is your WiFi access pin.";
 
                 var postData = {
@@ -420,7 +420,7 @@ router.route('/auth/ankole/sms')
                 // Send OTP PIN to user via sms
 
                 var url = 'http://pay.brandfi.co.ke:8301/sms/send';
-                var clientId = '1';
+                var clientId = '2';
                 var message = "Ankole grill: " + value + " is your WiFi access pin.";
 
                 var postData = {
@@ -864,7 +864,7 @@ router.route('/auth/java/sms')
                 var mobileNumber = req.body.mobileNumber;
                 req.session.smsConfirmationCode = smsConfirmationCode;
                 req.session.mobileNumber = mobileNumber;
-                var uName = mobileNumber + smsConfirmationCode;
+                var uName = mobileNumber + "-" + smsConfirmationCode;
                 req.session.uName = uName;
                 // Create ankole user and save to db
                 users.createJavaUser(uName, mac, mobileNumber, org, smsConfirmationCode);
