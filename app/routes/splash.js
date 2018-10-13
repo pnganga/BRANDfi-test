@@ -822,123 +822,123 @@ router.route('/java-confirm-otp')
 
 
 // ###################################################
-// JAVA SMS OTP SPALSH PAGE
+// JAVA SMS OTP SplashSH PAGE
 // ######################################################
 
-// Serve welcome page
-router.route('/java-sms')
-    .get(function(req, res) {
-        // clear mobileNumber and code in sesssion if it exists
-        delete req.session["mobileNumber"];
-        delete req.session["smsConfirmationCode"];
-        // extract parameters (queries) from URL
-        req.session.protocol = req.protocol;
-        req.session.host = req.headers.host;
-        req.session.login_url = req.query.login_url;
-        req.session.continue_url = req.query.continue_url;
-        req.session.ap_name = req.query.ap_name;
-        req.session.ap_tags = req.query.ap_tags;
-        req.session.client_ip = req.query.client_ip;
-        req.session.client_mac = req.query.client_mac;
-        req.session.success_url = req.protocol + '://' + req.session.host + "/ankoleClick";
-        req.session.signon_time = new Date();
+// // Serve welcome page
+// router.route('/java-sms')
+//     .get(function(req, res) {
+//         // clear mobileNumber and code in sesssion if it exists
+//         delete req.session["mobileNumber"];
+//         delete req.session["smsConfirmationCode"];
+//         // extract parameters (queries) from URL
+//         req.session.protocol = req.protocol;
+//         req.session.host = req.headers.host;
+//         req.session.login_url = req.query.login_url;
+//         req.session.continue_url = req.query.continue_url;
+//         req.session.ap_name = req.query.ap_name;
+//         req.session.ap_tags = req.query.ap_tags;
+//         req.session.client_ip = req.query.client_ip;
+//         req.session.client_mac = req.query.client_mac;
+//         req.session.success_url = req.protocol + '://' + req.session.host + "/ankoleClick";
+//         req.session.signon_time = new Date();
 
-        // display session data for debugging purposes
-        console.log("Session data at click page = " + util.inspect(req.session, false, null));
+//         // display session data for debugging purposes
+//         console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
-        res.render('java-sms', req.session);
-    });
+//         res.render('java-sms', req.session);
+//     });
 
-// authenticate Ankole sms user
-router.route('/auth/java/sms')
-    .post(function(req, res) {
-        // check if user has an account
-        var mac = req.session.client_mac;
-        var org = "JavaSms";
-        users.getOneByMacSsid(mac, org, function(err, javaUser) {
-            if (err) res.send(err);
+// // authenticate Ankole sms user
+// router.route('/auth/java/sms')
+//     .post(function(req, res) {
+//         // check if user has an account
+//         var mac = req.session.client_mac;
+//         var org = "JavaSms";
+//         users.getOneByMacSsid(mac, org, function(err, javaUser) {
+//             if (err) res.send(err);
 
-            if (javaUser.length == 0) {
-                // If user does not exist, first create a password/code
-                var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
-                var mobileNumber = req.body.mobileNumber;
-                req.session.smsConfirmationCode = smsConfirmationCode;
-                req.session.mobileNumber = mobileNumber;
-                var uName = mobileNumber + mac;
-                req.session.uName = uName;
-                // Create ankole user and save to db
-                users.createJavaUser(uName, mac, mobileNumber, org, smsConfirmationCode);
+//             if (javaUser.length == 0) {
+//                 // If user does not exist, first create a password/code
+//                 var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
+//                 var mobileNumber = req.body.mobileNumber;
+//                 req.session.smsConfirmationCode = smsConfirmationCode;
+//                 req.session.mobileNumber = mobileNumber;
+//                 var uName = mobileNumber + mac;
+//                 req.session.uName = uName;
+//                 // Create ankole user and save to db
+//                 users.createJavaUser(uName, mac, mobileNumber, org, smsConfirmationCode);
 
-                // Send OTP PIN to user via sms
+//                 // Send OTP PIN to user via sms
 
-                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
-                var clientId = '3';
-                var message = "Java house: " + smsConfirmationCode + " is your WiFi access pin.";
+//                 var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+//                 var clientId = '3';
+//                 var message = "Java house: " + smsConfirmationCode + " is your WiFi access pin.";
 
-                var postData = {
-                    clientId: clientId,
-                    message: message,
-                    recepients: mobileNumber
-                }
+//                 var postData = {
+//                     clientId: clientId,
+//                     message: message,
+//                     recepients: mobileNumber
+//                 }
 
-                var clientServerOptions = {
-                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
-                    body: JSON.stringify(postData),
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+//                 var clientServerOptions = {
+//                     uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+//                     body: JSON.stringify(postData),
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     }
+//                 }
 
-                // send sms and redirect user to confirmation page
+//                 // send sms and redirect user to confirmation page
 
-                request(clientServerOptions);
-                res.redirect('/auth/java/confirmsms');
+//                 request(clientServerOptions);
+//                 res.redirect('/auth/java/confirmsms');
 
-            } else if (javaUser.length > 0) {
-                // if user already exists, update password and send sms
-                var value = Math.floor(1000 + Math.random() * 9000).toString();
-                var uName = javaUser[0].username;
-                req.session.smsConfirmationCode = value;
-                req.session.uName = uName;
-                users.updateJavaSmsUser(value, uName);
+//             } else if (javaUser.length > 0) {
+//                 // if user already exists, update password and send sms
+//                 var value = Math.floor(1000 + Math.random() * 9000).toString();
+//                 var uName = javaUser[0].username;
+//                 req.session.smsConfirmationCode = value;
+//                 req.session.uName = uName;
+//                 users.updateJavaSmsUser(value, uName);
 
-                // Send OTP PIN to user via sms
+//                 // Send OTP PIN to user via sms
 
-                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
-                var clientId = '3';
-                var message = "Java House: " + value + " is your WiFi access pin.";
+//                 var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+//                 var clientId = '3';
+//                 var message = "Java House: " + value + " is your WiFi access pin.";
 
-                var postData = {
-                    clientId: clientId,
-                    message: message,
-                    recepients: javaUser[0].mobileNumber
-                }
+//                 var postData = {
+//                     clientId: clientId,
+//                     message: message,
+//                     recepients: javaUser[0].mobileNumber
+//                 }
 
-                var clientServerOptions = {
-                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
-                    body: JSON.stringify(postData),
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+//                 var clientServerOptions = {
+//                     uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+//                     body: JSON.stringify(postData),
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     }
+//                 }
 
-                // send sms and redirect user to confirmation page
+//                 // send sms and redirect user to confirmation page
 
-                request(clientServerOptions);
-                res.redirect('/auth/java/confirmsms');
+//                 request(clientServerOptions);
+//                 res.redirect('/auth/java/confirmsms');
 
-            }
-        })
+//             }
+//         })
 
-    })
+//     })
 
-// Render page for Ankole sms confirmation
-router.route('/auth/java/confirmsms')
-    .get(function(req, res) {
-        res.render('java-confirm-otp.hbs', req.session)
-    });
+// // Render page for Ankole sms confirmation
+// router.route('/auth/java/confirmsms')
+//     .get(function(req, res) {
+//         res.render('java-confirm-sms.hbs', req.session)
+//     });
 
 
 
