@@ -378,7 +378,7 @@ router.route('/auth/ankole/sms')
                 var mobileNumber = req.body.mobileNumber;
                 req.session.smsConfirmationCode = smsConfirmationCode;
                 req.session.mobileNumber = mobileNumber;
-                var uName = mobileNumber + mac;
+                var uName = mobileNumber + smsConfirmationCode;
                 req.session.uName = uName;
                 // Create ankole user and save to db
                 users.createAnkoleUser(uName, mac, mobileNumber, org, smsConfirmationCode);
@@ -864,7 +864,7 @@ router.route('/auth/java/sms')
                 var mobileNumber = req.body.mobileNumber;
                 req.session.smsConfirmationCode = smsConfirmationCode;
                 req.session.mobileNumber = mobileNumber;
-                var uName = mobileNumber + mac;
+                var uName = mobileNumber + smsConfirmationCode;
                 req.session.uName = uName;
                 // Create ankole user and save to db
                 users.createJavaUser(uName, mac, mobileNumber, org, smsConfirmationCode);
