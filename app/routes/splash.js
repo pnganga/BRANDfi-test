@@ -865,7 +865,7 @@ router.route('/auth/java/sms')
                 req.session.smsConfirmationCode = smsConfirmationCode;
                 req.session.mobileNumber = mobileNumber;
                 var uName = mobileNumber + "-" + smsConfirmationCode;
-                req.session.uName = uName;
+                req.session.userName = uName;
                 // Create ankole user and save to db
                 users.createJavaUser(uName, mac, mobileNumber, org, smsConfirmationCode);
 
