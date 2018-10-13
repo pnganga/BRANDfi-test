@@ -29,7 +29,34 @@ exports.updateJavaUser = function(code, userName) {
     })
 }
 
+exports.updateJavaSmsUser = function(code, userName) {
+    var values = [code, userName, "JavaSms"];
+    db.get().query('UPDATE radcheck SET value= ? WHERE username= ? AND ssid= ?', values, function(err, result) {
+        if (err) console.log(err);
+ 		console.log(result + "User updated");
+        
+    })
+}
 
+exports.createAnkoleUser = function(userName, macAddress, mobileNumber, ssid,  pass) {
+    var values = [userName, macAddress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
+
+    db.get().query('INSERT INTO radcheck (username, macAddress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
+        if (err) console.log(err);
+ 		console.log(result);
+ 		
+        
+    })
+}
+
+exports.updateAnkoleUser = function(code, userName) {
+    var values = [code, userName, "AnkoleSms"];
+    db.get().query('UPDATE radcheck SET value= ? WHERE username= ? AND ssid= ?', values, function(err, result) {
+        if (err) console.log(err);
+ 		console.log(result + "User updated");
+        
+    })
+}
 
 exports.getAll = function(done) {
     db.get().query('SELECT * FROM comments', function(err, rows) {
