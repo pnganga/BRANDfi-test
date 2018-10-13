@@ -1,12 +1,12 @@
 <style>
-/*#############################################################################*/
+    /*#############################################################################*/
 /*Mobile css(SMALL-devices)*/
     @media only screen and (max-width: 600px) {
     #errdiv{
-    	background-color: hsla(66, 71%, 95%, 1);
+        background-color: hsla(66, 71%, 95%, 1);
     }
     #verr{
-    	color: red !important;
+        color: red !important;
     }
     #img {
         padding-left: 50px;
@@ -16,44 +16,44 @@
         /*background-color: hsla(0, 100%, 10%, 0.3);*/
     }
     #text{
-    	color: #F9FBE7 !important;
-    	font-weight: bolder;
+        color: #F9FBE7 !important;
+        font-weight: bolder;
     }
     body{
-    	background-image: url('/img/bgs/java2.jpg') !important;
+        background-image: url('/img/bgs/java2.jpg') !important;
     }
     
-	#java_welcome{
-	font-family: 'Francois One', sans-serif; 
-	color: black; 
-	font-size: 2em;
-	}
+    #java_welcome{
+    font-family: 'Francois One', sans-serif; 
+    color: black; 
+    font-size: 2em;
+    }
 }
 #cont{
-	background-color: hsla(0, 10%, 10%, 0.1);
+    background-color: hsla(0, 10%, 10%, 0.1);
 }
 
 /*################################################################################################*/
 #verr{
-    	color: white;
+        color: white;
     }
 #java_welcome{
-	font-family: 'Francois One', sans-serif; 
-	color: white; 
-	font-size: 2em;
+    font-family: 'Francois One', sans-serif; 
+    color: white; 
+    font-size: 2em;
 }
 ::placeholder {
     color: red;
     opacity: 1; /* Firefox */
 }
 #text{
-	font-family: 'Bai Jamjuree', sans-serif; 
-	color: white; 
-	font-weight: bold;
+    font-family: 'Bai Jamjuree', sans-serif; 
+    color: white; 
+    font-weight: bold;
 }
 #cont{
-	background-color: hsla(0, 100%, 100%, 0.4);
-	box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);
+    background-color: hsla(0, 100%, 100%, 0.4);
+    box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);
 }
 </style>
 <div id="cont">
@@ -88,21 +88,23 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             <div class="text-center" style="">
-                <form action="/java-voucher" method="post" class="form col-md-12 center-block">
+                <form action="/java-sms-voucher" method="post" class="form col-md-12 center-block">
                     {{#if voucherErr}}
                     <div id="errdiv">
-                    	<p id="verr">{{voucherErr}}</p>
+                        <p id="verr">{{voucherErr}}</p>
                     </div>
-                    
                     <style>#text{display: none;}</style>
                     {{/if}}
                     <div class="form-group">
                         <input id="java-input" class="input-lg" type="text" name="code" placeholder="Voucher Code" validate required><br>
                     </div>
                     <div class="form-group">
+                        <input id="java-input" class="input-lg" type="text" name="mobilenumber" placeholder="Mobile number" validate required><br>
+                    </div>
+                    <div class="form-group">
                         <button class="btn btn-success btn-lg">Connect</button>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group">
                         <p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold;">By clicking connect above, you agree to our <span><a href="/terms" style="color: #26a69a; ">terms of service</a></span></p>
                     </div>
                     <div class="form-group">

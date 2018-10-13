@@ -10,6 +10,27 @@ exports.create = function(userName, macAddress,  pass) {
     })
 }
 
+exports.createJavaUser = function(userName, macAddress, mobileNumber, ssid,  pass) {
+    var values = [userName, macAddress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
+
+    db.get().query('INSERT INTO radcheck (username, macAddress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
+        if (err) console.log(err);
+ 		console.log(result);
+ 		
+        
+    })
+}
+exports.updateJavaUser = function(code, userName) {
+    var values = [code, userName];
+    db.get().query('UPDATE radcheck SET value= ? WHERE username= ?', values, function(err, result) {
+        if (err) console.log(err);
+ 		console.log(result + "User updated");
+        
+    })
+}
+
+
+
 exports.getAll = function(done) {
     db.get().query('SELECT * FROM comments', function(err, rows) {
         if (err) console.log(err);
@@ -20,6 +41,13 @@ exports.getAll = function(done) {
 exports.getOne = function(code, done) {
 	var value = [code]
     db.get().query('SELECT * FROM radcheck WHERE value = ?', value, function(err, row) {
+        if (err) console.log(err);
+        done(null, row)
+    });
+}
+exports.getOneByMacSsid = function(mac, ssid, done) {
+	var values = [mac, ssid]
+    db.get().query('SELECT * FROM radcheck WHERE macAddress = ? AND ssid = ?', values, function(err, row) {
         if (err) console.log(err);
         done(null, row)
     });

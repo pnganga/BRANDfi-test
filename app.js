@@ -191,9 +191,6 @@ var expressMongoRest = require('express-mongo-rest');
 app.use('/api/v1', expressMongoRest('mongodb://localhost:27017/excap'));
 
 
-
-
-
 var splashRoutes = require('./app/routes/splash');
 app.use(splashRoutes);
 

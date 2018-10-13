@@ -443,45 +443,6 @@ router.route('/logout')
 // ###################################################################
 // voucher click logic for Java House
 // #####################################################################
-router.route('/voucherclick')
-    .post(function(req, res) {
-        var code = req.body.code;
-        console.log(code);
-        var url = 'http://178.62.86.105/validate' + '?code=' + code;
-        var clientServerOptions = {
-            uri: url,
-            method: 'post',
-        }
-        // send code
-        request(clientServerOptions, function(err, status) {
-            if (err) {
-                res.send(err);
-            }
-            var resp = JSON.parse(status.body);
-           
-            if (resp.resCode == 200 && resp.message == 'success') {
-            	// mark voucher as used
-                var ur = 'http://178.62.86.105/update' + '?code=' + code;
-                var clientServeOptions = {
-                    uri: ur,
-                    method: 'post',
-                }
-                request(clientServeOptions, function(err, states) {
-                    var re = JSON.parse(states.body);
-                     
-                    if (re.resCode == 200) {
-                        res.redirect('/auth/java');
-                    }
-                })
-            } else if (resp.resCode == 401 && resp.message == 'fail') {
-                req.session.voucherErr = 'The code you entered is invalid';
-                res.render('click-voucher', req.session);
-            }
-        });
-
-
-    });
-
 // serving the static click-through HTML splash page for voucher
 router.route('/java-voucher')
     .get(function(req, res) {
@@ -509,9 +470,50 @@ router.route('/java-voucher')
         // render login page using handlebars template and send in session data
         res.render('click-voucher', req.session);
 
+    })
+    .post(function(req, res) {
+        var code = req.body.code;
+
+        var url = 'http://178.62.86.105/validate' + '?code=' + code;
+        var clientServerOptions = {
+            uri: url,
+            method: 'post',
+        }
+        // send code
+        request(clientServerOptions, function(err, status) {
+            if (err) {
+                res.send(err);
+            }
+            var resp = JSON.parse(status.body);
+
+            if (resp.resCode == 200 && resp.message == 'success') {
+                // mark voucher as used
+                var ur = 'http://178.62.86.105/update' + '?code=' + code;
+                var clientServeOptions = {
+                    uri: ur,
+                    method: 'post',
+                }
+                request(clientServeOptions, function(err, states) {
+                    var re = JSON.parse(states.body);
+
+                    if (re.resCode == 200) {
+                        res.redirect('/auth/java');
+                    }
+                })
+            } else if (resp.resCode == 401 && resp.message == 'fail') {
+                req.session.voucherErr = 'The code you entered is invalid';
+                res.render('click-voucher', req.session);
+            }
+        });
+
+
     });
 
-// serving the static click-through HTML splash page for voucher
+
+// ##################################################################################################################
+// Social Login splash(Java Demo)
+// ####################################################################################################################
+// serving the static click-through HTML splash page for social
 router.route('/click')
     .get(function(req, res) {
         delete req.session.voucherErr;
@@ -635,6 +637,139 @@ router.route('/taylorClick')
         // render sucess page using handlebars template and send in session data
         res.render('successTaylor', req.session);
     });
+// ##############################################################################################################
+// Java Sms + Voucher Splash Page
+// ################################################################################################################
+// signon page
+router.route('/java-sms-voucher')
+    .get(function(req, res) {
+        delete req.session.voucherErr;
+        delete req.session.smsConfirmationCode;
+        delete req.session.mobileNumber;
+        // extract parameters (queries) from URL
+        req.session.protocol = req.protocol;
+        req.session.host = req.headers.host;
+        req.session.login_url = req.query.login_url;
+        req.session.continue_url = req.query.continue_url;
+        req.session.ap_name = req.query.ap_name;
+        req.session.ap_tags = req.query.ap_tags;
+        req.session.client_ip = req.query.client_ip;
+        req.session.client_mac = req.query.client_mac;
+        req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+        req.session.signon_time = new Date();
+        // display data for debugging purposes
+        console.log("Session data at signon page = " + util.inspect(req.session, false, null));
 
+        res.render('sms-voucher', req.session);
+    })
+    .post(function(req, res) {
+        // save form fields as variables
+        var voucherCode = req.body.code;
+        var mobileNumber = req.body.mobilenumber;
+
+        // Check if voucher is valid
+        var url = 'http://178.62.86.105/validate' + '?code=' + voucherCode;
+        var clientServerOptions = {
+            uri: url,
+            method: 'post',
+        }
+        // send API request to check code validity
+        request(clientServerOptions, function(err, status) {
+            if (err) {
+                res.send(err);
+            }
+            var resp = JSON.parse(status.body);
+            // if code is valid
+            if (resp.resCode == 200 && resp.message == 'success') {
+                // mark voucher as used
+                var ur = 'http://178.62.86.105/update' + '?code=' + voucherCode;
+                var clientServeOptions = {
+                    uri: ur,
+                    method: 'post',
+                }
+                request(clientServeOptions, function(err, states) {
+                    var re = JSON.parse(states.body);
+
+                    if (re.resCode == 200) {
+                        // check if user has an account
+                        var mac = req.session.client_mac;
+                        var org = "javaSmsVoucher";
+                        users.getOneByMacSsid(mac, org, function(err, javaUser) {
+                            if (err) res.send(err);
+                            // res.send(javaUser)
+                            if (javaUser.length == 0) {
+                                // generate confirmation code/password
+                                var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
+                                req.session.smsConfirmationCode = smsConfirmationCode;
+                                req.session.mobileNumber = mobileNumber;
+                                var userName = mobileNumber + req.session.client_mac;
+                                req.session.userName = userName;
+
+                                // save the user to mysql
+                                users.createJavaUser(userName, req.session.client_mac, mobileNumber, org, smsConfirmationCode);
+                                // Prepare sms data
+                                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+                                var clientId = '3';
+                                var message = "JAVA HOUSE: " + smsConfirmationCode + " is your WIFI access pin";
+
+                                var postData = {
+                                    clientId: clientId,
+                                    message: message,
+                                    recepients: mobileNumber
+                                }
+
+                                var clientServerOptions = {
+                                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+                                    body: JSON.stringify(postData),
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                }
+                                request(clientServerOptions);
+                                res.redirect("java-confirm-otp");
+                            } else if (javaUser.length > 0) {
+                                var value = Math.floor(1000 + Math.random() * 9000).toString();
+                                var userN = javaUser[0].username;
+                                req.session.smsConfirmationCode = value;
+                                req.session.userName = userN;
+                                users.updateJavaUser(value, userN)
+                                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+                                var clientId = '3';
+                                var message = "JAVA HOUSE: " + value + " is your WIFI access pin";
+
+                                var postData = {
+                                    clientId: clientId,
+                                    message: message,
+                                    recepients: mobileNumber
+                                }
+
+                                var clientServerOptions = {
+                                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+                                    body: JSON.stringify(postData),
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                }
+                                request(clientServerOptions);
+                                res.redirect('java-confirm-otp');
+                            }
+
+                        })
+                    }
+                })
+            } else if (resp.resCode == 401 && resp.message == 'fail') {
+                req.session.voucherErr = 'The code you entered is invalid';
+                res.render('sms-voucher', req.session);
+            }
+        })
+
+    });
+router.route('/java-confirm-otp')
+	.get(function (req, res) {
+		console.log(req.session);
+		res.render('java-confirm-otp', req.session)
+	})
 
 module.exports = router;

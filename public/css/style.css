@@ -283,14 +283,6 @@ Admin Dashboard styling
 /*#########################################################################################################################*/
 
 
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
-    /*html, body, #wrapper, #page-wrapper {height: 100%; overflow: hidden;}*/
-}
-
 #wrapper {
     padding-left: 0;    
 }
@@ -510,3 +502,8 @@ Ankole css
 #disclaimer{
   color: white;
 }
+
+/*################################################################################################################*/
+/*Java Css*/
+/*#########################################################################################################################*/
+
