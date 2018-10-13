@@ -750,7 +750,7 @@ router.route('/java-sms-voucher')
                                 var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
                                 req.session.smsConfirmationCode = smsConfirmationCode;
                                 req.session.mobileNumber = mobileNumber;
-                                var userName = mobileNumber + smsConfirmationCode;
+                                var userName = mobileNumber + "-" + smsConfirmationCode;
                                 req.session.userName = userName;
 
                                 // save the user to mysql
