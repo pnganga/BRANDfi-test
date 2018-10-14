@@ -13,9 +13,9 @@ var clients = require('../controllers/clients');
 // #############
 // terms of service page
 // #############
-router.route('/terms')
+router.route('/termsJava')
     .get(function(req, res) {
-        res.render('terms', req.session);
+        res.render('termsJava', req.session);
     });
 
 
