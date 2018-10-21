@@ -1,64 +1,515 @@
-<br>
-<div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-10">
-        <!-- <br> -->
-        <div>
-            <b class="" style="color: #26a69a;">Brand-fi Beta</b>
+<style>
+    input[type="text"],
+input[type="email"],
+input[type="date"],
+select.form-control {
+    height: 50px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #f8f8f8;
+    border: 3px solid #ddd;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50px;
+    color: #888;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+}
+
+input[type="file"] {
+    height: 35px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: bottom;
+    background: #f8f8f8;
+    border: 3px solid #ddd;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 30px;
+    color: #888;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+}
+
+input[type=radio] {
+    margin-top: 8px !important;
+}
+
+textarea,
+textarea.form-control {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 30px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+textarea.form-control:focus {
+    outline: 0;
+    background: #fff;
+    border: 3px solid #ccc;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+input[type="text"]:-moz-placeholder,
+input[type="password"]:-moz-placeholder,
+textarea:-moz-placeholder,
+textarea.form-control:-moz-placeholder {
+    color: #888;
+}
+
+input[type="text"]:-ms-input-placeholder,
+input[type="password"]:-ms-input-placeholder,
+textarea:-ms-input-placeholder,
+textarea.form-control:-ms-input-placeholder {
+    color: #888;
+}
+
+input[type="text"]::-webkit-input-placeholder,
+input[type="password"]::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+textarea.form-control::-webkit-input-placeholder {
+    color: #888;
+}
+
+button.btn {
+    height: 50px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #26A69A;
+    ;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50px;
+    color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    text-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+}
+
+button.btn:hover {
+    opacity: 0.6;
+    color: #fff;
+}
+
+button.btn:active {
+    outline: 0;
+    opacity: 0.6;
+    color: #fff;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+button.btn:focus {
+    outline: 0;
+    opacity: 0.6;
+    background: #26A69A;
+    ;
+    color: #fff;
+}
+
+button.btn:active:focus,
+button.btn.active:focus {
+    outline: 0;
+    opacity: 0.6;
+    background: #26A69A;
+    ;
+    color: #fff;
+}
+
+
+/*style.css**/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #888;
+    line-height: 30px;
+    text-align: center;
+}
+
+strong {
+    font-weight: 500;
+}
+
+a,
+a:hover,
+a:focus {
+    color: #26A69A;
+    ;
+    text-decoration: none;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+}
+
+h1,
+h2 {
+    margin-top: 10px;
+    font-size: 38px;
+    font-weight: 100;
+    color: #555;
+    line-height: 50px;
+}
+
+h3 {
+    font-size: 22px;
+    font-weight: 300;
+    color: #555;
+    line-height: 30px;
+}
+
+::-moz-selection {
+    background: #26A69A;
+    ;
+    color: #fff;
+    text-shadow: none;
+}
+
+::selection {
+    background: #26A69A;
+    ;
+    color: #fff;
+    text-shadow: none;
+}
+
+.btn-link-1 {
+    display: inline-block;
+    height: 50px;
+    margin: 0 5px;
+    padding: 16px 20px 0 20px;
+    background: #26A69A;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 16px;
+    color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.btn-link-1:hover,
+.btn-link-1:focus,
+.btn-link-1:active {
+    outline: 0;
+    opacity: 0.6;
+    color: #fff;
+}
+
+.btn-link-2 {
+    display: inline-block;
+    height: 50px;
+    margin: 0 5px;
+    padding: 15px 20px 0 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #fff;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 16px;
+    color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.btn-link-2:hover,
+.btn-link-2:focus,
+.btn-link-2:active,
+.btn-link-2:active:focus {
+    outline: 0;
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+
+/***** Top content *****/
+
+.form-box {
+    padding-top: 40px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.form-top {
+    overflow: hidden;
+    padding: 0 25px 15px 25px;
+    background: #26A69A;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+    text-align: left;
+    color: #fff;
+    transition: opacity .3s ease-in-out;
+}
+
+.form-top h3 {
+    color: #fff;
+}
+
+.form-bottom {
+    padding: 25px 25px 30px 25px;
+    background: #eee;
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+    text-align: left;
+    transition: all .4s ease-in-out;
+}
+
+.form-bottom:hover {
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+form .form-bottom button.btn {
+    min-width: 105px;
+}
+
+form .form-bottom .input-error {
+    border-color: #d03e3e;
+    color: #d03e3e;
+}
+
+form.registration-form fieldset {
+    display: none;
+}
+</style>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<!------ Include the above in your HEAD tag ---------->
+<nav class="nav navbar-inverse navbar-fixed-top" style="background-color: #26a69a;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- <b class='navbar-brand' style="color: white;"> -->
+            <img src="/img/BRANDfii.png"  class="img-responsive img-cir" alt="BrandFi" />
+            <!-- </b > -->
         </div>
-        <div>
-           <p class="pull-right">Already have an account? <a href="/client/signin" style="color: #26a69a;">sign in</a></p> 
-        </div><br>
-        <!-- <div> -->
-        <hr style="height: 1px; background-color: grey;">
-        <!-- </div> -->
-        <h2 class="text-center" style="font-size: 16px; font-weight: bold;">Create an account below</h2>
-        <br>
-        <p>Fields marked with <span style="color: red">*</span> are mandatory</p>
-        <div class="row">
-            <form action="/client/signup" method="post">
-                <div class=" text-center">
-                    <div style="box-shadow: 1px 1px hsla(110,800%,50%,0.3);">
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="text" name="fname" class="form-control" placeholder="First Name*" aria-label="Username" aria-describedby="basic-addon1" required></label>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="text" class="form-control" name="lname" placeholder="Last Name*" aria-label="Username" aria-describedby="basic-addon1" required></label>
-                            </div>
-                        </div>
-                        <hr style="background-color: #FAFAFA; height: 1px; margin-top: -10px;">
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="email" class="form-control" name="email" placeholder="Email*" aria-label="Username" aria-describedby="basic-addon1" required></label>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="text" class="form-control" name="mobilenumber" placeholder="Mobile No*" pattern="07([0-9|9])(\d){7}" required></label><br>
-                                format: 0700XXXXXX
-                            </div>
-                        </div>
-                        <hr style="background-color: #FAFAFA; height: 1px; margin-top: -10px;">
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="text" class="form-control" name="company" placeholder="Company*" aria-label="Username" aria-describedby="basic-addon1" required></label>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for=""><input type="text" class="form-control" name="venue" placeholder="Venue*" required></label><br>
-                                <p>You can add more venues later</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary btn-block">Get Started</button>
-                            </div>
-                            <div class="col-sm-4"></div>
-                        </div><br>
-                    </div>
-                </div>
-        </div>
-        </form>
     </div>
+</nav><br><br>
+<!-- <div style="background: white; height: 100px; background-image: url('/img/bgs/bg.jpeg');" class="">
+    <img src="" alt="">
+</div> -->
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-4">
+        <!-- <div style="height:40px;"></div> -->
+        <div class="assessment-container container">
+            <div class="row">
+                <div class="col-md-6 form-box">
+                    <form role="form" method="post" class="registration-form" action="/client/signup">
+                        <fieldset>
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3><span><i class="fas fa-user" aria-hidden="true"></i></span> Admin Details</h3>
+                                    <p>Create an admin account below
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="fname" placeholder="Firstname" id="fname">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="lname" placeholder="Lastname" id="lname">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:3px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="mobilenumber" placeholder="Mobile Number" id="contact_number">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" placeholder="Email" class="form-email form-control" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="title" placeholder="Job title" class="form-email form-control" id="email" required>
+                                </div>
+                        
+                                <button type="button" class="btn btn-next">Next</button>
+                            </div>
+                        </fieldset>
+                         <fieldset>
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3><span><i class="fas fa-home" aria-hidden="true"></i></span> Outlet Details</h3>
+                                    <p>
+                                        Tell us about your outlet
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+                                <div class="form-group" style="margin-bottom:3px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="vname" placeholder="Outlet name" id="contact_number">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="vaddress" placeholder="Address" id="fname">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="vcity" placeholder="City" id="lname">
+                                    </div>
+                                </div>            
+                                <div class="form-group">
+                                    <input type="text" name="country" placeholder="Country" class="form-email form-control" id="email" required>
+                                </div>
+                                 <div class="form-group">
+                                   <select class="form-control" required>
+                                        <option>Type of access point</option>
+                                        <option>Cisco Meraki</option>
+                                        <option>Mikrotik</option>            
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="accesspoints" placeholder="Number of access points" class="form-email form-control" id="email" required>
+                                </div>
+                                <button type="button" class="btn btn-next">Next</button>
+                            </div><br>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span> Splash Page options</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+                                <div class="form-group">
+                                    <select class="form-control">
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Locationa</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" id="pref_date">
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control">
+                                        <option>Preffered Time</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                        <option>Location</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" class="btn btn-previous">Previous</button>
+                                <button type="submit" class="btn">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+     <div class="col-sm-5"></div>
 </div>
-<div class="col-sm-1"></div>
-</div>
+<script>
+var signup = function() {
+    $('.registration-form fieldset:first-child').fadeIn('slow');
+
+    $('.registration-form input[type="text"]').on('focus', function() {
+        $(this).removeClass('input-error');
+    });
+
+    // next step
+    $('.registration-form .btn-next').on('click', function() {
+        var parent_fieldset = $(this).parents('fieldset');
+        var next_step = true;
+
+        parent_fieldset.find('input[type="text"],input[type="email"]').each(function() {
+            if ($(this).val() == "") {
+                $(this).addClass('input-error');
+                next_step = false;
+            } else {
+                $(this).removeClass('input-error');
+            }
+        });
+
+        if (next_step) {
+            parent_fieldset.fadeOut(400, function() {
+                $(this).next().fadeIn();
+            });
+        }
+
+    });
+
+    // previous step
+    $('.registration-form .btn-previous').on('click', function() {
+        $(this).parents('fieldset').fadeOut(400, function() {
+            $(this).prev().fadeIn();
+        });
+    });
+
+    // submit
+    $('.registration-form').on('submit', function(e) {
+
+        $(this).find('input[type="text"],input[type="email"]').each(function() {
+            if ($(this).val() == "") {
+                e.preventDefault();
+                $(this).addClass('input-error');
+            } else {
+                $(this).removeClass('input-error');
+            }
+        });
+
+    });
+
+
+};
+signup();
+</script>

@@ -56,57 +56,7 @@
     box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);
 }
 </style>
-<div id="cont">
-    <div class="row" style="">
-        <div class="row  text-center">
-            <div>
-                <div class="col-sm-5"></div>
-                <a class="col-sm-4">
-                    <br>
-                    <img id="img" src="/img/logo.svg" class="img-responsive" alt="">
-                </a>
-                <div class="col-sm-3"></div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row text-center">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            <h1 class="text-center" id="java_welcome">Karibu Java</h1>
-        </div>
-        <div class="col-sm-4"></div>
-    </div>
-    <div class="row text-center" style="margin-top: 0;">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            <p class="text-center" id="text" style="text-align: justify;">Please enter your mobile number below and enjoy our free complimentary Wifi</p>
-        </div>
-        <div class="col-sm-4"></div>
-    </div>
-    <div class="row img-responsive">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="text-center" style="">
-                <form action="/auth/java/sms" method="post" class="form col-md-12 center-block">
-                    <div class="form-group">
-                        <input id="java-input" class="input-lg" type="text" name="mobileNumber" placeholder="Mobile Number" validate required><br>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-success btn-lg">Connect</button>
-                    </div>
-                    <div class="form-group" >
-                        <p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold;">By clicking connect above, you agree to our <span><a href="/termsJava" style="color: #26a69a; ">terms of service</a></span></p>
-                    </div>
-                    <div class="form-group">
-                        <p id="disclaimer" style="color: black; font-weight: bold;"><i class="fa fa-copyright"></i>JAVA HOUSE 2018</p>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div><br>
-</div>
+{{>clickhead}}
 <script>
 $(function() {
     $('body').css({ "background-image": "url('/img/bgs/java.jpg')", "background-color": "white", "color": "white", "background-repeat": "no-repeat", "background-size": "cover" });

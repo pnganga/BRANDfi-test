@@ -20,7 +20,7 @@ var db = require('../../db.js')
         }
 
         exports.getAll = function(done) {
-            db.get().query('SELECT * FROM comments', function(err, rows) {
+            db.get().query('SELECT * FROM radcheck', function(err, rows) {
                 if (err) console.log(err);
                 done(null, rows)
             })

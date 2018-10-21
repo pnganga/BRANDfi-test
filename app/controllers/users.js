@@ -59,7 +59,8 @@ exports.updateAnkoleUser = function(code, userName) {
 }
 
 exports.getAll = function(done) {
-    db.get().query('SELECT * FROM comments', function(err, rows) {
+	var value = ["javaSms", "javaSmsVoucher"]
+    db.get().query('SELECT * FROM radcheck WHERE ssid in (?, ?)', value, function(err, rows) {
         if (err) console.log(err);
         done(null, rows)
     })

@@ -5,7 +5,8 @@ var util = require('util');
 var request = require('request');
 var path = require('path');
 var passport = require('passport');
-
+var fs = require("fs");
+var formidable = require('formidable');
 var users = require('../controllers/users');
 var clients = require('../controllers/clients');
 
@@ -37,16 +38,17 @@ router.route('/client/signup')
         res.render('clientSignup', req.session);
     })
     .post(function(req, res) {
-        var fName = req.body.fname;
-        var lName = req.body.lname;
-        var email = req.body.email;
-        var company = req.body.company;
-        var mobileNumber = req.body.mobilenumber;
-        var venue = req.body.venue;
+        // var fName = req.body.fname;
+        // var lName = req.body.lname;
+        // var email = req.body.email;
+        // var company = req.body.company;
+        // var mobileNumber = req.body.mobilenumber;
+        // var venue = req.body.venue;
         // save client to mysql
-        clients.create(fName, lName, email, mobileNumber, company, venue);
+        // clients.create(fName, lName, email, mobileNumber, company, venue);
         // redirect to sign in page
-        res.redirect('/customizepage');
+        // res.redirect('/customizepage');
+        console.log(req.body);
     });
 
 
@@ -72,18 +74,62 @@ router.route('/custompage')
 
     });
 
-router.route('/image_upload')
+router.route('/logo/upload')
+	.get(function (req, res) {
+		res.render('upload_logo');
+	})
     .post(function(req, res) {
-
-        upload_image(req, function(err, data) {
-
-            if (err) {
-                return res.status(404).end(JSON.stringify(err));
-            }
-            console.log(data);
-            res.send(data);
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files) {
+            console.log(files.logo.path);
+            var oldpath = files.logo.path;
+            var newpath = '/home/pnganga/Desktop/BRANDfi-test/public/img/logos' + files.logo.name;
+            fs.rename(oldpath, newpath, function(err) {
+                if (err) throw err;
+                req.session.msg = "Logo successfully uploaded"
+                res.render('client-dashboard', req.session);
+                
+            });
         });
 
+    });
+
+// #############################################################################################################
+// Routes for client dashboard routes
+// ##############################################################################################################
+
+router.route('/client/dashboard')
+    .get(function(req, res) {
+        res.render('client-dashboard');
+    });
+router.route('/client/customize/mobile')
+    .get(function(req, res) {
+        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/head.hbs", "utf8", function(err, data) {
+            if (err) throw err;
+            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", "utf8", function(err, dat) {
+                req.session.editor_content = data + dat;
+                res.render('customize-mobile', req.session);
+            })
+
+        })
+    })
+    .post(function(req, res) {
+        req.session.editor_content = req.body.editor_content;
+        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
+            if (err) throw err;
+
+            console.log(data);
+            res.render('customize-mobile', req.session);
+        })
+    });
+router.route('/client/allusers')
+    .get(function(req, res) {
+    	users.getAll(function (none, allUsers) {
+    		console.log(allUsers)
+    		req.session.users = allUsers;
+    		res.render('all-users', req.session);
+    	})
+        
     });
 
 

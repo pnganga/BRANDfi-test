@@ -32,15 +32,7 @@ Images, styles and client scripts are stored in /public/
 
 
 
-This application comes with no guarantee and is intended as a proof of concept. 
-Proper testing and security (SSL) should be configured and verified before using in a production environment.
 
-Feel free to use, abuse and help contribue to this code.
-
-Written by Cory Guynn - 2016
-www.InternetOfLego.com
-
-I <3 open source
 
 */
 
@@ -209,7 +201,7 @@ app.use(clientRoutes);
 
 
 // define the static resources for the splash pages
-
+app.set('admin_path',path.join(__dirname,'views','admin'+path.sep));    
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use(express.static('./public'));
 
