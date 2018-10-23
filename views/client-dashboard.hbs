@@ -144,22 +144,12 @@
                                 <i class="fas fa-sliders-h"></i>Customize Splash Pages</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="/client/customize/mobile">Mobile number splash page</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">Login with voucher</a>
-                                </li>
-                                <li>
-                                    <a href="forget-pass.html">Login with voucher + mobile number</a>
+                                    <a href="/client/customize/mobile">Login with mobile number page</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-home"></i>Manage outlets</a>
-                        </li>
-                        <li>
-                            <a href="table.html">
+                            <a href="#">
                                 <i class="fas fa-table"></i>Analytics</a>
                         </li>
                     </ul>
@@ -239,64 +229,54 @@
                     </div>
                     <div class="row " id="credentials"><br>
                         <!-- <div class="col-sm-2"></div> -->
-                            <h6>In order to use your social media accounts with your splash page, Enter your apps credentials below </h6><br>
-                            <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <!-- Nav tabs -->
-                                            <div class="card">
-                                                <ul class="nav nav-tabs" role="tablist">
-                                                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Facebook credentials</a></li>
-                                                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Twitter credentials</a></li>
-                                                </ul>
-                                                <!-- Tab panes -->
-                                                <div class="tab-content">
-                                                    <div role="tabpanel" class="tab-pane active text-center" id="home">
-                                                        <form action="/facebook/credentials" method="post">
+                        <h6>In order to use your social media accounts with your splash page, Enter your apps credentials below </h6><br>
+                        <div class="row">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Nav tabs -->
+                                        <div class="card">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Facebook credentials</a></li>
+                                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Twitter credentials</a></li>
+                                            </ul>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content">
+                                                <div role="tabpanel" class="tab-pane active text-center" id="home">
+                                                    <form id="fbform" action="/facebook/credentials" method="post">
                                                         <div class="form-group">
-                                                            
-                                                              <input class="cred-input" type="text" name="fbClientId" placeholder="Client ID">
+                                                            <input class="cred-input" type="text" name="fbClientId" placeholder="Client ID" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input class="cred-input" type="text" name="fbClientSecret" placeholder="Client Secret">
+                                                            <input class="cred-input" type="text" name="fbClientSecret" placeholder="Client Secret" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button class="btn btn-primary" type="submit">Save</button>  
+                                                            <i class="fas fa-spinner fa-spin" id="spin" style="display: none"></i>
+                                                            <button id="submitfb" class="btn btn-primary" type="submit">Save</button>
                                                         </div>
-                                                         
-                                                            </form>
-                                                    </div>
-                                                    <div role="tabpanel" class="tab-pane" id="profile">
-                                                       <form action="/facebook/credentials" method="post">
-                                                        <div class="form-group">
-                                                            
-                                                              <input class="cred-input" type="text" name="fbClientId" placeholder="Consumer key">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input class="cred-input" type="text" name="fbClientSecret" placeholder="Consumer Secret">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button class="btn btn-primary" type="submit">Save</button>  
-                                                        </div>
-                                                         
-                                                            </form>
-                                                    </div>
+                                                    </form>
                                                 </div>
+                                                <div role="tabpanel" class="tab-pane text-center" id="profile">
+                                                    <form id="twitterform" action="/twitter/credentials" method="post">
+                                                        <div class="form-group">
+                                                            <input class="cred-input" type="text" name="ConsumerId" placeholder="Consumer key" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input class="cred-input" type="text" name="ConsumerSecret" placeholder="Consumer Secret" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <i class="fas fa-spinner fa-spin" id="spin" style="display: none"></i>
+                                                            <button id="submittwitter" class="btn btn-primary" type="submit">Save</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="text-center">We keep your credentials safe</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-sm-6">
-                                    <h5>Facebook credentials</h5>
-                                    
                                 </div>
-                                <div class="col-sm-6">
-                                    <h5>Twitter credentials</h5>
-                                    
-                                </div> -->
-                                </div>
-                        
-                        <!-- <div class="col-sm-2"></div><br> -->
+                            </div>
+                        </div>
                     </div>
                     <div class="container-fluid" id="dashboard_home">
                         <div class="col-md-12">
@@ -311,14 +291,12 @@
                         <div class="row">
                             <div class="col-lg-12" style="max-height: 200px;">
                                 <div class="au-card recent-report row">
-                                    <div class="col-sm-4">
-                                        <a href=""><p style="text-decoration: underline;">Upload your terms of service</p></a>
-                                    </div>
-                                    <div class="col-sm-4">
+                                    
+                                    <div class="col-sm-6">
                                         <a href="#" id="upload_logo"><p style="text-decoration: underline;">Upload your logo</p></a><br>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <a href=""><p style="text-decoration: underline;">Social media credentials</p></a>
+                                    <div class="col-sm-6">
+                                        <a href="#" id="set_credentials"><p style="text-decoration: underline;">Social media credentials</p></a>
                                     </div>
                                 </div>
                             </div>
@@ -419,9 +397,55 @@
         $('#img_uploader').show();
     })
 
+    $('#set_credentials').click(function(argument) {
+        $('#dashboard_home').hide();
+        $('#credentials').show();
+    })
+
     $(document).ready(function() {
         $('#img_uploader').hide();
+        $('#credentials').hide();
     })
+
+    // save fb credentials without reloading
+    $("#submitfb").click(function() {
+        $('#submitfb').hide();
+        $('#spin').show();
+        var url = "/facebook/credentials"; // the script where you handle the form input.
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#fbform").serialize(), // serializes the form's elements.
+            success: function(data) {
+                $('#submitfb').show();
+                $('#spin').hide();
+                alert('Credentials saved successfully'); // show response from the php script.
+            }
+        });
+
+        return false; // avoid to execute the actual submit of the form.
+    });
+
+    // save twitter credentials without reloading
+    $("#submittwitter").click(function() {
+        $('#submitwitter').hide();
+        $('#spin').show();
+        var url = "/twitter/credentials"; // the script where you handle the form input.
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#twitterform").serialize(), // serializes the form's elements.
+            success: function(data) {
+                $('#submittwitter').show();
+                $('#spin').hide();
+                alert('Credentials saved successfully'); // show response from the php script.
+            }
+        });
+
+        return false; // avoid to execute the actual submit of the form.
+    });
 
 
     // upload logo

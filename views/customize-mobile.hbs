@@ -137,7 +137,6 @@
                                 <li>
                                     <a href="/client/allusers">Mobile number users</a>
                                 </li>
-                               
                             </ul>
                         </li>
                         <li class="active has-sub">
@@ -147,20 +146,10 @@
                                 <li>
                                     <a href="/client/customize/mobile">Mobile number splash page</a>
                                 </li>
-                                <li>
-                                    <a href="register.html">Login with voucher</a>
-                                </li>
-                                <li>
-                                    <a href="forget-pass.html">Login with voucher + mobile number</a>
-                                </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-home"></i>Manage outlets</a>
-                        </li>
-                        <li>
-                            <a href="table.html">
+                            <a href="#">
                                 <i class="fas fa-table"></i>Analytics</a>
                         </li>
                     </ul>
@@ -230,27 +219,27 @@
             <div class="main-content row">
                 <!-- <div class="col-sm-1"></div> -->
                 <div class="col-sm-11">
-                    <!-- <form method="post" action="/client/customize/mobile"> -->
-                        <div class="row text-center">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            </div>
-                            <div class="col-sm-4"></div>
-                        </div><br>
-                        <textarea id="mytextarea" name="editor_content">{{editor_content}}</textarea><br>
-                        <iframe id="form_target" name="form_target" style="display:none"></iframe>
-                        <form id="my_form" action="/image_upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
-                            <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
-                        </form>
-                        <div class="row text-center">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            </div>
-                            <div class="col-sm-4"></div>
+                    <form method="post" action="/client/customize/mobile">
+                    <div class="row text-center">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
                         </div>
-                    <!-- </form> -->
+                        <div class="col-sm-4"></div>
+                    </div><br>
+                    <textarea id="mytextarea" name="editor_content">{{editor_content}}</textarea><br>
+                    <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                    <form id="my_form" action="/image_upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+                        <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+                    </form>
+                    <div class="row text-center">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    </form> 
                 </div>
                 <div class="col-sm-1"></div>
             </div>
@@ -258,7 +247,6 @@
             <!-- END PAGE CONTAINER-->
         </div>
     </div>
-    
     <!-- Jquery JS-->
     <script src="/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->

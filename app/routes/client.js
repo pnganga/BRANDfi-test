@@ -75,9 +75,9 @@ router.route('/custompage')
     });
 
 router.route('/logo/upload')
-	.get(function (req, res) {
-		res.render('upload_logo');
-	})
+    .get(function(req, res) {
+        res.render('upload_logo');
+    })
     .post(function(req, res) {
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
@@ -88,7 +88,7 @@ router.route('/logo/upload')
                 if (err) throw err;
                 req.session.msg = "Logo successfully uploaded"
                 res.render('client-dashboard', req.session);
-                
+
             });
         });
 
@@ -124,13 +124,26 @@ router.route('/client/customize/mobile')
     });
 router.route('/client/allusers')
     .get(function(req, res) {
-    	users.getAll(function (none, allUsers) {
-    		console.log(allUsers)
-    		req.session.users = allUsers;
-    		res.render('all-users', req.session);
-    	})
-        
-    });
+        users.getAll(function(none, allUsers) {
+            console.log(allUsers)
+            req.session.users = allUsers;
+            res.render('all-users', req.session);
+        })
 
+    });
+router.route('/facebook/credentials')
+    .post(function(req, res) {
+        var clientId = req.body.fbClientId;
+        var clientSecret = req.body.fbClientSecret;
+        // save fb credentials to db;
+        res.send('saved successfully');
+    });
+router.route('/twitter/credentials')
+    .post(function(req, res) {
+        var consumerId = req.body.fbClientId;
+        var consumerSecret = req.body.fbClientSecret;
+        // save fb credentials to db;
+        res.send('saved successfully');
+    })
 
 module.exports = router;
