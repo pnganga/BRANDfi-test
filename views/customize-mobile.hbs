@@ -220,26 +220,26 @@
                 <!-- <div class="col-sm-1"></div> -->
                 <div class="col-sm-11">
                     <form method="post" action="/client/customize/mobile">
-                    <div class="row text-center">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        <div class="row text-center">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div><br>
+                        <textarea id="mytextarea" name="editor_content">{{editor_content}}</textarea><br>
+                        <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                        <form id="my_form" action="/image_upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+                            <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+                        </form>
+                        <div class="row text-center">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                            </div>
+                            <div class="col-sm-4"></div>
                         </div>
-                        <div class="col-sm-4"></div>
-                    </div><br>
-                    <textarea id="mytextarea" name="editor_content">{{editor_content}}</textarea><br>
-                    <iframe id="form_target" name="form_target" style="display:none"></iframe>
-                    <form id="my_form" action="/image_upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
-                        <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
                     </form>
-                    <div class="row text-center">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                        </div>
-                        <div class="col-sm-4"></div>
-                    </div>
-                    </form> 
                 </div>
                 <div class="col-sm-1"></div>
             </div>
@@ -247,6 +247,28 @@
             <!-- END PAGE CONTAINER-->
         </div>
     </div>
+    <!-- TINY MCE SCRIPT -->
+    <script>
+    tinymce.init({
+        selector: '#mytextarea',
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr noneditable anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table contextmenu directionality emoticons template paste textcolor preview"
+        ],
+        // toolbar: ["save", "image"],
+        file_browser_callback: function(field_name, url, type, win) {
+            if (type == 'image') $('#my_form input').click();
+        },
+        height: 500,
+        branding: false,
+        force_br_newlines: false,
+        force_p_newlines: false,
+        forced_root_block: '',
+
+
+    });
+    </script>
     <!-- Jquery JS-->
     <script src="/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
