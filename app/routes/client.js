@@ -115,7 +115,7 @@ router.route('/client/customize/mobile')
     })
     .post(function(req, res) {
         req.session.editor_content = req.body.editor_content;
-        fs.writeFile(("/home/pnganga/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
+        fs.writeFile("/home/pnganga/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
             if (err) throw err;
 
             console.log(data);
