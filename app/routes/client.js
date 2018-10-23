@@ -83,7 +83,7 @@ router.route('/logo/upload')
         form.parse(req, function(err, fields, files) {
             console.log(files.logo.path);
             var oldpath = files.logo.path;
-            var newpath = '/home/pnganga/Desktop/BRANDfi-test/public/img/logos' + files.logo.name;
+            var newpath = ('/home/pnganga/BRANDfi-test/public/img/logos' || '/home/pnganga/Desktop/BRANDfi-test/public/img/logos') + files.logo.name;
             fs.rename(oldpath, newpath, function(err) {
                 if (err) throw err;
                 req.session.msg = "Logo successfully uploaded"
@@ -104,9 +104,9 @@ router.route('/client/dashboard')
     });
 router.route('/client/customize/mobile')
     .get(function(req, res) {
-        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/head.hbs", "utf8", function(err, data) {
+        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/head.hbs" || "/home/pnganga/BRANDfi-test/views/partials/head.hbs", "utf8", function(err, data) {
             if (err) throw err;
-            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", "utf8", function(err, dat) {
+            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs" || "/home/pnganga/BRANDfi-test/views/partials/clickhead.hbs", "utf8", function(err, dat) {
                 req.session.editor_content = data + dat;
                 res.render('customize-mobile', req.session);
             })
@@ -115,7 +115,7 @@ router.route('/client/customize/mobile')
     })
     .post(function(req, res) {
         req.session.editor_content = req.body.editor_content;
-        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
+        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs" || "/home/pnganga/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
             if (err) throw err;
 
             console.log(data);
