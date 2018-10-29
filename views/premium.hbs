@@ -1,9 +1,14 @@
+<style>
+    body{
+        padding: 10px;
+    }
+</style>
 <div>
     <br>
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
-            <img style="padding-left: 100px;" class="img-responsive" src="/img/Java-House.jpg" alt="" class="img-responsive">
+            <img style="padding-left: 60px; background: hsla(360, 100%, 100%, 0.38);" class="img-responsive" src="/img/logo.svg" alt="" class="img-responsive">
             <br>
         </div>
         <div class="col-sm-4"></div>
@@ -21,7 +26,7 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
-                <p class="text-center">Please enter your details below, click proceed and finish the transaction on your phone</p>
+                <p class="text-center" style="color: brown;">Please enter your details below, click proceed and finish the transaction on your phone</p>
                 <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
                     <br>
                     <br>
@@ -50,11 +55,11 @@
                             <i class="icon-lock icon-large"></i>
                         </div>
                         <div class="form-group ">
-                            <button id="proceed" class="btn btn-success btn-lg btn-block disabled">Proceed to pay</button>
+                            <button id="proceed" class="btn btn-success ">Proceed to pay</button>
                         </div>
                     </form>
                     <div class="form-group">
-                        <span><input id="terms" type="checkbox"> Please confirm you agree to our <span><a href="/terms" style="color: #26a69a;">terms of service</a></span></span>
+                        <span> By clicking 'Proceed on pay', you agree to our <span><a href="/terms" style="color: #26a69a;">terms of service</a></span></span>
                         <i class="icon-lock icon-large"></i>
                     </div>
                     <br>
@@ -72,10 +77,10 @@
 
 $(function() {
     $('body').css({ "background-image": "url('/img/coffee.jpeg')", "background-color": "white", "background-repeat":"no-repeat", "background-size": "cover" });
-    $("#terms").click(function() {
+//     $("#terms").click(function() {
     
-    $('#proceed').toggleClass('disabled');
-});
+//     $('#proceed').toggleClass('disabled');
+// });
    
 });
 </script>
