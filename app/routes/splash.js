@@ -23,7 +23,7 @@ router.route('/auth/wifi')
         console.log("Session data at login page = " + util.inspect(req.session, false, null));
 
         // *** redirect user to Meraki to process authentication, then send client to success_url
-        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + "req.session.success_url" });
+        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + req.session.success_url });
         res.end();
     });
 
