@@ -1,4 +1,9 @@
 <style>
+    @media only screen and (max-width: 600px) {
+     body{
+        background-image: url('/img/bgs/java2.jpg') !important;
+    }
+ }
     body{
         padding: 10px;
     }
@@ -16,7 +21,7 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6" class="img-responsive">
-            <div class="text-center" style="background-color: hsla(0, 100%, 100%, 0.6);">
+            <div class="text-center" style="background-color: hsla(360, 100%, 100%, 0.38);">
                 <br>
                 <h1 class="text-center" style=" font-weight: bold;">PREMIUM WI-FI</h1>
                 <div class="row img-responsive">
@@ -24,63 +29,61 @@
                     <div class="col-sm-6">
                         <img style="padding-left: 30px; padding-top: -10px;" class="img-responsive" src="/img/mpesa.gif" alt="">
                     </div>
-                    <div class="col-sm-3"></div>
-                </div>
-                <p class="text-center" style="color: brown;">Please enter your details below, click proceed and finish the transaction on your phone</p>
-                <div id="container" style="background-color: hsla(0, 100%, 100%, 0.6);">
-                    <br>
-                    <br>
-                    <form action="/premium" method="post" class="form col-md-12 center-block">
-                        <div class="form-group ">
-                            <input class="form-control input-lg" type="text" name="fname" placeholder="First name" required>
-                            <i class="icon-user icon-large"></i>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control input-lg" type="text" name="lname" placeholder="Last name" required>
-                            <i class="icon-lock icon-large"></i>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control input-lg" type="text" name="uname" placeholder="Mpesa number" title="Format: 07XXXXXXXX" pattern="07([0-9|9])(\d){7}" required>
-                            <i class="icon-lock icon-large"></i>
-                        </div>
-                        <div class="form-group">
-                            <select name="plan" class="form-control input-lg" required>
-                                <option value="" disabled selected>Choose a plan</option>
-                                {{#each tariffs}}
-                                <option value="10"><span>{{this.name}}:</span> Kshs {{this.price}} for {{this.validity}} {{this.validity_unit}}</span</option>
-                                    {{/each}}</option>
-                                <option value="20">Kahawa: <span>1 hour - Kshs 20</span></option>
-                                <option value="150">Biashara: 8 hours - Kshs 150</option>
-                            </select>
-                            <i class="icon-lock icon-large"></i>
-                        </div>
-                        <div class="form-group ">
-                            <button id="proceed" class="btn btn-success ">Proceed to pay</button>
-                        </div>
-                    </form>
-                    <div class="form-group">
-                        <span> By clicking 'Proceed on pay', you agree to our <span><a href="/terms" style="color: #26a69a;">terms of service</a></span></span>
-                        <i class="icon-lock icon-large"></i>
+                        <div class="col-sm-3"></div>
                     </div>
-                    <br>
-                    <br>
+                    <p class="text-center" style="color: brown;">Please enter your details below, click proceed and finish the transaction on your phone</p>
+                    <div id="container" style="background-color: hsla(0, 100%, 100%, 0.38);">
+                        <br>
+                        <br>
+                        <form action="/premium" method="post" class="form col-md-12 center-block">
+                            <div class="form-group ">
+                                <input class="form-control input-lg" type="text" name="fname" placeholder="First name" required>
+                                <i class="icon-user icon-large"></i>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control input-lg" type="text" name="lname" placeholder="Last name" required>
+                                <i class="icon-lock icon-large"></i>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control input-lg" type="text" name="uname" placeholder="Mpesa number" title="Format: 07XXXXXXXX" pattern="07([0-9|9])(\d){7}" required>
+                                <i class="icon-lock icon-large"></i>
+                            </div>
+                            <div class="form-group">
+                                <select name="plan" class="form-control input-lg" required>
+                                    <option value="" disabled selected>Choose a plan</option>
+                                    {{#each tariffs}}
+                                    <option value="10"><span>{{this.name}}:</span> Kshs {{this.price}} for {{this.validity}} {{this.validity_unit}}</span</option> {{/each}} </option> <option value="20">Kahawa: <span>1 hour - Kshs 20</span></option>
+                                    <option value="150">Biashara: 8 hours - Kshs 150</option>
+                                </select>
+                                <i class="icon-lock icon-large"></i>
+                            </div>
+                            <div class="form-group ">
+                                <button id="proceed" class="btn btn-success ">Proceed to pay</button>
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <span> By clicking 'Proceed on pay', you agree to our <span><a href="/terms" style="color: #26a69a;">terms of service</a></span></span>
+                            <i class="icon-lock icon-large"></i>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                    <!-- <br> -->
                 </div>
-                <!-- <br> -->
+                <br>
             </div>
-            <br>
+            <div class="col-sm-3"></div>
         </div>
-        <div class="col-sm-3"></div>
     </div>
-</div>
-<script>
-// $(document).ready(function() {
+    <script>
+    // $(document).ready(function() {
 
-$(function() {
-    $('body').css({ "background-image": "url('/img/coffee.jpeg')", "background-color": "white", "background-repeat":"no-repeat", "background-size": "cover" });
-//     $("#terms").click(function() {
-    
-//     $('#proceed').toggleClass('disabled');
-// });
-   
-});
-</script>
+    $(function() {
+        $('body').css({ "background-image": "url('/img/coffee.jpeg')", "background-color": "white", "background-repeat": "repeat", "background-size": "cover" });
+        //     $("#terms").click(function() {
+
+        //     $('#proceed').toggleClass('disabled');
+        // });
+
+    });
+    </script>
