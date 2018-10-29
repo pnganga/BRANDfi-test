@@ -18,6 +18,13 @@ router.route('/termsJava')
         res.render('termsJava', req.session);
     });
 
+// #############
+// terms of service page
+// #############
+router.route('/termsAnkole')
+    .get(function(req, res) {
+        res.render('termsAnkole', req.session);
+    });
 
 // ##########################
 // Home page

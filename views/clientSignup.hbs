@@ -157,7 +157,7 @@ button.btn.active:focus {
 
 /*style.css**/
 
-body {
+/*body {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 300;
@@ -165,7 +165,7 @@ body {
     line-height: 30px;
     text-align: center;
 }
-
+*/
 strong {
     font-weight: 500;
 }
@@ -313,11 +313,55 @@ form .form-bottom .input-error {
 form.registration-form fieldset {
     display: none;
 }
+/*#############################################################################################
+Check bbox styling
+################################################################################################*/
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px; 
+    top: 15px; 
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
 </style>
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<!------ Include the above in your HEAD tag ---------->
 <nav class="nav navbar-inverse navbar-fixed-top" style="background-color: #26a69a;">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -332,9 +376,6 @@ form.registration-form fieldset {
         </div>
     </div>
 </nav><br><br>
-<!-- <div style="background: white; height: 100px; background-image: url('/img/bgs/bg.jpeg');" class="">
-    <img src="" alt="">
-</div> -->
 <div class="row">
     <div class="col-sm-3"></div>
     <div class="col-sm-4">
@@ -347,69 +388,70 @@ form.registration-form fieldset {
                             <div class="form-top">
                                 <div class="form-top-left">
                                     <h3><span><i class="fas fa-user" aria-hidden="true"></i></span> Admin Details</h3>
-                                    <p>Create an admin account below
-                                    </p>
+                                    <h6>Create an admin account below
+                                    </h6>
                                 </div>
                             </div>
                             <div class="form-bottom">
                                 <div class="row">
                                     <div class="form-group col-md-6 col-sm-6">
-                                        <input type="text" class="form-control" name="fname" placeholder="Firstname" id="fname">
+                                        <input type="text" class="form-control" name="fname" placeholder="Firstname" id="fname" required>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6">
-                                        <input type="text" class="form-control" name="lname" placeholder="Lastname" id="lname">
+                                        <input type="text" class="form-control" name="lname" placeholder="Lastname" id="lname" required>
                                     </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:3px;">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="mobilenumber" placeholder="Mobile Number" id="contact_number">
+                                        <input type="text" class="form-control" name="mobilenumber" placeholder="Mobile Number" id="contact_number" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="email" placeholder="Email" class="form-email form-control" id="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="title" placeholder="Job title" class="form-email form-control" id="email" required>
+                                    <input type="password" name="password" placeholder="Password" class="form-email form-control" id="password" required>
                                 </div>
-                        
+                                <div class="form-group">
+                                    <input type="password" name="confirmpassword" placeholder="Confirm password" class="form-email form-control" id="confirmpassword" required onKeyUp="checkPasswordMatch();">
+                                    <i style="color: red; display: none;" id="wrong" class="fas fa-times pull-right"></i>
+                                    <i style="color: green; display: none;" id="right" class="fas fa-check pull-right"></i>
+                                </div>
                                 <button type="button" class="btn btn-next">Next</button>
                             </div>
                         </fieldset>
-                         <fieldset>
+                        <fieldset>
                             <div class="form-top">
                                 <div class="form-top-left">
-                                    <h3><span><i class="fas fa-home" aria-hidden="true"></i></span> Company Details</h3>
+                                    <h3><span><i class="fas fa-home" aria-hidden="true"></i></span> Franchise Details</h3>
                                     <p>
-                                        Tell us about your company
+                                        Tell us about your franchise
                                     </p>
                                 </div>
                             </div>
                             <div class="form-bottom">
                                 <div class="form-group" style="margin-bottom:3px;">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="vname" placeholder="Company name" id="contact_number">
+                                        <input type="text" class="form-control" name="vname" placeholder="Franchise name" id="contact_number">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        <input type="text" class="form-control" name="vlocation" placeholder="Location" id="fname">
+                                    <div class="form-group>
+                                        <input type=" text" class="form-control" name="vlocation" placeholder="Location" id="fname">
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        <input type="text" class="form-control" name="vcity" placeholder="City" id="lname">
-                                    </div>
-                                </div>            
+                                </div>
                                 <div class="form-group">
                                     <input type="text" name="country" placeholder="Country" class="form-email form-control" id="email" required>
                                 </div>
-                                 <div class="form-group">
-                                   <select class="form-control" required>
+                                <div class="form-group">
+                                    <select class="form-control" required>
                                         <option>Type of access point</option>
                                         <option>Cisco Meraki</option>
-                                        <option>Mikrotik</option>            
+                                        <option>Mikrotik</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="outlets" placeholder="Number of outlets" class="form-email form-control" id="email" required>
+                                    <input type="text" name="aps" placeholder="Number of access points" class="form-email form-control" id="email" required>
                                 </div>
                                 <button type="button" class="btn btn-next">Next</button>
                             </div><br>
@@ -417,48 +459,84 @@ form.registration-form fieldset {
                         <fieldset>
                             <div class="form-top">
                                 <div class="form-top-left">
-                                    <h3><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span> Splash Page options</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                                    <h3><span><i class="fas fa-sliders-h" aria-hidden="true"></i></span> Splash Page setup</h3>
+                                    <p>
+                                        Choose what type of pages you want
                                     </p>
                                 </div>
                             </div>
                             <div class="form-bottom">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Locationa</option>
-                                    </select>
+                                <p>How would you like your users to login to your Wifi?</p>
+                                choose all that apply <br>
+                                <div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            Login with SMS
+                                            <div class="material-switch pull-right">
+                                                <input id="smsSuccess" name="smssplash" type="checkbox" />
+                                                <label for="smsSuccess" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Login with Social media
+                                            <div class="material-switch pull-right">
+                                                <input id="socialSuccess" name="socialsplash" type="checkbox" />
+                                                <label for="socialSuccess" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Login with Voucher
+                                            <div class="material-switch pull-right">
+                                                <input id="voucherSuccess" name="vouchersplash" type="checkbox" />
+                                                <label for="voucherSuccess" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Login with Voucher + SMS
+                                            <div class="material-switch pull-right">
+                                                <input id="vouchersmsSuccess" name="vouchersmssplash" type="checkbox" />
+                                                <label for="vouchersmsSuccess" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Login with Username + password
+                                            <div class="material-switch pull-right">
+                                                <input id="usernamepassSuccess" name="usernamepasswordsplash" type="checkbox" />
+                                                <label for="usernamepassSuccess" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="form-group">
-                                    <input type="date" class="form-control" id="pref_date">
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option>Preffered Time</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                        <option>Location</option>
-                                    </select>
-                                </div>
-
+                                <br>
                                 <button type="button" class="btn btn-previous">Previous</button>
                                 <button type="submit" class="btn">Submit</button>
-                            </div>
+                            </div><br>
                         </fieldset>
+                        <!-- <fieldset>
+                            
+                                
+                            </div>
+                        </fieldset> -->
                     </form>
                 </div>
             </div>
         </div>
-       
     </div>
-     <div class="col-sm-5"></div>
+    <div class="col-sm-5"></div>
 </div>
 <script>
+function checkPasswordMatch() {
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmpassword").val();
+
+    if (password !== confirmPassword){
+        $("#wrong").show();
+        $("#right").hide();
+    }else{
+        $("#wrong").hide();
+        $("#right").show();
+    }
+}
 var signup = function() {
     $('.registration-form fieldset:first-child').fadeIn('slow');
 

@@ -1,0 +1,96 @@
+<style>
+#img {
+    padding-left: 50px;
+}
+
+#ankole-input {
+    width: 70%;
+}
+
+@media only screen and (max-width: 600px) {
+    #marginSetter{
+        margin: 33px;
+    }
+    #img {
+        padding-left: 20px;
+    }
+
+    #disclaimer {
+        color: black;
+    }
+
+    #ankole-input {
+        width: 60%;
+    }
+}
+
+::placeholder {
+    color: red;
+    opacity: 1;
+    /* Firefox */
+}
+</style>
+<div>
+    <div class="row">
+        <div class=" row  text-center">
+            <div>
+                <div class="col-sm-5"></div>
+                <a class=" col-sm-4" href="#">
+                    <br>
+                    <img id="img" src="/img/logos/Ankole-logo.png" class="img-responsive" alt="">
+                </a>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <h1 class="text-center" style="font-family: 'Righteous', cursive; color: white; font-size: 2em;">Welcome to Ankole Grill</h1>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row text-center" style="margin-top: 0;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <p class="text-center" style="font-family: 'Bai Jamjuree', sans-serif; color: white; font-weight: bold;">We are happy to provide you with free internet access. To login, choose an account below</p>
+        </div>
+        <div class="col-sm-4"></div>
+    </div><br>
+    <div class="row img-responsive">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="row form-group text-center">
+                <a href="/auth/twitter" class="btn btn-info btn-lg" style="background: hsla(196, 100%, 50%, 0.7); border-width: 3px; border-color: ; width: 45%;"><span class="fab fa-twitter "></span> Twitter</a>
+            </div>
+            <div class="row form-group text-center">
+                <a href="/auth/facebook" class="btn btn-info btn-lg" style="background: hsla(221, 44%, 41%, 0.78); border-width: 3px; border-color: #3b5897; width: 45%;"><span class="fab fa-facebook-f "></span> Facebook</a>
+            </div>
+            <p class="text-center" style="color: white; font-family: 'Bai Jamjuree', sans-serif; color: white; font-weight: bold;">Or login with your phone number</p>
+            <div class="row form-group text-center">
+                <form action="/auth/ankole/sms-social" method="post" class="">
+                    <div class="form-group row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <div class="form-group" ">
+                                <i id="marginSetter"><input id="ankole-input" style="border-width: 3px; height: 48px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-color: green; background-color: hsla(109, 77%, 50%, 0.35);"  class="input-lg text-center" type="text" name="mobileNumber" placeholder="Mobile number" pattern="07([0-9|9])(\d){7}" validate required>  
+                                <button  style="background: green; border-width: 3px; border-color: hsla(109, 77%, 50%, 0.35); width: 30%; height: 48px; margin-left: -7px; margin-bottom: 4px; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" class="btn btn-success btn-lg"><i class="fas fa-sign-in-alt"></i> Login</button><br>
+                                <i class="icon-user icon-large text-center">Format: 07XXXXXXXX</i></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div><br>
+</div>
+<script>
+$(function() {
+    $('body').css({ "background-image": "url('/img/bgs/ankole.jpg')", "background-color": "white", "color": "white", "background-repeat": "repeat", "background-size": "cover" });
+});
+</script>

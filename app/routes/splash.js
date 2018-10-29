@@ -464,6 +464,128 @@ router.route('/ankoleClick')
         // render sucess page using handlebars template and send in session data
         res.render('successAnkole', req.session);
     });
+
+    router.route('/splash/social')
+    .get(function(req, res) {
+        delete req.session.voucherErr;
+        // extract parameters (queries) from URL
+        req.session.protocol = req.protocol;
+        req.session.host = req.headers.host;
+        req.session.base_grant_url = req.query.base_grant_url;
+        req.session.user_continue_url = req.query.user_continue_url;
+        req.session.node_mac = req.query.node_mac;
+        req.session.client_ip = req.query.client_ip;
+        req.session.client_mac = req.query.client_mac;
+        req.session.splashclick_time = new Date().toString();
+        req.session.logout_url_continue = false; // no support for logout url with click through method
+
+        // success page options instead of continuing on to intended url
+        req.session.continue_url = req.query.user_continue_url;
+        req.session.success_url = req.session.protocol + '://' + req.session.host + "/ankoleSuccess";
+        // req.session.success_url = req.query.user_continue_url;
+
+
+        // display session data for debugging purposes
+        console.log("Session data at click page = " + util.inspect(req.session, false, null));
+
+        // render login page using handlebars template and send in session data
+        res.render('ankole-social', req.session);
+
+    });
+
+
+// authenticate Ankole sms + social user
+router.route('/auth/ankole/sms-social')
+    .post(function(req, res) {
+        // check if user has an account
+        var mac = req.session.client_mac;
+        var org = "Ankolesms-social";
+        users.getOneByMacSsid(mac, org, function(err, ankoleUser) {
+            if (err) res.send(err);
+            if (ankoleUser.length == 0) {
+                // If user does not exist, first create a password/code
+                var smsConfirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
+                var mobileNumber = req.body.mobileNumber;
+                req.session.smsConfirmationCode = smsConfirmationCode;
+                req.session.mobileNumber = mobileNumber;
+                var uName = mobileNumber + "-" + smsConfirmationCode;
+                req.session.uName = uName;
+                // Create ankole user and save to db
+                users.createAnkoleUser(uName, mac, mobileNumber, org, smsConfirmationCode);
+
+                // Send OTP PIN to user via sms
+
+                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+                var clientId = '2';
+                var message = "Ankole grill: " + smsConfirmationCode + " is your WiFi access pin.";
+
+                var postData = {
+                    clientId: clientId,
+                    message: message,
+                    recepients: mobileNumber
+                }
+
+                var clientServerOptions = {
+                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+                    body: JSON.stringify(postData),
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+
+                // send sms and redirect user to confirmation page
+
+                request(clientServerOptions);
+                res.redirect('/auth/ankole/confirmsms-social');
+
+            } else if (ankoleUser.length > 0) {
+                // if user already exists, update password and send sms
+                var value = Math.floor(1000 + Math.random() * 9000).toString();
+                var uName = ankoleUser[0].username;
+                req.session.smsConfirmationCode = value;
+                req.session.uName = uName;
+                users.updateAnkoleUser(value, uName);
+
+                // Send OTP PIN to user via sms
+
+                var url = 'http://pay.brandfi.co.ke:8301/sms/send';
+                var clientId = '2';
+                var message = "Ankole grill: " + value + " is your WiFi access pin.";
+
+                var postData = {
+                    clientId: clientId,
+                    message: message,
+                    recepients: ankoleUser[0].mobileNumber
+                }
+
+                var clientServerOptions = {
+                    uri: 'http://pay.brandfi.co.ke:8301/sms/send',
+                    body: JSON.stringify(postData),
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+
+                // send sms and redirect user to confirmation page
+
+                request(clientServerOptions);
+                res.redirect('/auth/ankole/confirmsms-social');
+
+            }
+        })
+
+    });
+
+// Render page for Ankole sms + social confirmation
+router.route('/auth/ankole/confirmsms-social')
+    .get(function(req, res) {
+        res.render('ankoleconfirmsms-social.hbs', req.session)
+    })
+    .post(function (req, res) {
+        res.redirect('/ankoleSuccess');
+    })
 // ******************************************************************************************************************************
 // End of Ankole
 // ********************************************************************************************************************
@@ -603,6 +725,18 @@ router.route('/successClick')
 
         // render sucess page using handlebars template and send in session data
         res.render('success', req.session);
+    });
+
+router.route('/ankoleSuccess')
+    .get(function(req, res) {
+        // extract parameters (queries) from URL
+        req.session.host = req.headers.host;
+        req.session.success_time = new Date();
+
+        // console.log("Session data at success page = " + util.inspect(req.session, false, null));
+
+        // render sucess page using handlebars template and send in session data
+        res.render('ankoleSuccess', req.session);
     });
 
 // ###########################################################
