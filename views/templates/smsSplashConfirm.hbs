@@ -1,0 +1,70 @@
+
+<div class="bgi-1" style="height: 100%; background-repeat: no-repeat; width: 100%; background-size: cover;">
+    <div class="row" style="">
+        <div class="row  text-center">
+            <div>
+                <div class="col-sm-5"></div>
+                <a class="col-sm-4">
+                    <br>
+                    <img id="img" src="/img/logo.svg" class="img-responsive" alt="">
+                </a>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <h1 class="text-center" id="java_welcome">Confirm PIN</h1>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row text-center" style="margin-top: 0;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <p class="text-center" id="text" style="text-align: justify;">Check your mobile phone for PIN and enter below</p>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row img-responsive">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center" style="">
+                <form action="{{login_url}}" id="form" method="post" class="form col-md-12 center-block">
+                    <input type="hidden" name="success_url" value="https://www.javahouseafrica.com">
+                    <input type="hidden" name="username" value="{{userName}}">
+                    <span id="span" class="text-danger"></span>
+
+                    <div class="form-group">
+                        <input id="java-input" class="input-lg" type="text" name="password"  placeholder="Enter PIN" validate required><br>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success btn-lg">Connect</button>
+                    </div>
+                    <div class="form-group">
+                        <p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold;">By clicking connect above, you agree to our <span><a href="/termsJava" style="color: #26a69a; ">terms of service</a></span></p>
+                    </div>
+                    <div class="form-group">
+                        <p id="disclaimer" style="color: black; font-weight: bold;"><i class="fa fa-copyright"></i>JAVA HOUSE 2018</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div><br>
+</div>
+<script>
+$(function() {
+    $("#form").submit(function(event) {
+    var c = $("#java-input").val();
+    if (c === "{{smsConfirmationCode}}") {
+        return;
+    } else {
+        $("#span").text("You have entered a wrong code").show();
+    }
+    event.preventDefault();
+});
+    $('body').css({ "background-image": "url('/img/bgs/java.jpg')", "background-color": "white", "color": "white", "background-repeat": "no-repeat", "background-size": "cover" });
+});
+</script>

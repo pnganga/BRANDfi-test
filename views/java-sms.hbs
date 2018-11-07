@@ -59,7 +59,49 @@ body{
     box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);
 }
 </style>
-{{>clickhead}}
+
+<div id="cont" style="background-image: url('/img/bgs/4.jpg');">
+<div class="row">
+<div class="row  text-center">
+<div>
+<div class="col-sm-4"></div>
+<a class="col-sm-4 mceNonEditable"> <br /><img id="img" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto;" src="../../img/logo.svg" alt="" /> </a>
+<div class="col-sm-4"></div>
+</div>
+</div>
+</div>
+<br />
+<div class="row text-center">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+<h1 id="java_welcome" class="text-center java_welcome" style="text-align: center;">Karibu Java</h1>
+</div>
+<div class="col-sm-4"></div>
+</div>
+<div class="row text-center" style="margin-top: 0;">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+<p id="text" class="text-center" style="">Please enter your mobile number below and enjoy our free complimentary wifi</p>
+</div>
+<div class="col-sm-4"></div>
+</div>
+<div class="row img-responsive">
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+<div class="text-center"><form class="form col-md-12 center-block" action="/auth/java/sms" method="post">
+<div class="form-group mceNonEditable"><input id="java-input" class="input-lg" name="mobileNumber" required="" type="text" placeholder="Mobile Number" /></div>
+<div class="form-group mceNonEditable"><button class="btn btn-success btn-lg">Connect</button></div>
+<div class="form-group">
+<p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold; color: black;">By clicking connect above, you agree to our <a style="color: #26a69a;" href="../../termsJava">terms of service</a></p>
+</div>
+<div class="form-group">
+<p id="disclaimer" style="color: black; font-weight: bold;">JAVA HOUSE 2018</p>
+</div>
+</form></div>
+</div>
+<div class="col-sm-2"></div>
+</div>
+</div>
 <script>
 $(function() {
     $('body').css({ "background-image": "url('/img/bgs/4.jpg')", "background-color": "white", "color": "white", "background-repeat": "no-repeat", "background-size": "cover" });

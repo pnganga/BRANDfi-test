@@ -1,0 +1,244 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/plugins/code_view.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/plugins/image.css">
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block" style="color: white;">
+            <div class="logo">
+                <a href="#">
+                    <img src="/img/BRANDfii.png"  class="img-responsive img-cir" alt="BrandFi" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li class=" has-sub ">
+                            <a class="js-arrow" style="text-decoration: none; color: white;" href="/client/dashboard" >
+                                <i class="fas fa-tachometer-alt"></i><span >Dashboard</span></a>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" style="text-decoration: none; color: white;" href="/client/allusers">
+                                <i class="fas fa-user"></i>Users</a>
+                        </li>
+                        <li class="active has-sub">
+                            <a class="js-arrow" style="text-decoration: none; color: white;" href="/client/splash-pages">
+                                <i class="fas fa-sliders-h"></i>Splash Pages</a>
+                        </li>
+                        <li>
+                            <a href="#" style="text-decoration: none; color: white;">
+                                <i class="fas fa-table"></i>Analytics</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- MAIN CONTENT-->
+            <div class="main-content row">
+                <div id="sms_welcome_html_template" style="display: none; padding-left: 50px;" class="row"><br>
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary pull-left'"><i class="fas fa-step-backward"></i> BACK</button>
+                            <button class="btn btn-primary pull-right">Upload background image</button><br>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div><br>
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-10">
+                        <textarea id="froala-editor">{{smsSplashWelcome_content}}</textarea><br>
+                    </div>
+                    <div class="col-sm-1">
+                    </div>
+                </div>
+                <div id="sms_confirm_html_template" style="display: none; padding-left: 50px;" class="row"><br>
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary pull-left'"><i class="fas fa-step-backward"></i> BACK</button>
+                            <button class="btn btn-primary pull-right">Upload background image</button><br>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div><br>
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-10">
+                        <textarea id="froala-editor">{{smsSplashConfirm_content}}</textarea><br>
+                    </div>
+                    <div class="col-sm-1">
+                    </div>
+                </div>
+                <div class="card" id="template_holder" style="padding-left: 130px; height: 100%;">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#SMS" aria-controls="home" role="tab" data-toggle="tab">LOGIN WITH SMS</a></li>
+                        <li role="presentation"><a href="#social" aria-controls="profile" role="tab" data-toggle="tab">LOGIN WITH SOCIAL</a></li>
+                        <li role="presentation"><a href="#voucher" aria-controls="profile" role="tab" data-toggle="tab">LOGIN WITH VOUCHER</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!-- start tab for login with SMS splash preview -->
+                        <div role="tabpanel" class="tab-pane active text-center" id="SMS">
+                            <div class="container mt40">
+                                <section class="row">
+                                    <article class="col-xs-12 col-sm-3 col-md-3">
+                                        <div class="panel-footer">
+                                            <h4>Welcome page</h4>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <a href="" title="Home" class="zoom" data-type="image" data-toggle="lightbox">
+                                                    <img src="/img/templates/sms_template_home.jpg" alt="Welcome page" />
+                                                    <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                                                </a>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a href="#" title="Welcome page"><button class="btn btn-primary" id="edit_sms_welcome_splash">Edit</button></a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <article class="col-xs-12 col-sm-3 col-md-3">
+                                        <div class="panel-footer">
+                                            <h4>Confirm Number</h4>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <a href="" title="Confirm" class="zoom" data-type="image" data-toggle="lightbox">
+                                                    <img src="/img/templates/sms_template_confirm.jpg" alt="Confirm"/>
+                                                    <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                                                </a>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a href="#" title="Confirm Number"><button class="btn btn-primary" id="edit_sms_confirm_splash">Edit</button></a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <article class="col-xs-12 col-sm-3 col-md-3">
+                                        <div class="panel-footer">
+                                            <h4>Success</h4>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <a href="" title="Confirm" class="zoom" data-type="image" data-toggle="lightbox">
+                                                    <img src="/img/templates/sms_template_success.jpg" alt="Confirm"/>
+                                                    <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                                                </a>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a href="#" title="Confirm Number"><button class="btn btn-primary">Edit</button></a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </section>
+                            </div>
+                        </div>
+                        <!-- End tab for SMS SPLASH PREVIEW -->
+                        <div role="tabpanel" class="tab-pane text-center" id="social">
+                        </div>
+                        <div role="tabpanel" class="tab-pane text-center" id="voucher">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+</script>
+<!-- Jquery JS-->
+<script src="/vendor/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap JS-->
+<script src="/vendor/bootstrap-4.1/popper.min.js"></script>
+<script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<!-- Vendor JS       -->
+<script src="/vendor/slick/slick.min.js">
+</script>
+<script src="/vendor/wow/wow.min.js"></script>
+<script src="/vendor/animsition/animsition.min.js"></script>
+<script src="/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+</script>
+<script src="/vendor/counter-up/jquery.waypoints.min.js"></script>
+<script src="/vendor/counter-up/jquery.counterup.min.js"></script>
+<script src="/vendor/circle-progress/circle-progress.min.js"></script>
+<script src="/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="/vendor/chartjs/Chart.bundle.min.js"></script>
+<script src="/vendor/select2/select2.min.js">
+</script>
+<!-- Main JS-->
+<script src="/js/main.js"></script>
+<!-- end document-->
+<!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+<!-- Froala scripts -->
+<!-- Include external JS libs. -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<!-- Include Editor JS files. -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.pkgd.min.js"></script>
+<!--  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/plugins/code_view.min.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/plugins/image.min.js"></script>
+<script type="text/javascript" src="/js/froala/fdk.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('i.glyphicon-thumbs-up, i.glyphicon-thumbs-down').click(function() {
+        var $this = $(this),
+            c = $this.data('count');
+        if (!c) c = 0;
+        c++;
+        $this.data('count', c);
+        $('#' + this.id + '-bs3').html(c);
+    });
+    $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+
+    $('#edit_sms_welcome_splash').click(function() {
+        $('#sms_welcome_html_template').show();
+        $('#template_holder').hide();
+
+    })
+    $('#edit_sms_confirm_splash').click(function() {
+        $('#sms_confirm_html_template').show();
+        $('#template_holder').hide();
+
+    })
+
+    // #######################################################################
+    // sms_welcome_html_template editor_content
+    // #############################################################################
+    $(function() {
+        $('textarea#froala-editor')
+            .froalaEditor({
+                autofocus: true,
+                charCounterCount: false,
+                colorsDefaultTab: 'background',
+                dragInline: false,
+                imageUploadParams: { class: 'logo' },
+                imageMaxSize: 1024 * 1024 * 1,
+                imageUploadURL: '/logo/upload',
+                paragraphStyles: {
+                    'java_welcome': 'Java Welcome',
+                    'fr-text-gray': 'Gray',
+                    'fr-text-bordered': 'Bordered',
+                    'fr-text-spaced': 'Spaced',
+                    'fr-text-uppercase': 'Uppercase'
+                },
+                codeViewKeepActiveButtons: [],
+                toolbarBottom: false,
+                inlineMode: false,
+                saveInterval: 2500,
+                saveMethod: 'POST',
+                saveParam: 'content',
+                saveURL: '/client/customize/sms-welcome',
+                toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertTable', '|', 'fontAwesome', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', '|', 'undo', 'redo', 'save'],
+            })
+
+    });
+});
+</script>

@@ -30,6 +30,7 @@
     "connect-mongodb-session": "^1.0.6",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.3",
+    "express-convention-routes": "^1.0.5",
     "express-mongo": "~0.3.0",
     "express-mongo-rest": "^0.1.1",
     "express-session": "^1.12.1",

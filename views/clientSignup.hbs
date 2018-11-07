@@ -444,6 +444,25 @@ Check bbox styling
                                     <input type="text" name="country" placeholder="Country" class="form-email form-control" id="email" required>
                                 </div>
                                 <div class="form-group">
+                                    <input type="text" name="aps" placeholder="Number of access points" class="form-email form-control" id="email" required>
+                                </div>
+                                <button type="button" class="btn btn-next">Next</button>
+                            </div><br>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3><span><i class="fas fa-home" aria-hidden="true"></i></span> Configure Access points</h3>
+                                    <p>
+                                        Enter your access point details below
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+                                <div class="form-group">
+                                    <p>You can add more access points later</p>
+                                </div>
+                                <div class="form-group">
                                     <select class="form-control" required>
                                         <option>Type of access point</option>
                                         <option>Cisco Meraki</option>
@@ -451,7 +470,10 @@ Check bbox styling
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="aps" placeholder="Number of access points" class="form-email form-control" id="email" required>
+                                    <input type="text" name="serial" placeholder="Access point serial number" class="form-email form-control" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="macAddress" placeholder="Access point mac address" class="form-email form-control" id="email" required>
                                 </div>
                                 <button type="button" class="btn btn-next">Next</button>
                             </div><br>
@@ -529,10 +551,10 @@ function checkPasswordMatch() {
     var password = $("#password").val();
     var confirmPassword = $("#confirmpassword").val();
 
-    if (password !== confirmPassword){
+    if (password !== confirmPassword) {
         $("#wrong").show();
         $("#right").hide();
-    }else{
+    } else {
         $("#wrong").hide();
         $("#right").show();
     }

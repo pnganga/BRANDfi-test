@@ -1,12 +1,12 @@
 <style>
 #img {
-    padding-left: 50px;
+    /*padding-left: 50px;*/
 }
 
 @media only screen and (max-width: 600px) {
 
     #img {
-        padding-left: 20px;
+        padding-left: 0px;
     }
 
     #disclaimer {
@@ -24,12 +24,12 @@
     <div class="row">
         <div class=" row  text-center">
             <div>
-                <div class="col-sm-5"></div>
+                <div class="col-sm-4"></div>
                 <a class=" col-sm-4" href="#">
                     <br>
                     <img id="img" src="/img/logos/Ankole-logo.png" class="img-responsive" alt="">
                 </a>
-                <div class="col-sm-3"></div>
+                <div class="col-sm-4"></div>
             </div>
         </div>
     </div>
@@ -43,22 +43,23 @@
         <div class="col-sm-4"></div>
     </div>
     <div class="row img-responsive">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="row form-group text-center" style="background: hsla(8, 88%, 16%, 0.33);">
-                <i class="fas fa-wifi fa-7x" style="color: green;"></i><br><br>
-                <a href="{{user_continue_url}}">
-                        <button id="continue" class="btn btn-default">Continue browsing</button> or
-                        <button  class="btn btn-default">Place an order</button> 
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="row form-group text-center" style="background: hsla(8, 88%, 16%, 0.33);">
+                    <i class="fas fa-wifi fa-7x" style="color: green;"></i><br><br>
+                    <a href="{{user_continue_url}}">
+                        <a href="{{user_continue_url}}"><button id="continue"  class="btn btn-default">Continue browsing</button></a> or
+                    <button class="btn btn-default">Place an order</button>
                     </a><br><br>
+                </div>
+                <div class="text-center">
+                    <iframe id="like" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fweb.facebook.com%2Fbrandfi&width=150px&layout=button&action=like&size=large&show_faces=true&share=true&height=65&appId" width="150px" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
             </div>
-            <div class="text-center">
-                <iframe id="like" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fweb.facebook.com%2Fbrandfi&width=150px&layout=button&action=like&size=large&show_faces=true&share=true&height=65&appId" width="150px" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-            </div>
+            <div class="col-sm-2"></div>
         </div>
-        <div class="col-sm-2"></div>
         <div class="text-center">
-            <a href=""><i class="fas fa-sign-out-alt"></i>logout</a><br>
             <a href="https://www.ankole.co.ke" ><i class="far fa-copyright"></i>Ankole Grill 2018</a>
         </div>
     </div><br>

@@ -195,10 +195,26 @@ app.use(coreRoutes);
 var clientRoutes = require('./app/routes/client');
 app.use(clientRoutes);
 
+
+// #####################################################################
+// Config for express convention routes
+// ############################################################################
+
+router = require('express-convention-routes');
+
+  router.load(app, {
+    //Defaults to "./controllers" but showing for example
+    routesDirectory: './controllers',   
+    //Root directory where your server is running
+    rootDirectory: __dirname,
+    
+    //Do you want the created routes to be shown in the console?
+    logRoutes: true
+  });
+
 // ################################################################
 // Start application
 // ################################################################
-
 
 // define the static resources for the splash pages
 app.set('admin_path',path.join(__dirname,'views','admin'+path.sep));    

@@ -1,19 +1,19 @@
 var db = require('../../db.js')
 
-exports.create = function(userName, macAddress,  pass) {
-    var values = [userName, macAddress,'Cleartext-Password', ":=", pass];
+exports.create = function(userName, macAdress,  pass) {
+    var values = [userName, macAdress,'Cleartext-Password', ":=", pass];
 
-    db.get().query('INSERT INTO radcheck (username, macAddress, attribute, op, value) VALUES(?, ?, ?, ?, ?)', values, function(err, result) {
+    db.get().query('INSERT INTO radcheck (username, macAdress, attribute, op, value) VALUES(?, ?, ?, ?, ?)', values, function(err, result) {
         if (err) console.log(err);
  		console.log(result);
         
     })
 }
 
-exports.createJavaUser = function(userName, macAddress, mobileNumber, ssid,  pass) {
-    var values = [userName, macAddress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
+exports.createJavaUser = function(userName, macAdress, mobileNumber, ssid,  pass) {
+    var values = [userName, macAdress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
 
-    db.get().query('INSERT INTO radcheck (username, macAddress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
+    db.get().query('INSERT INTO radcheck (username, macAdress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
         if (err) console.log(err);
  		console.log(result);
  		
@@ -38,10 +38,10 @@ exports.updateJavaSmsUser = function(code, userName) {
     })
 }
 
-exports.createAnkoleUser = function(userName, macAddress, mobileNumber, ssid,  pass) {
-    var values = [userName, macAddress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
+exports.createAnkoleUser = function(userName, macAdress, mobileNumber, ssid,  pass) {
+    var values = [userName, macAdress, mobileNumber, ssid, 'Cleartext-Password', ":=", pass];
 
-    db.get().query('INSERT INTO radcheck (username, macAddress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
+    db.get().query('INSERT INTO radcheck (username, macAdress, mobileNumber, ssid, attribute, op, value) VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
         if (err) console.log(err);
  		console.log(result);
  		
@@ -75,7 +75,7 @@ exports.getOne = function(code, done) {
 }
 exports.getOneByMacSsid = function(mac, ssid, done) {
 	var values = [mac, ssid]
-    db.get().query('SELECT * FROM radcheck WHERE macAddress = ? AND ssid = ?', values, function(err, row) {
+    db.get().query('SELECT * FROM radcheck WHERE macAdress = ? AND ssid = ?', values, function(err, row) {
         if (err) console.log(err);
         done(null, row)
     });
@@ -83,7 +83,7 @@ exports.getOneByMacSsid = function(mac, ssid, done) {
 
 exports.getOneByMac = function(mac, done) {
 	var value = [mac]
-    db.get().query('SELECT * FROM radcheck WHERE macAddress = ?', value, function(err, row) {
+    db.get().query('SELECT * FROM radcheck WHERE macAdress = ?', value, function(err, row) {
         if (err) console.log(err);
         done(null, row)
     });

@@ -28,9 +28,9 @@ router.route('/client/signin')
                 res.redirect('/client/signup');
 
             } else {
-
-               req.session.client = client[0];
-               res.redirect('/client/dashboard');
+                // use bycrypt to check if password is valid
+                req.session.client = client[0];
+                res.redirect('/client/dashboard');
             }
 
         })
@@ -61,7 +61,7 @@ router.route('/client/signup')
         var mobileNumber = req.body.mobilenumber;
         var email = req.body.email;
         var password = req.body.password;
-        var franchiseName = req.body.vname;
+        var franchiseName = req.body.vname.toLowerCase();
         var franchiseLocation = req.body.vlocation;
         var franchiseCountry = req.body.country;
         var noOfAps = req.body.aps;
@@ -69,6 +69,7 @@ router.route('/client/signup')
         var socialSplash;
         var voucherSplash;
         var vouchersmsSplash;
+
         var usernamepasswordSplash;
         if (req.body.smssplash) {
             smsSplash = req.body.smssplash;
@@ -81,33 +82,75 @@ router.route('/client/signup')
         } else if (req.body.usernamepasswordsplash) {
             usernamepasswordSplash = req.body.usernamepasswordsplash;
         }
-        // Save client details to db
-        clients.create(fName, lName, email, mobileNumber, franchiseName, password);
 
-        // Save venue/franchise details
-        franchise.create(franchiseName, franchiseLocation, franchiseCountry, noOfAps, smsSplash, socialSplash, voucherSplash, vouchersmsSplash, usernamepasswordSplash);
         // create splash pages that user has chosen and save to user views folder
-        var smsPage = franchiseName + "sms.hbs";
-        if (smsSplash == "on") {
-            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/java-sms.hbs", "utf8", function(err, data) {
-                fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/" + smsPage, data, "utf8", function(err, data) {
+
+        if (smsSplash && smsSplash == "on") {
+            // Check if all necessary directories for franchise views exist and if not create them
+            if (!fs.existsSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews")) {
+                fs.mkdirSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews");
+            }
+            if (!fs.existsSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews" + franchiseName)) {
+                fs.mkdirSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName);
+            }
+            if (!fs.existsSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName + "/SMS")) {
+                fs.mkdirSync("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName + "/SMS");
+            }
+            // Read SMS welcome splash page template
+            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/templates/smsSplashWelcome.hbs", "utf8", function(err, welcomeData) {
+
+
+                // write and save to franchise's views folder 
+                fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName + "/" + "SMS/" + "SmsSplashWelcome.hbs", welcomeData, "utf8", function(err, welcomeWritedata) {
                     if (err) { console.log(err) }
+                    // Read SMS confirm splash page template           
+                    fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/templates/smsSplashConfirm.hbs", "utf8", function(err, confirmData) {
+                        // write and save confirm page to franchise's view folder
+                        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName + "/" + "SMS/" + "SmsSplashConfirm.hbs", confirmData, "utf8", function(err, confirmWritedata) {
+                            // READ SMS success splash page template 
+                            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/templates/smsSplashSuccess.hbs", "utf8", function(err, successData) {
+                                // write and save success page to franchise's view folder
+                                fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + franchiseName + "/" + "SMS/" + "SmsSplashSuccess.hbs", successData, "utf8", function(err, sucesssWritedata) {
+                                    // ################
+                                    // Create express routes for handling SMS login logic
+                                    // ###################
 
-                    // log user In
-                    console.log('getting user');
-                    clients.getOneByEmail(email, function(nil, clie) {
-                        if (nil) {
-                            console.log('nothing to return');
-                        }
-                        console.log(clie);
-                        req.session.client = clie[0];
-                        // res.send(req.session.client);
-                        res.redirect('/client/dashboard');
+                                    // create directory to store route files
+                                    if (!fs.existsSync("/home/pnganga/Desktop/BRANDfi-test/controllers/" + franchiseName.replace(/\s+/g, ''))) {
+                                        fs.mkdirSync("/home/pnganga/Desktop/BRANDfi-test/controllers/" + franchiseName.replace(/\s+/g, ''));
+                                        // copy sms routes template file and write to sms logic franchise file
+                                        // READ SMS success splash page template 
+                                        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/smsRoutes.txt", "utf8", function(err, routesData) {
+                                            fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/controllers/" + franchiseName + "/" + franchiseName + ".controller.js", routesData, "utf8", function(err, routesWritedata) {
+                                                delete require.cache[app];
+                                                var smsSplashUrl = req.headers.host + "/" + franchiseName + "/sms";
+                                                // Save client details to db
+                                                clients.create(fName, lName, email, mobileNumber, franchiseName, password);
+                                                // Save venue/franchise details
 
-                    });
+                                                franchise.create(franchiseName, franchiseLocation, franchiseCountry, noOfAps, smsSplashUrl, socialSplash, voucherSplash, vouchersmsSplash, usernamepasswordSplash);
+                                                clients.getOneByEmail(email, function(nil, clie) {
+                                                    if (nil) {
+                                                        console.log('nothing to return');
+                                                    }
+                                                    req.session.client = clie[0];
+                                                    res.redirect('/client/dashboard');
+
+                                                });
+
+
+                                            })
+                                        })
+                                    }
+                                })
+                            })
+                        })
+                    })
+
                 })
 
             });
+
         } else if (req.body.socialSplash) {
             socialSplash = req.body.socialSplash;
         } else if (req.body.voucherSplash) {
@@ -150,14 +193,18 @@ router.route('/logo/upload')
     .post(function(req, res) {
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
-            console.log(files.logo.path);
-            var oldpath = files.logo.path;
-            var newpath = ('/home/pnganga/Desktop/BRANDfi-test/public/img/logos' || '/home/pnganga/Desktop/BRANDfi-test/public/img/logos/') + files.logo.name;
+            console.log(files);
+            var franchiseImgFolder = '/home/pnganga/Desktop/BRANDfi-test/public/img/' + req.session.client.franchiseName;
+            if (!fs.existsSync(franchiseImgFolder)) {
+                fs.mkdirSync(franchiseImgFolder);
+            }
+            var oldpath = files.file.path;
+            var newpath = franchiseImgFolder + "/" + files.file.name;
             fs.rename(oldpath, newpath, function(err) {
                 if (err) throw err;
 
                 req.session.msg = "Logo successfully uploaded"
-                res.render('client-dashboard', req.session);
+                res.send(JSON.stringify({ link: '/img/' + req.session.client.franchiseName + "/" + files.file.name }));
 
             });
         });
@@ -170,7 +217,6 @@ router.route('/logo/upload')
 
 router.route('/client/dashboard')
     .get(function(req, res) {
-        console.log(req.session.client);
         if (req.session.client) {
             res.render('client-dashboard', req.session);
         } else {
@@ -178,23 +224,14 @@ router.route('/client/dashboard')
         }
 
     });
-router.route('/client/customize/mobile')
-    .get(function(req, res) {
-        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/head.hbs", "utf8", function(err, data) {
-            if (err) throw err;
-            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", "utf8", function(err, dat) {
-                req.session.editor_content = data + dat;
-                res.render('customize-mobile', req.session);
-            })
-
-        })
-    })
+router.route('/client/customize/sms-welcome')
     .post(function(req, res) {
-        req.session.editor_content = req.body.editor_content;
-        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/partials/clickhead.hbs", req.session.editor_content, "utf8", function(err, data) {
+        // console.log(req.body.content);
+        req.session.smsSplashWelcome_content = req.body.content;
+        fs.writeFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + req.session.client.franchiseName + "/SMS/" + "SmsSplashWelcome.hbs", req.session.smsSplashWelcome_content, "utf8", function(err, data) {
             if (err) throw err;
-            console.log(data);
-            res.render('customize-mobile', req.session);
+            console.log('page saved');
+
         })
     });
 router.route('/client/allusers')
@@ -218,6 +255,29 @@ router.route('/twitter/credentials')
         var consumerSecret = req.body.fbClientSecret;
         // save fb credentials to db;
         res.send('saved successfully');
+    })
+
+
+router.route('/client/splash-pages')
+    .get(function(req, res) {
+        // read sms welcome page
+        fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + req.session.client.franchiseName + "/SMS/" + "SmsSplashWelcome.hbs", "utf8", function(err, welcomedata) {
+            req.session.smsSplashWelcome_content = welcomedata;
+            // read sms confirm page
+            fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + req.session.client.franchiseName + "/SMS/" + "SmsSplashConfirm.hbs", "utf8", function(err, confirmdata) {
+                req.session.smsSplashConfirm_content = confirmdata;
+
+                // read sms success page
+                fs.readFile("/home/pnganga/Desktop/BRANDfi-test/views/franchiseViews/" + req.session.client.franchiseName + "/SMS/" + "SmsSplashSuccess.hbs", "utf8", function(err, successdata) {
+                    req.session.smsSplashSuccess_content = successdata;
+
+                    res.render('client-splash-pages', req.session);
+                })
+            })
+            
+        })
+
+
     })
 
 module.exports = router;

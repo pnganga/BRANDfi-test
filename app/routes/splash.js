@@ -27,22 +27,57 @@ router.route('/auth/wifi')
         res.end();
     });
 
-router.route('/auth/java')
-    .get(function(req, res) {
-        req.session.splashlogin_time = new Date().toString();
-
-        // debug - monitor : display all session data on console
-        console.log("Session data at login page = " + util.inspect(req.session, false, null));
-
-        // *** redirect user to Meraki to process authentication, then send client to success_url
-        res.writeHead(302, { 'Location': req.session.base_grant_url + "?continue_url=" + "https://www.javahouseafrica.com" });
-        res.end();
-    });
 
 
 // ##########################################################################################################
 // Sign-on Splash Page /w RADIUS username and password(JAVA DEMO)
 // ###########################################################################################################
+
+
+// signon page
+router.route('/uptown')
+    .get(function(req, res) {
+
+        // extract parameters (queries) from URL
+        req.session.protocol = req.protocol;
+        req.session.host = req.headers.host;
+        req.session.login_url = req.query.login_url;
+        req.session.continue_url = req.query.continue_url;
+        req.session.ap_name = req.query.ap_name;
+        req.session.ap_tags = req.query.ap_tags;
+        req.session.client_ip = req.query.client_ip;
+        req.session.client_mac = req.query.client_mac;
+        req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+        req.session.signon_time = new Date();
+        // display data for debugging purposes
+        console.log("Session data at signon page = " + util.inspect(req.session, false, null));
+
+        res.render('uptown', req.session);
+    });
+
+// signon page
+router.route('/uptown2')
+    .get(function(req, res) {
+
+        // extract parameters (queries) from URL
+        req.session.protocol = req.protocol;
+        req.session.host = req.headers.host;
+        req.session.login_url = req.query.login_url;
+        req.session.continue_url = req.query.continue_url;
+        req.session.ap_name = req.query.ap_name;
+        req.session.ap_tags = req.query.ap_tags;
+        req.session.client_ip = req.query.client_ip;
+        req.session.client_mac = req.query.client_mac;
+        req.session.success_url = req.protocol + '://' + req.session.host + "/successSignOn";
+        req.session.signon_time = new Date();
+        // display data for debugging purposes
+        console.log("Session data at signon page = " + util.inspect(req.session, false, null));
+
+        res.render('uptown2', req.session);
+    });
+
+
+
 
 // signon page
 router.route('/signon')
@@ -489,7 +524,7 @@ router.route('/ankoleClick')
         console.log("Session data at click page = " + util.inspect(req.session, false, null));
 
         // render login page using handlebars template and send in session data
-        res.render('ankole-social', req.session);
+        res.render('franchiseViews/Javasms', req.session);
 
     });
 

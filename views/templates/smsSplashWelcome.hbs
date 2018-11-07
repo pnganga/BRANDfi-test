@@ -1,0 +1,105 @@
+<!-- ``
+<style>
+    /*#############################################################################*/
+/*Mobile css(SMALL-devices)*/
+    @media only screen and (max-width: 600px) {
+    #errdiv{
+        background-color: hsla(66, 71%, 95%, 1);
+    }
+    #verr{
+        color: red !important;
+    }
+    #img {
+        padding-left: 50px;
+    }
+    #disclaimer{
+        color: black;
+        /*background-color: hsla(0, 100%, 10%, 0.3);*/
+    }
+    #text{
+        color: #F9FBE7 !important;
+        font-weight: bolder;
+    }
+    body{
+        background-image: url('/img/bgs/java2.jpg') !important;
+    }
+    
+    #java_welcome{
+    font-family: 'Francois One', sans-serif; 
+    color: black; 
+    font-size: 2em;
+    }
+}
+#cont{
+    background-color: hsla(0, 10%, 10%, 0.1);
+}
+
+/*################################################################################################*/
+#img {
+        padding-left: 50px;
+    }
+#verr{
+        color: white;
+    }
+#java_welcome{
+    font-family: 'Francois One', sans-serif; 
+    color: white; 
+    font-size: 2em;
+}
+::placeholder {
+    color: red;
+    opacity: 1; /* Firefox */
+}
+#text{
+    font-family: 'Bai Jamjuree', sans-serif; 
+    color: white; 
+    font-weight: bold;
+}
+#cont{
+    background-color: hsla(0, 100%, 100%, 0.4);
+    box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);
+}
+</style> -->
+<section class="bgi-1" style="height: 100%; background-repeat: no-repeat; width: 100%; background-size: cover;">
+    <div id="cont" style="background-color: hsla(0, 100%, 100%, 0.4); box-shadow: 15px 15px hsla(5, 100%, 100%, 0.2);">
+        <div class="row">
+            <div class="row  text-center">
+                <div class="text-center">
+                    <div class="col-sm-4"><br></div><a class="col-sm-4 "><br><img id="img" class="img-responsive fr-fil fr-dib" style="padding-left: 50px;" src="../../img/logo.svg" alt=""></a>
+                    <div class="col-sm-4"><br></div>
+                </div>
+            </div>
+        </div><br>
+        <div class="row text-center">
+            <div class="col-sm-4"><br></div>
+            <div class="col-sm-4"><h1 class="text-center java_welcome" id="java_welcome" style="text-align: center;">Karibu Java</h1>
+            </div>
+            <div class="col-sm-4"><br></div>
+        </div>
+        <div class="row text-center" style="margin-top: 0;">
+            <div class="col-sm-4"><br></div>
+            <div class="col-sm-4">
+                <p class="text-center" id="text" style="text-align: center;"><span style="color: rgb(255, 255, 255);"><strong>Please enter your mobile number below and enjoy our free complimentary wifi</strong></span></p>
+            </div>
+            <div class="col-sm-4"><br></div>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-4"><br></div>
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <form action="/auth/java/sms" class="form col-md-12 center-block" method="post">
+                        <div class="form-group"><input id="java-input" class="input-lg" name="mobileNumber" required="" placeholder="Mobile Number" value="" type="text"></div>
+                        <div class="form-group"><button class="btn btn-success btn-lg">Connect</button></div>
+                        <div class="form-group">
+                            <p id="disclaimer" style="font-family: 'Bai Jamjuree', sans-serif; font-weight: bold; color: black;">By clicking connect above, you agree to our <a href="../../termsJava" style="color: #26a69a;">terms of service</a></p>
+                        </div>
+                        <div class="form-group">
+                            <p id="disclaimer" style="color: black; font-weight: bold;">JAVA HOUSE 2018</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4"><br></div>
+        </div>
+    </div>
+</section>
